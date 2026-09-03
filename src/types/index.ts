@@ -8,24 +8,35 @@ export interface Project {
   demoUrl?: string;
   githubUrl?: string;
   image?: string;
+  highlights?: string[];
+}
+
+export interface SkillItem {
+  name: string;
+  level?: "Beginner" | "Intermediate" | "Advanced" | "Expert";
+  icon?: string;
 }
 
 export interface SkillCategory {
   category: string;
-  items: {
-    name: string;
-    level?: "Beginner" | "Intermediate" | "Advanced" | "Expert";
-  }[];
+  items: SkillItem[];
 }
 
 export interface Experience {
   id: string;
   role: string;
   company: string;
+  companyUrl?: string;
   location?: string;
   period: string;
   description: string[];
   technologies?: string[];
+}
+
+export interface StatItem {
+  value: string;
+  label: string;
+  description?: string;
 }
 
 export interface SocialLink {
@@ -38,4 +49,3 @@ export interface NavLink {
   label: string;
   href: string;
 }
-

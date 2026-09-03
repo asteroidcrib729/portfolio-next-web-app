@@ -76,6 +76,19 @@ All markdown files are verified to adhere strictly to markdownlint rules:
 - **`src/app/page.tsx`:** Replaced boilerplate starter template with full layout shell, status badge ("Available for new opportunities"), hero headline, CTA buttons, social links, and anchor placeholders (`#about`, `#skills`, `#projects`, `#experience`, `#contact`).
 - Created **`development-plan-02.md`** and updated its phased execution checklist.
 
+### Milestone 5: Phase 3 Planning & Section Specifications
+
+- Created **`development-plan-04.md`**: Architectural blueprint and step-by-step implementation plan for Phase 3 (Core Page Sections & Content Architecture).
+- Defined component specifications for `SectionHeading`, `Hero`, `About`, `Skills`, `Projects`, `Experience`, and `Contact`.
+- Verified strict markdownlint compliance (**MD022**, **MD032**, **MD012**).
+
+### Milestone 6: Phase 3 Scaffolding & UI Primitives (Steps 3.1 & 3.2)
+
+- **`src/types/index.ts`:** Added schemas for `StatItem`, `SkillItem`, and enhanced `Project` and `Experience` domain models.
+- **`src/data/siteConfig.ts`:** Populated rich data including narrative about paragraphs, 4 key highlight stats, 4 comprehensive skill categories, 5 featured projects, and 3 chronological career experiences.
+- **`src/components/common/SectionHeading.tsx`:** Implemented reusable, accessible section heading primitive with animated pill eyebrow badge, responsive headline typography, and descriptive copy.
+- Updated **`development-plan-04.md`** execution checklist.
+
 ---
 
 ## 4. Current File Tree
@@ -85,7 +98,8 @@ portfolio-site-next-web-app/
 ├── development-plans/
 │   ├── development-plan-01.md   # Master Project Roadmap
 │   ├── development-plan-02.md   # Setup, Theme, & Shell Implementation Plan
-│   └── development-plan-03.md   # Portfolio Design Research & Inspiration Analysis
+│   ├── development-plan-03.md   # Portfolio Design Research & Inspiration Analysis
+│   └── development-plan-04.md   # Core Page Sections & Content Architecture Plan
 ├── public/
 │   ├── file.svg
 │   ├── globe.svg
@@ -102,6 +116,7 @@ portfolio-site-next-web-app/
 │   │   ├── common/
 │   │   │   ├── Container.tsx    # Responsive max-width wrapper
 │   │   │   ├── Icons.tsx        # Scalable brand SVG icons
+│   │   │   ├── SectionHeading.tsx # Reusable section title & eyebrow
 │   │   │   └── ThemeToggle.tsx  # React 19 hydration-safe theme switch
 │   │   ├── layout/
 │   │   │   ├── Footer.tsx       # Global footer with social links
