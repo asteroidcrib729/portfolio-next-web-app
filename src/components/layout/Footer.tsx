@@ -1,49 +1,37 @@
+import Link from "next/link";
+import { ArrowUp } from "lucide-react";
 import { Container } from "@/components/common/Container";
+import { SocialAnchor } from "@/components/common/SocialAnchor";
 import { siteConfig, socialLinks } from "@/data/siteConfig";
-import { Icons } from "@/components/common/Icons";
-import { Mail, ExternalLink } from "lucide-react";
-
-function getSocialIcon(icon: string) {
-  switch (icon) {
-    case "github":
-      return <Icons.gitHub className="h-4 w-4" />;
-    case "linkedin":
-      return <Icons.linkedIn className="h-4 w-4" />;
-    case "twitter":
-      return <Icons.twitter className="h-4 w-4" />;
-    case "mail":
-      return <Mail className="h-4 w-4" />;
-    default:
-      return <ExternalLink className="h-4 w-4" />;
-  }
-}
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="mt-auto border-t border-border/60 bg-card/30 py-8 transition-colors duration-200">
-      <Container className="flex flex-col items-center justify-between gap-4 text-center sm:flex-row sm:text-left">
-        <p className="text-xs text-muted-foreground">
-          © {currentYear} {siteConfig.name}. Designed & built with Next.js, React & Tailwind CSS.
-        </p>
+    <footer className="border-t border-border/70 bg-card/35 py-8">
+      <Container className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <p className="text-sm font-medium text-foreground">
+            © {currentYear} {siteConfig.name}
+          </p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Designed with intent. Engineered with evidence.
+          </p>
+        </div>
 
-        <div className="flex items-center space-x-4">
+        <div className="flex flex-wrap items-center gap-2">
           {socialLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={link.label}
-              className="text-muted-foreground transition-colors hover:text-accent"
-            >
-              {getSocialIcon(link.icon)}
-            </a>
+            <SocialAnchor key={link.label} link={link} />
           ))}
+          <Link
+            href="#home"
+            aria-label="Back to top"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-card/80 text-muted-foreground transition-colors hover:border-accent/50 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          >
+            <ArrowUp aria-hidden="true" className="h-4 w-4" />
+          </Link>
         </div>
       </Container>
     </footer>
   );
 }
-

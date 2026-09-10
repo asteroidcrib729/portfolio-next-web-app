@@ -2,6 +2,7 @@ import React from "react";
 import { cn } from "@/lib/utils";
 
 interface SectionHeadingProps {
+  id?: string;
   eyebrow?: string;
   title: string;
   description?: string;
@@ -10,6 +11,7 @@ interface SectionHeadingProps {
 }
 
 export function SectionHeading({
+  id,
   eyebrow,
   title,
   description,
@@ -37,15 +39,17 @@ export function SectionHeading({
           {eyebrow}
         </div>
       )}
-      <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
+      <h2
+        id={id}
+        className="text-balance text-3xl font-semibold tracking-[-0.04em] text-foreground sm:text-4xl lg:text-5xl"
+      >
         {title}
       </h2>
       {description && (
-        <p className="mt-4 text-base sm:text-lg text-foreground/70 leading-relaxed">
+        <p className="mt-5 text-base leading-relaxed text-muted-foreground sm:text-lg">
           {description}
         </p>
       )}
     </div>
   );
 }
-

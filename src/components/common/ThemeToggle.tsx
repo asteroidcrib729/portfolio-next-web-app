@@ -26,10 +26,11 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
   if (!mounted) {
     return (
       <button
+        type="button"
         aria-label="Toggle theme"
         disabled
         className={cn(
-          "inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-card text-muted-foreground opacity-50",
+          "inline-flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-card/80 text-muted-foreground opacity-50",
           className
         )}
       >
@@ -42,10 +43,11 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
 
   return (
     <button
+      type="button"
       onClick={() => setTheme(isDark ? "light" : "dark")}
       aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
       className={cn(
-        "inline-flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-card text-foreground transition-all duration-200 hover:bg-muted hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
+        "inline-flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-card/80 text-foreground transition-all duration-200 hover:border-accent/40 hover:bg-muted hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
         className
       )}
     >
@@ -57,4 +59,3 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
     </button>
   );
 }
-
