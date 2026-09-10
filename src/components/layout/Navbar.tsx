@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Container } from "@/components/common/Container";
+import { SignatureLogo } from "@/components/common/SignatureLogo";
 import { ThemeToggle } from "@/components/common/ThemeToggle";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { navLinks, siteConfig } from "@/data/siteConfig";
@@ -11,12 +12,9 @@ export function Navbar() {
         <Link
           href="/"
           aria-label={`${siteConfig.name}, home`}
-          className="group flex items-center space-x-2.5 font-mono text-base font-bold tracking-tight text-foreground transition-colors hover:text-accent"
+          className="group flex items-center text-foreground transition-colors hover:text-accent"
         >
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-accent text-sm font-semibold text-accent-foreground transition-transform group-hover:-rotate-3 group-hover:scale-105">
-            {siteConfig.shortName}
-          </span>
-          <span className="hidden sm:inline-block font-semibold">{siteConfig.name}</span>
+          <SignatureLogo className="h-12 w-16 transition-transform duration-300 group-hover:-rotate-2 group-hover:scale-105" />
         </Link>
 
         {/* Desktop Navigation */}

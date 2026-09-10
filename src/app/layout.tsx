@@ -8,13 +8,17 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: `${siteConfig.name} — ${siteConfig.title}`,
+    default: `${siteConfig.name} - ${siteConfig.title}`,
     template: `%s — ${siteConfig.name}`,
   },
   description: siteConfig.bio,
   keywords: siteConfig.keywords,
   authors: [{ name: siteConfig.name }],
   creator: siteConfig.name,
+  icons: {
+    icon: [{ url: "/signature-logo.svg", type: "image/svg+xml" }],
+    shortcut: "/signature-logo.svg",
+  },
   alternates: {
     canonical: "/",
   },

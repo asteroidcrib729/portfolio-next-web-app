@@ -81,7 +81,7 @@ export default function OpenGraphImage() {
             maxWidth: 900,
           }}
         >
-          Frontend systems that feel as good as they perform.
+          Systems that feel as good as they perform.
         </div>
 
         <div style={{ color: "#38bdf8", display: "flex", fontSize: 18 }}>

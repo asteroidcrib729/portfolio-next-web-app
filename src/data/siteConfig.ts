@@ -14,7 +14,7 @@ export const siteConfig = {
   shortName: "FH",
   title: "Full-Stack Engineer",
   tagline:
-    "I turn complex product ideas into fast, accessible interfaces that feel inevitable.",
+    "I turn complex product ideas into fast, accessible products that feel inevitable.",
   bio: "My work sits at the intersection of product thinking, design systems, and rigorous full-stack engineering. Every interaction is intentional, every component earns its place, and quality is treated as a feature.",
   aboutParagraphs: [
     "I care about the part of software people actually experience: clarity of information, speed of the response, and confidence created by thoughtful interaction design.",

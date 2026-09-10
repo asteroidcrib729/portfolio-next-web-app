@@ -139,6 +139,7 @@ export function Contact() {
                     key={link.label}
                     link={link}
                     showLabel
+                    openInNewTab
                     className="border-background/20 bg-background/10 text-background/80 hover:border-background/40 hover:text-background focus-visible:ring-background focus-visible:ring-offset-foreground"
                   />
                 ))}

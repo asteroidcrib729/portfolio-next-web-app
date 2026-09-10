@@ -109,6 +109,15 @@ All markdown files are verified to adhere strictly to markdownlint rules:
 
 ---
 
+### Milestone 8: Signature Brand Mark
+
+- Added `public/signature-logo.svg` as a transparent, scalable trace of the supplied handwritten signature.
+- Added `src/components/common/SignatureLogo.tsx` with theme-aware `currentColor` rendering.
+- Replaced the navbar monogram and text lockup with the signature logo while preserving the accessible home-link name.
+- Reused the adaptive signature SVG as the browser favicon and web-manifest icon.
+
+---
+
 ## 4. Current File Tree
 
 ```text
@@ -122,6 +131,8 @@ portfolio-site-next-web-app/
 │   ├── MEMORY.md                # Current technical memory
 │   ├── ISSUES.md                # Scan findings and remediation status
 │   └── SOLUTIONS.md             # Recommended and implemented solutions
+├── public/
+│   └── signature-logo.svg       # Standalone transparent signature mark
 ├── src/
 │   ├── app/
 │   │   ├── api/contact/route.ts # Validated contact delivery endpoint
@@ -139,6 +150,7 @@ portfolio-site-next-web-app/
 │   │   │   ├── Icons.tsx        # Scalable brand SVG icons
 │   │   │   ├── Reveal.tsx       # Reduced-motion-aware reveal primitive
 │   │   │   ├── SectionHeading.tsx # Reusable section title & eyebrow
+│   │   │   ├── SignatureLogo.tsx # Theme-aware handwritten brand mark
 │   │   │   ├── SocialAnchor.tsx # Typed, accessible social link
 │   │   │   └── ThemeToggle.tsx  # React 19 hydration-safe theme switch
 │   │   ├── layout/

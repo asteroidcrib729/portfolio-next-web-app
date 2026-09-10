@@ -12,6 +12,8 @@ const systemSignals = [
 ];
 
 export function Hero() {
+  const emailLink = socialLinks.find((link) => link.icon === "mail");
+
   return (
     <section
       id="home"
@@ -38,13 +40,13 @@ export function Hero() {
 
           <Reveal delay={0.07}>
             <p className="mt-7 font-mono text-sm font-medium text-muted-foreground">
-              Hello, I&apos;m <span className="text-foreground">{siteConfig.name}</span>.
+              Hi, I&apos;m <span className="text-foreground">{siteConfig.name}</span>.
             </p>
             <h1
               id="hero-title"
               className="text-balance mt-4 max-w-4xl text-5xl font-semibold leading-[0.96] tracking-[-0.065em] text-foreground sm:text-6xl lg:text-7xl xl:text-[5.25rem]"
             >
-              Frontend systems that feel as good as they perform.
+              Systems that feel as good as they perform
             </h1>
           </Reveal>
 
@@ -54,10 +56,13 @@ export function Hero() {
             </p>
           </Reveal>
 
-          <Reveal delay={0.21} className="mt-9 flex flex-wrap items-center gap-3">
+          <Reveal
+            delay={0.21}
+            className="mt-9 flex flex-wrap items-center gap-3 lg:flex-nowrap"
+          >
             <Link
               href="#projects"
-              className="group inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-foreground px-5 text-sm font-semibold text-background transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              className="group inline-flex h-12 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-foreground px-5 text-sm font-semibold text-background transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
               Explore the work
               <ArrowDownRight
@@ -67,7 +72,7 @@ export function Hero() {
             </Link>
             <Link
               href="#contact"
-              className="group inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-border bg-card/80 px-5 text-sm font-semibold text-foreground transition-[transform,border-color] hover:-translate-y-0.5 hover:border-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              className="group inline-flex h-12 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-xl border border-border bg-card/80 px-5 text-sm font-semibold text-foreground transition-[transform,border-color] hover:-translate-y-0.5 hover:border-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
               Start a conversation
               <ArrowUpRight
@@ -75,12 +80,14 @@ export function Hero() {
                 className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
               />
             </Link>
-          </Reveal>
-
-          <Reveal delay={0.28} className="mt-7 flex flex-wrap gap-2">
-            {socialLinks.map((link) => (
-              <SocialAnchor key={link.label} link={link} showLabel />
-            ))}
+            {emailLink ? (
+              <SocialAnchor
+                link={emailLink}
+                showLabel
+                openInNewTab
+                className="h-12 shrink-0"
+              />
+            ) : null}
           </Reveal>
         </div>
 

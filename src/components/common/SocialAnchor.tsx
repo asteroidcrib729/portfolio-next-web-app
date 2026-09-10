@@ -8,6 +8,7 @@ interface SocialAnchorProps {
   link: SocialLink;
   className?: string;
   showLabel?: boolean;
+  openInNewTab?: boolean;
 }
 
 const iconMap: Record<
@@ -25,9 +26,10 @@ export function SocialAnchor({
   link,
   className,
   showLabel = false,
+  openInNewTab = false,
 }: SocialAnchorProps) {
   const Icon = iconMap[link.icon];
-  const opensNewContext = /^https?:\/\//.test(link.href);
+  const opensNewContext = openInNewTab || /^https?:\/\//.test(link.href);
 
   return (
     <a

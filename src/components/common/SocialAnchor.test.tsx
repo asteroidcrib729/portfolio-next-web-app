@@ -24,4 +24,17 @@ describe("SocialAnchor", () => {
     expect(link).toHaveAttribute("target", "_blank");
     expect(link).toHaveAttribute("rel", "noopener noreferrer");
   });
+
+  it("supports explicitly opening a mail link in a new context", () => {
+    render(
+      <SocialAnchor
+        link={{ label: "Email", href: "mailto:person@example.test", icon: "mail" }}
+        openInNewTab
+      />
+    );
+
+    const link = screen.getByRole("link", { name: "Email" });
+    expect(link).toHaveAttribute("target", "_blank");
+    expect(link).toHaveAttribute("rel", "noopener noreferrer");
+  });
 });

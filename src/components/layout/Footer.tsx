@@ -8,7 +8,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-border/70 bg-card/35 py-8">
+    <footer className="border-t border-border/70 bg-card/35 py-4">
       <Container className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="text-sm font-medium text-foreground">
@@ -21,7 +21,7 @@ export function Footer() {
 
         <div className="flex flex-wrap items-center gap-2">
           {socialLinks.map((link) => (
-            <SocialAnchor key={link.label} link={link} />
+            <SocialAnchor openInNewTab key={link.label} link={link} />
           ))}
           <Link
             href="#home"
