@@ -27,8 +27,8 @@ export function Skills() {
         <SectionHeading
           id="skills-title"
           eyebrow="Capabilities"
-          title="A frontend toolkit built for product-level quality."
-          description="The technical range to move from ambiguous product problem to robust, polished interface—without losing the details along the way."
+          title="A full-stack toolkit built for production-ready products."
+          description="From accessible interfaces and resilient APIs to data systems and cloud platforms, this stack supports the complete path from product idea to maintained software."
           align="left"
         />
 
