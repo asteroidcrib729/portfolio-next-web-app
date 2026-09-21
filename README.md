@@ -186,6 +186,27 @@ The check fails on Vercel authentication redirects, `noindex`, non-HTTPS URLs, H
 errors, or content that is not this portfolio. The `Public Release Verification`
 workflow exposes the same check as a manual GitHub Actions release gate.
 
+## Google Search Indexing
+
+The application publishes canonical metadata, explicit `index, follow` directives,
+Googlebot preview permissions, a root sitemap reference in `robots.txt`, and
+`ProfilePage`, `Person`, and `WebSite` JSON-LD. To connect the deployment to Google
+Search Console:
+
+1. Add a **URL-prefix** property for
+   `https://faraz-hussain-portfolio.vercel.app/`.
+2. Select the **HTML tag** verification method and copy only the value of its
+   `content` attribute.
+3. Save that value in Vercel as `GOOGLE_SITE_VERIFICATION` for Production, then create
+   a new production deployment.
+4. Complete verification in Search Console.
+5. Submit `sitemap.xml` in the Search Console Sitemaps report.
+6. Inspect the production homepage URL and select **Request indexing**.
+
+Keep the verification variable and generated meta tag in place because Search Console
+periodically rechecks ownership. Sitemap submission and indexing requests are discovery
+hints, not guarantees of ranking or immediate inclusion.
+
 Review the privacy notice, 12-month retention commitment, public identity, provider
 contracts, and production settings before launch. The repository's technical controls
 do not replace jurisdiction-specific legal advice.

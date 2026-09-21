@@ -4,6 +4,12 @@ import { GeistMono } from "geist/font/mono";
 import { PrivacyAwareAnalytics } from "@/components/privacy/PrivacyAwareAnalytics";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { siteConfig } from "@/data/siteConfig";
+import {
+  getGoogleSiteVerification,
+  indexingRobots,
+  portfolioStructuredData,
+  serializeJsonLd,
+} from "@/lib/seo";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -23,6 +29,8 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "/",
   },
+  robots: indexingRobots,
+  verification: getGoogleSiteVerification(),
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -59,6 +67,14 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${GeistSans.variable} ${GeistMono.variable} h-full antialiased`}
     >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: serializeJsonLd(portfolioStructuredData),
+          }}
+        />
+      </head>
       <body className="min-h-full flex flex-col bg-background text-foreground transition-colors duration-200">
         <a
           href="#main-content"

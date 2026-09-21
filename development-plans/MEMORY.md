@@ -83,6 +83,19 @@ in `COMPLIANCE-OPERATIONS.md`; future differentiation remains in
 - `THIRD_PARTY_NOTICES.md` records direct runtime dependency licenses.
 - `/quality` narrows public claims to retained evidence and publishes limitations.
 
+## Search Discovery
+
+- The production origin publishes canonical metadata and explicit `index, follow`
+  directives with expanded Googlebot preview permissions.
+- Root `robots.txt` allows public pages, blocks `/api/`, declares the canonical host,
+  and references the absolute sitemap.
+- The homepage publishes `ProfilePage`, `Person`, and `WebSite` JSON-LD generated from
+  the same typed public configuration as the visible portfolio.
+- Optional `GOOGLE_SITE_VERIFICATION` metadata supports Search Console URL-prefix
+  verification without committing an account-specific token.
+- Search Console verification, sitemap submission, and indexing requests remain
+  production account operations rather than repository actions.
+
 ## Verification Results
 
 | Check | Result | Evidence |

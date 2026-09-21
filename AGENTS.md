@@ -140,6 +140,17 @@ All markdown files are verified to adhere strictly to markdownlint rules:
   `faraz-hussain-portfolio.vercel.app` as the sole intended public production domain;
   Standard Protection keeps generated deployment and preview URLs authenticated.
 
+### Milestone 10: Google Search Discovery Readiness
+
+- Added explicit index/follow and Googlebot preview metadata.
+- Added optional Search Console HTML-tag verification through the server-only
+  `GOOGLE_SITE_VERIFICATION` build variable.
+- Added canonical host discovery to `robots.txt` and retained the absolute sitemap.
+- Added safe `ProfilePage`, `Person`, and `WebSite` JSON-LD sourced from typed portfolio
+  configuration.
+- Added automated SEO metadata, robots, sitemap, and structured-data tests plus a
+  documented Search Console submission procedure.
+
 ---
 
 ## 4. Current File Tree

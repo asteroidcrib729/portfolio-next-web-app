@@ -220,7 +220,8 @@ Add dependencies only when a native platform or existing-library solution would 
 - [x] Require privacy-preserving distributed contact throttling in production.
 - [x] Add default-off, reversible privacy-respecting analytics.
 - [ ] Add Web Vitals and error monitoring with the same disclosure discipline.
-- [ ] Add structured data and per-project social previews.
+- [x] Add profile, person, and website structured data.
+- [ ] Add per-project social previews.
 
 ### Phase 5.5: Quality and Performance Certification
 
