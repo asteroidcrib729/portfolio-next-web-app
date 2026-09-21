@@ -209,21 +209,25 @@ Add dependencies only when a native platform or existing-library solution would 
 - [ ] Add scrollspy navigation and reading progress.
 - [ ] Build the accessible command palette.
 - [ ] Implement the chosen signature interaction for pointer, keyboard, and touch.
-- [ ] Add skip links and resume/contact navigation actions.
+- [x] Add a focus-visible skip-to-main link.
+- [ ] Add resume/contact navigation actions.
 - [ ] Verify Back, Forward, deep-link, and reduced-motion behavior.
 
 ### Phase 5.4: Recruiter Conversion and Production Services
 
 - [ ] Publish the approved resume experience and downloadable PDF.
 - [ ] Configure verified profile, scheduling, canonical-domain, and contact-delivery values.
-- [ ] Replace local contact throttling with distributed rate limiting.
-- [ ] Add privacy-respecting analytics, Web Vitals, and error monitoring.
+- [x] Require privacy-preserving distributed contact throttling in production.
+- [x] Add default-off, reversible privacy-respecting analytics.
+- [ ] Add Web Vitals and error monitoring with the same disclosure discipline.
 - [ ] Add structured data and per-project social previews.
 
 ### Phase 5.5: Quality and Performance Certification
 
-- [ ] Add Playwright journeys for desktop, mobile, keyboard, theme, work routes, and contact.
-- [ ] Add axe checks and screenshot-based visual regression.
+- [x] Add Playwright journeys for desktop, mobile, keyboard, theme, and privacy choices.
+- [ ] Add Playwright work-route and live contact-delivery journeys.
+- [x] Add automated axe checks.
+- [ ] Add screenshot-based visual regression.
 - [ ] Add bundle and Lighthouse budgets to CI.
 - [ ] Test Chromium, Firefox, and WebKit at required breakpoints.
 - [ ] Complete manual WCAG 2.2 AA and screen-reader review.

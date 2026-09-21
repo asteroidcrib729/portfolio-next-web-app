@@ -28,7 +28,7 @@ describe("portfolio content", () => {
     const ids = [...projects.map((project) => project.id), ...experiences.map((item) => item.id)];
 
     expect(new Set(ids).size).toBe(ids.length);
-    expect(navLinks.every((link) => /^#[a-z][a-z-]*$/.test(link.href))).toBe(true);
+    expect(navLinks.every((link) => /^\/#(?:[a-z][a-z-]*)$/.test(link.href))).toBe(true);
   });
 
   it("publishes a usable direct email channel", () => {

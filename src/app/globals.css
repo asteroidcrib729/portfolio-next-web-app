@@ -9,7 +9,7 @@
   --card-foreground: #0b1220;
   --muted: #edf1f5;
   --muted-foreground: #526071;
-  --border: #d7dee8;
+  --border: #8290a3;
   --accent: #0369a1;
   --accent-foreground: #ffffff;
   --accent-bright: #0ea5e9;
@@ -23,7 +23,7 @@
   --card-foreground: #f4f7fb;
   --muted: #172131;
   --muted-foreground: #9aa8ba;
-  --border: #263247;
+  --border: #596b84;
   --accent: #38bdf8;
   --accent-foreground: #07111a;
   --accent-bright: #7dd3fc;
@@ -105,5 +105,15 @@ section[id] {
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+@media (forced-colors: active) {
+  :focus-visible {
+    outline-color: Highlight;
+  }
+
+  .signature-strokes {
+    fill: CanvasText;
   }
 }

@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
+import { checkContactRateLimit } from "@/lib/contactRateLimit";
 
 export const runtime = "nodejs";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const WINDOW_MS = 10 * 60 * 1000;
-const MAX_REQUESTS = 5;
-const requestLog = new Map<string, number[]>();
+const MAX_BODY_LENGTH = 10_000;
 
 interface ContactPayload {
   name?: unknown;
@@ -33,39 +32,46 @@ function escapeHtml(value: string) {
   );
 }
 
-function isRateLimited(identifier: string) {
-  const now = Date.now();
-  const recentRequests = (requestLog.get(identifier) ?? []).filter(
-    (timestamp) => now - timestamp < WINDOW_MS
+function json(message: string, status = 200, headers?: HeadersInit) {
+  return NextResponse.json(
+    { message },
+    {
+      status,
+      headers: {
+        "Cache-Control": "no-store, max-age=0",
+        ...headers,
+      },
+    }
   );
+}
 
-  if (recentRequests.length >= MAX_REQUESTS) return true;
-
-  requestLog.set(identifier, [...recentRequests, now]);
-  return false;
+function getRequestIdentifier(request: NextRequest) {
+  return (
+    request.headers.get("x-vercel-forwarded-for") ??
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+    "local"
+  );
 }
 
 export async function POST(request: NextRequest) {
-  const identifier = request.headers.get("x-forwarded-for")?.split(",")[0] ?? "local";
-
-  if (isRateLimited(identifier)) {
-    return NextResponse.json(
-      { message: "Too many messages were sent. Please try again in a few minutes." },
-      { status: 429 }
-    );
+  if (!request.headers.get("content-type")?.toLowerCase().startsWith("application/json")) {
+    return json("The contact endpoint accepts JSON requests only.", 415);
   }
+
+  const declaredLength = Number(request.headers.get("content-length") ?? 0);
+  if (declaredLength > MAX_BODY_LENGTH) return json("The request body is too large.", 413);
 
   let payload: ContactPayload;
   try {
-    payload = (await request.json()) as ContactPayload;
+    const rawBody = await request.text();
+    if (rawBody.length > MAX_BODY_LENGTH) return json("The request body is too large.", 413);
+    payload = JSON.parse(rawBody) as ContactPayload;
   } catch {
-    return NextResponse.json({ message: "Invalid request body." }, { status: 400 });
+    return json("Invalid request body.", 400);
   }
 
   const website = clean(payload.website, 200);
-  if (website) {
-    return NextResponse.json({ message: "Message accepted." });
-  }
+  if (website) return json("Message accepted.");
 
   const name = clean(payload.name, 80);
   const email = clean(payload.email, 160);
@@ -78,10 +84,7 @@ export async function POST(request: NextRequest) {
     subject.length < 3 ||
     message.length < 20
   ) {
-    return NextResponse.json(
-      { message: "Please complete every field with valid contact details." },
-      { status: 400 }
-    );
+    return json("Please complete every field with valid contact details.", 400);
   }
 
   const apiKey = process.env.RESEND_API_KEY;
@@ -89,34 +92,47 @@ export async function POST(request: NextRequest) {
   const from = process.env.CONTACT_FROM_EMAIL;
 
   if (!apiKey || !to || !from) {
-    return NextResponse.json(
-      { message: "Direct delivery is not configured on this deployment." },
-      { status: 503 }
-    );
+    return json("Direct delivery is not configured on this deployment.", 503);
   }
 
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from,
-      to: [to],
-      reply_to: email,
-      subject: `Portfolio enquiry: ${subject}`,
-      text: `${message}\n\nFrom: ${name} <${email}>`,
-      html: `<p>${escapeHtml(message).replace(/\n/g, "<br />")}</p><hr /><p>From: ${escapeHtml(name)} &lt;${escapeHtml(email)}&gt;</p>`,
-    }),
-  });
+  let rateLimit;
+  try {
+    rateLimit = await checkContactRateLimit(getRequestIdentifier(request));
+  } catch {
+    return json("Direct delivery is temporarily unavailable. Please use email instead.", 503);
+  }
+
+  if (!rateLimit.allowed) {
+    return json("Too many messages were sent. Please try again in a few minutes.", 429, {
+      "Retry-After": String(rateLimit.retryAfterSeconds),
+    });
+  }
+
+  let response: Response;
+  try {
+    response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from,
+        to: [to],
+        reply_to: email,
+        subject: `Portfolio enquiry: ${subject}`,
+        text: `${message}\n\nFrom: ${name} <${email}>`,
+        html: `<p>${escapeHtml(message).replace(/\n/g, "<br />")}</p><hr /><p>From: ${escapeHtml(name)} &lt;${escapeHtml(email)}&gt;</p>`,
+      }),
+      signal: AbortSignal.timeout(8_000),
+    });
+  } catch {
+    return json("Delivery failed. Please use the direct email link instead.", 502);
+  }
 
   if (!response.ok) {
-    return NextResponse.json(
-      { message: "Delivery failed. Please use the direct email link instead." },
-      { status: 502 }
-    );
+    return json("Delivery failed. Please use the direct email link instead.", 502);
   }
 
-  return NextResponse.json({ message: "Message sent." });
+  return json("Message sent.");
 }

@@ -4,6 +4,10 @@
 
 This issue register was produced from a full scan of the tracked application source, configuration, package manifest and lockfile, repository documentation, and local development plans on 2026-09-10. It also incorporates live ESLint, TypeScript, Next.js build, dependency-tree, and npm audit results.
 
+The newer 2026-09-21 compliance findings and remediation state are authoritative in
+`COMPLIANCE-AUDIT.md`. Recurring external/account work is in
+`COMPLIANCE-OPERATIONS.md`.
+
 ## Remediation Status
 
 The remediation implementation completed on 2026-09-10. The detailed findings below preserve the original scan evidence; this table records their current disposition.

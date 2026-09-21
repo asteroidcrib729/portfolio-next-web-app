@@ -20,11 +20,23 @@ export function Footer() {
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
+          <Link
+            href="/privacy"
+            className="inline-flex min-h-11 items-center rounded-xl px-3 text-sm font-medium text-muted-foreground hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          >
+            Privacy & choices
+          </Link>
+          <Link
+            href="/quality"
+            className="inline-flex min-h-11 items-center rounded-xl px-3 text-sm font-medium text-muted-foreground hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          >
+            Quality evidence
+          </Link>
           {socialLinks.map((link) => (
             <SocialAnchor openInNewTab key={link.label} link={link} />
           ))}
           <Link
-            href="#home"
+            href="/#home"
             aria-label="Back to top"
             className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-card/80 text-muted-foreground transition-colors hover:border-accent/50 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >

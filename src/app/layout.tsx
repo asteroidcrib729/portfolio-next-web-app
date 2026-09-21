@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
-import { Analytics } from "@vercel/analytics/next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
+import { PrivacyAwareAnalytics } from "@/components/privacy/PrivacyAwareAnalytics";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { siteConfig } from "@/data/siteConfig";
 import "./globals.css";
@@ -60,6 +60,12 @@ export default function RootLayout({
       className={`${GeistSans.variable} ${GeistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground transition-colors duration-200">
+        <a
+          href="#main-content"
+          className="fixed left-4 top-4 z-[100] -translate-y-24 rounded-lg bg-foreground px-4 py-3 text-sm font-semibold text-background shadow-xl transition-transform focus:translate-y-0"
+        >
+          Skip to main content
+        </a>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -69,7 +75,7 @@ export default function RootLayout({
         >
           {children}
 
-          <Analytics />
+          <PrivacyAwareAnalytics />
         </ThemeProvider>
       </body>
     </html>

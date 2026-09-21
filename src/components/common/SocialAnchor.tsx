@@ -36,7 +36,13 @@ export function SocialAnchor({
       href={link.href}
       target={opensNewContext ? "_blank" : undefined}
       rel={opensNewContext ? "noopener noreferrer" : undefined}
-      aria-label={showLabel ? undefined : link.label}
+      aria-label={
+        opensNewContext
+          ? `${link.label} (opens in a new tab)`
+          : showLabel
+            ? undefined
+            : link.label
+      }
       className={cn(
         "inline-flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-xl border border-border bg-card/80 px-3 text-sm font-medium text-muted-foreground transition-[color,border-color,background-color,transform] hover:-translate-y-0.5 hover:border-accent/50 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         className
