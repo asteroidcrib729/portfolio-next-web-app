@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import Link from "next/link";
 import { Check, Clipboard, LoaderCircle, Mail, MapPin, Send } from "lucide-react";
 import { Container } from "@/components/common/Container";
 import { SectionHeading } from "@/components/common/SectionHeading";
@@ -21,6 +22,7 @@ export function Contact() {
   const [submitState, setSubmitState] = useState<SubmitState>("idle");
   const [statusMessage, setStatusMessage] = useState("");
   const [copied, setCopied] = useState(false);
+  const fallbackMailto = `mailto:${siteConfig.email}?subject=Portfolio%20enquiry`;
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -40,15 +42,10 @@ export function Contact() {
       const result = (await response.json()) as { message?: string };
 
       if (response.status === 503) {
-        const mailto = new URL(`mailto:${siteConfig.email}`);
-        mailto.searchParams.set("subject", payload.subject);
-        mailto.searchParams.set(
-          "body",
-          `${payload.message}\n\nFrom: ${payload.name} <${payload.email}>`
-        );
-        window.location.href = mailto.toString();
         setSubmitState("fallback");
-        setStatusMessage("Your mail app has been opened with the message prefilled.");
+        setStatusMessage(
+          "Direct delivery is unavailable. Nothing from this form was placed in a URL; use the email option and copy only what you choose."
+        );
         return;
       }
 
@@ -88,8 +85,8 @@ export function Contact() {
         <SectionHeading
           id="contact-title"
           eyebrow="Let’s build something"
-          title="Have a frontend problem worth solving well?"
-          description="Tell me what you are building, where the interface is falling short, and what an excellent outcome looks like."
+          title="Have a software product problem worth solving well?"
+          description="Tell me what you are building, where the product or system is falling short, and what an excellent outcome looks like."
           align="left"
         />
 
@@ -147,7 +144,11 @@ export function Contact() {
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="p-6 sm:p-8 lg:p-10">
+          <form
+            onSubmit={handleSubmit}
+            aria-describedby="contact-privacy-note"
+            className="p-6 sm:p-8 lg:p-10"
+          >
             <div className="grid gap-5 sm:grid-cols-2">
               <label className="text-sm font-medium text-foreground">
                 Name
@@ -206,8 +207,19 @@ export function Contact() {
             </label>
 
             <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <p className="max-w-sm text-xs leading-5 text-muted-foreground">
-                Your details are used only to respond to this message.
+              <p
+                id="contact-privacy-note"
+                className="max-w-sm text-xs leading-5 text-muted-foreground"
+              >
+                Your details are used to deliver and respond to this message through
+                Resend and the configured mailbox. Read the{" "}
+                <Link
+                  href="/privacy"
+                  className="font-semibold text-accent underline underline-offset-2"
+                >
+                  privacy notice
+                </Link>
+                .
               </p>
               <button
                 type="submit"
@@ -224,16 +236,23 @@ export function Contact() {
             </div>
 
             {statusMessage ? (
-              <p
-                role={submitState === "error" ? "alert" : "status"}
+              <div
                 className={`mt-5 rounded-xl border px-4 py-3 text-sm ${
                   submitState === "error"
-                    ? "border-rose-500/30 bg-rose-500/10 text-rose-700 dark:text-rose-300"
-                    : "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
+                    ? "border-rose-500 bg-rose-500/10 text-rose-800 dark:text-rose-200"
+                    : "border-emerald-600 bg-emerald-500/10 text-emerald-800 dark:border-emerald-400 dark:text-emerald-200"
                 }`}
               >
-                {statusMessage}
-              </p>
+                <p role={submitState === "error" ? "alert" : "status"}>{statusMessage}</p>
+                {submitState === "fallback" ? (
+                  <a
+                    href={fallbackMailto}
+                    className="mt-3 inline-flex min-h-11 items-center rounded-lg border border-current px-3 font-semibold underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-current"
+                  >
+                    Open a blank email draft
+                  </a>
+                ) : null}
+              </div>
             ) : null}
           </form>
         </div>

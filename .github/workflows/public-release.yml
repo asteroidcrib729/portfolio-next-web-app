@@ -1,0 +1,31 @@
+name: Public Release Verification
+
+on:
+  workflow_dispatch:
+    inputs:
+      site_url:
+        description: Public production URL to verify anonymously
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  verify-public-access:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Verify anonymous public access
+        env:
+          PUBLIC_RELEASE_URL: ${{ inputs.site_url }}
+        run: node scripts/verify-public-site.mjs "$PUBLIC_RELEASE_URL"

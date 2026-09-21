@@ -4,6 +4,10 @@
 
 Each solution below maps directly to an issue in `ISSUES.md`. The order reflects the recommended implementation sequence: make the portfolio truthful and complete first, then close accessibility and reliability gaps, establish automated quality gates, and finish documentation cleanup.
 
+Compliance-specific remedies implemented on 2026-09-21 are documented in
+`COMPLIANCE-AUDIT.md`; operational controls are documented in
+`COMPLIANCE-OPERATIONS.md`.
+
 ## Implementation Status
 
 All twelve solution groups were implemented on 2026-09-10. Owner confirmation of the public biography and final production environment values remains a launch prerequisite rather than a source-code defect. The newest feature roadmap is documented in `development-plan-05.md`.

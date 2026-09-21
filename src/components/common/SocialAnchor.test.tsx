@@ -20,7 +20,7 @@ describe("SocialAnchor", () => {
       />
     );
 
-    const link = screen.getByRole("link", { name: "GitHub" });
+    const link = screen.getByRole("link", { name: "GitHub (opens in a new tab)" });
     expect(link).toHaveAttribute("target", "_blank");
     expect(link).toHaveAttribute("rel", "noopener noreferrer");
   });
@@ -33,7 +33,7 @@ describe("SocialAnchor", () => {
       />
     );
 
-    const link = screen.getByRole("link", { name: "Email" });
+    const link = screen.getByRole("link", { name: "Email (opens in a new tab)" });
     expect(link).toHaveAttribute("target", "_blank");
     expect(link).toHaveAttribute("rel", "noopener noreferrer");
   });

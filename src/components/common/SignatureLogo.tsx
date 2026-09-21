@@ -11,16 +11,8 @@ export function SignatureLogo(props: SVGProps<SVGSVGElement>) {
       aria-hidden="true"
       focusable="false"
       version="1.1"
-      role="img"
-      aria-labelledby="signature-title signature-description"
       {...props}
     >
-      <title id="signature-title">Restored handwritten signature</title>
-      <desc id="signature-description">
-        Editable vector outlines traced from the completed 4096 by 3584 PNG
-        export. The signature follows the application&apos;s light or dark theme. No
-        embedded raster images or fonts.
-      </desc>
       <style>{`
         .signature-strokes { fill: #111318; }
         .dark .signature-strokes,

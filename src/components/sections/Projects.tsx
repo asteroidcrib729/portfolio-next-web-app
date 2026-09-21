@@ -14,7 +14,7 @@ export function Projects() {
             id="projects-title"
             eyebrow="Selected systems"
             title="Work that demonstrates the decisions behind the pixels."
-            description="Not a gallery of screenshots—a set of frontend case studies showing how architecture, interaction, and quality reinforce one another."
+            description="Not a gallery of screenshots—a set of software case studies showing how architecture, interaction, and quality reinforce one another."
             align="left"
           />
         </Reveal>
@@ -88,6 +88,9 @@ export function Projects() {
                           >
                             View live interface
                             <ArrowUpRight aria-hidden="true" className="h-4 w-4" />
+                            {project.demoUrl.startsWith("http") ? (
+                              <span className="sr-only">(opens in a new tab)</span>
+                            ) : null}
                           </a>
                         ) : null}
                         {project.githubUrl ? (
@@ -99,6 +102,7 @@ export function Projects() {
                           >
                             <Icons.gitHub aria-hidden="true" className="h-4 w-4" />
                             Source
+                            <span className="sr-only">(opens in a new tab)</span>
                           </a>
                         ) : null}
                       </div>

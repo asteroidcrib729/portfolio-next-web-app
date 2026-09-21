@@ -14,7 +14,7 @@ export const siteConfig = {
   shortName: "FH",
   title: "Full-Stack Engineer",
   tagline:
-    "I turn complex product ideas into fast, accessible products that feel inevitable.",
+    "I turn complex product ideas into responsive, accessible products that feel inevitable.",
   bio: "My work sits at the intersection of product thinking, design systems, and rigorous full-stack engineering. Every interaction is intentional, every component earns its place, and quality is treated as a feature.",
   aboutParagraphs: [
     "I care about the part of software people actually experience: clarity of information, speed of the response, and confidence created by thoughtful interaction design.",
@@ -69,11 +69,11 @@ export const stats: StatItem[] = [
 ];
 
 export const navLinks: NavLink[] = [
-  { label: "About", href: "#about" },
-  { label: "Expertise", href: "#skills" },
-  { label: "Work", href: "#projects" },
-  { label: "Approach", href: "#experience" },
-  { label: "Contact", href: "#contact" },
+  { label: "About", href: "/#about" },
+  { label: "Expertise", href: "/#skills" },
+  { label: "Work", href: "/#projects" },
+  { label: "Approach", href: "/#experience" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 const optionalSocialLinks: Array<SocialLink | undefined> = [
@@ -172,7 +172,7 @@ export const projects: Project[] = [
     demoUrl: "#home",
     githubUrl: process.env.NEXT_PUBLIC_REPOSITORY_URL,
     highlights: [
-      "Focused client boundaries preserve a fast server-rendered core",
+      "Focused client boundaries preserve the server-rendered core",
       "Motion, contrast, focus, and navigation patterns account for accessibility",
       "Content, components, and design tokens are independently maintainable",
     ],
@@ -188,7 +188,7 @@ export const projects: Project[] = [
     highlights: [
       "Focus-managed mobile navigation with escape and restoration behavior",
       "Shared reduced-motion policy across CSS and component animation",
-      "Accessible token pairings verified for both color themes",
+      "AA text and control-boundary contrast covered by automated token tests",
     ],
   },
   {
@@ -221,14 +221,14 @@ export const experiences: Experience[] = [
   },
   {
     id: "practice-system-design",
-    role: "Build the interface as a system",
-    company: "02 · Frontend architecture",
+    role: "Build the product as a system",
+    company: "02 · Full-stack architecture",
     period: "Composable by default",
     description: [
-      "Create durable component contracts and semantic tokens instead of one-off page styling.",
-      "Keep the server-rendered surface broad and introduce client state only where interaction requires it.",
+      "Create durable component and service contracts instead of one-off implementation paths.",
+      "Keep server and client boundaries explicit, and introduce state only where the product requires it.",
     ],
-    technologies: ["React", "Next.js", "TypeScript", "Design Tokens"],
+    technologies: ["React", "Next.js", "TypeScript", "API Design"],
   },
   {
     id: "practice-verification",

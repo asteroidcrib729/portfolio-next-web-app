@@ -27,7 +27,7 @@ export function Skills() {
         <SectionHeading
           id="skills-title"
           eyebrow="Capabilities"
-          title="A full-stack toolkit built for production-ready products."
+          title="A full-stack toolkit for production-oriented products."
           description="From accessible interfaces and resilient APIs to data systems and cloud platforms, this stack supports the complete path from product idea to maintained software."
           align="left"
         />

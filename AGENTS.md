@@ -118,6 +118,30 @@ All markdown files are verified to adhere strictly to markdownlint rules:
 
 ---
 
+### Milestone 9: Compliance Audit and Full Remediation
+
+- Completed the 21-point master compliance audit in
+  `development-plans/COMPLIANCE-AUDIT.md` and remediated all repository-controlled
+  findings.
+- Added `/privacy` with default-off, reversible Vercel Analytics preference controls
+  and a withdrawal-time event filter.
+- Added `/quality` with dated evidence, claim boundaries, and explicit limitations.
+- Hardened contact handling with disclosure, a safe email fallback, non-cacheable
+  responses, body/type limits, provider timeouts, and HMAC-pseudonymous distributed
+  production throttling.
+- Added a skip link, stronger control-boundary contrast, forced-colors support,
+  coherent SVG semantics, and accessible new-context announcements.
+- Added enforced CSP and browser security headers and removed `X-Powered-By`.
+- Added root licensing, asset provenance, third-party notices, and maintained brand
+  icon components.
+- Added axe-core, contrast, security, privacy, contact, and Playwright cross-browser
+  regression coverage.
+- Added anonymous public-release verification and an operations runbook. Confirmed
+  `faraz-hussain-portfolio.vercel.app` as the sole intended public production domain;
+  Standard Protection keeps generated deployment and preview URLs authenticated.
+
+---
+
 ## 4. Current File Tree
 
 ```text
@@ -193,7 +217,11 @@ The codebase passes all quality checks:
 
 - **Lint Check (`npm run lint`):** Clean exit (code 0) with zero ESLint errors or warnings.
 - **Type Check (`npm run typecheck`):** Clean exit (code 0) under strict TypeScript.
-- **Test Check (`npm run test`):** Eight content, interaction, and route tests pass.
+- **Test Check (`npm run test`):** Twenty-one content, interaction, route, privacy,
+  accessibility, contrast, and security tests pass.
+- **Browser Check (`npm run test:e2e`):** Chromium, WebKit, and mobile Chromium pass
+  locally; Firefox is configured in Linux CI because the Windows runner failed before
+  page creation.
 - **Build Check (`npm run build`):** Clean exit (code 0) with Turbopack, React Compiler optimization, TypeScript check, and static page generation.
 - **Dependency Audit:** Zero known vulnerabilities reported by npm.
 - **Markdown Standards:** Planning documents adhere to MD012, MD022, and MD032.

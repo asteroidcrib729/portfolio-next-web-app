@@ -16,8 +16,8 @@ export function Experience() {
             <SectionHeading
               id="experience-title"
               eyebrow="Working method"
-              title="A repeatable path from idea to exceptional interface."
-              description="Strong frontend work is not a final coat of polish. It is a sequence of deliberate decisions from content model to release gate."
+              title="A repeatable path from idea to exceptional product."
+              description="Strong software engineering is not a final coat of polish. It is a sequence of deliberate decisions from content model and service boundary to release gate."
               align="left"
               className="lg:sticky lg:top-28"
             />
