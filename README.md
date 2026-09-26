@@ -1,212 +1,206 @@
-# Faraz Hussain Portfolio
+# Faraz Hussain's Portfolio Site
 
-A recruiter-focused full-stack engineering portfolio built as a product-quality case study. The site demonstrates server-first React architecture, responsive interaction design, accessible motion and navigation, typed content modeling, privacy-aware analytics, resilient contact handling, and automated release checks.
+I have built this full-stack engineering portfolio as a polished, accessible, privacy-aware case study in modern product development.
+
+Designed for recruiters and engineering teams, my portfolio presents both my work and the way I have built it. Using server-first React architecture, typed content, considered motion, resilient contact delivery, secure defaults, structured search metadata, and automated quality gates, I treat the site itself as evidence of my frontend and full-stack engineering approach.
 
 ## Technology
 
-- Next.js 16 App Router and React 19
-- TypeScript in strict mode with React Compiler
-- Tailwind CSS 4 and semantic design tokens
+To create and maintain the experience, I have used:
+
+- Next.js 16 with the App Router and Turbopack
+- React 19 with React Compiler enabled
+- TypeScript in strict mode
+- Tailwind CSS 4 with a token-driven light and dark theme
 - Motion for reduced-motion-aware transitions
-- `next-themes` for persistent system, light, and dark themes
-- Self-hosted Geist Sans and Geist Mono
-- Vitest and Testing Library
+- `next-themes` for persistent theme preferences
+- Self-hosted Geist Sans and Geist Mono fonts
+- Resend for contact-form delivery
+- Upstash Redis for distributed production throttling
+- Vercel Analytics behind an explicit visitor preference
+- Vitest, Testing Library, axe-core, and Playwright for regression coverage
+- GitHub Actions for automated linting, type checking, testing, and builds
 
 ## Local Development
 
-Requirements:
+I develop and verify the project with:
 
 - Node.js 24
-- npm 11 or a compatible npm version from Node.js 24
+- npm 11, or the compatible npm version bundled with Node.js 24
 
-Install and start the project:
+If you want to run my portfolio locally, install the locked dependencies and start the development server:
 
 ```bash
 npm ci
 npm run dev
 ```
 
-Open `http://localhost:3000`.
+Once the server is running, you can open `http://localhost:3000` in your browser.
 
-## Quality Commands
+The site still renders when optional service credentials are absent. In that state, the contact form returns a safe mail-client fallback, distributed throttling remains unavailable, and analytics stay disabled.
+
+My production build does not download Google Fonts. The versioned local assets supplied by the `geist` package keep clean builds deterministic in restricted-network environments.
+
+## Quality Control
+
+I keep the main verification tasks available as individual scripts:
 
 ```bash
 npm run lint
 npm run typecheck
 npm run test
+npm run test:e2e
 npm run build
 ```
 
-Run every release check in sequence with:
+For the standard local quality gate, I run:
 
 ```bash
 npm run check
 ```
 
-The cross-browser Playwright suite is intentionally separate because it starts the
-production server and requires installed browser binaries:
+To include the production build and every configured browser project, I run:
 
 ```bash
 npx playwright install chromium firefox webkit
-npm run test:e2e
+npm run check:full
 ```
 
-Run `npm run check:full` after the production build exists and the browser binaries
-are installed.
+After deployment, I verify the public host, redirects, crawler files, metadata, and security headers with:
 
-The production build does not download Google Fonts. The `geist` package provides versioned local font assets, so clean builds remain deterministic in restricted-network environments.
+```bash
+npm run verify:public -- https://faraz-hussain-portfolio.vercel.app
+```
 
 ## Content Configuration
 
-Public portfolio content lives in `src/data/siteConfig.ts`. It is the source of truth for:
+I keep public portfolio content in `src/data/siteConfig.ts`, giving biography copy, skills, experience, projects, navigation, and social profiles a single typed source of truth.
 
-- Identity and positioning
-- Navigation and social links
-- Capability categories
-- Case studies
-- Engineering approach
-- Contact details
+For environment-specific public values, I use:
 
-Optional profile links and the production canonical URL are configured through environment variables. Copy `.env.example` to `.env.local` and replace its example values:
-
-```dotenv
-NEXT_PUBLIC_SITE_URL=https://your-production-domain.com
+```env
+NEXT_PUBLIC_SITE_URL=https://example.com
 NEXT_PUBLIC_GITHUB_URL=https://github.com/your-handle
 NEXT_PUBLIC_LINKEDIN_URL=https://www.linkedin.com/in/your-handle
 NEXT_PUBLIC_X_URL=https://x.com/your-handle
 NEXT_PUBLIC_REPOSITORY_URL=https://github.com/your-handle/portfolio
 ```
 
-Unset social profiles are omitted from the interface instead of rendering broken or generic links.
+If I leave a social URL empty, the corresponding link is omitted from the rendered interface.
 
 ## Contact Delivery
 
-The contact form validates input in the browser and again in `src/app/api/contact/route.ts`. Production delivery uses the Resend REST API:
+I validate contact submissions on the server before delivering them through Resend. The route applies field and body-size limits, a honeypot, non-cacheable responses, provider timeouts, and rate limiting. When I configured Upstash, production throttling started using an HMAC-pseudonymous client identifier instead of storing a raw network address.
 
-```dotenv
+```env
 RESEND_API_KEY=re_your_api_key
-CONTACT_TO_EMAIL=you@your-domain.com
-CONTACT_FROM_EMAIL=Portfolio <portfolio@your-verified-domain.com>
+CONTACT_TO_EMAIL=you@example.com
+CONTACT_FROM_EMAIL=Portfolio <portfolio@your-verified-domain.example>
 UPSTASH_REDIS_REST_URL=https://your-database.upstash.io
 UPSTASH_REDIS_REST_TOKEN=your_upstash_rest_token
 CONTACT_RATE_LIMIT_SALT=replace-with-at-least-32-random-characters
 ```
 
-Production delivery fails closed unless distributed throttling is configured. The
-limiter stores only an HMAC-pseudonymized request identifier and expires its counter
-after ten minutes. Local development and tests use a bounded, automatically pruned
-in-memory fallback.
+I require distributed throttling in production and fail closed when it is unavailable. The limiter stores only an HMAC-pseudonymized request identifier, expires its counter after ten minutes, and uses a bounded, automatically pruned in-memory fallback during local development and testing.
 
-If direct delivery is unavailable, the interface offers an explicit blank email draft.
-It never places the submitted name, address, subject, or message into a URL. The
-visitor chooses what to copy.
+When delivery is unavailable, I offer an explicit blank email draft instead of exposing provider or configuration details. I never place the submitted name, address, subject, or message in a URL; the visitor decides what to copy.
 
-Routine enquiry retention is capped at 12 months after the last substantive exchange,
-subject to the narrow exceptions stated in the privacy notice. Follow
-`development-plans/COMPLIANCE-OPERATIONS.md` to enforce mailbox and provider deletion.
+I cap routine enquiry retention at 12 months after the last substantive exchange, subject to the narrow exceptions stated in the privacy notice. I use `development-plans/COMPLIANCE-OPERATIONS.md` to guide mailbox and provider deletion.
 
 ## Architecture
 
+I have organized the project around route composition, reusable interface primitives, focused page sections, typed content, and isolated operational helpers:
+
 ```text
 src/
-├── app/
-│   ├── api/contact/route.ts
-│   ├── layout.tsx
-│   ├── manifest.ts
-│   ├── opengraph-image.tsx
-│   ├── page.tsx
-│   ├── robots.ts
-│   └── sitemap.ts
-├── components/
-│   ├── common/
-│   ├── layout/
-│   ├── providers/
-│   └── sections/
-├── data/siteConfig.ts
-├── lib/utils.ts
-├── test/setup.ts
-└── types/index.ts
+|-- app/
+|   |-- api/contact/route.ts
+|   |-- privacy/page.tsx
+|   |-- quality/page.tsx
+|   |-- layout.tsx
+|   |-- page.tsx
+|   |-- robots.ts
+|   `-- sitemap.ts
+|-- components/
+|   |-- common/
+|   |-- layout/
+|   |-- providers/
+|   `-- sections/
+|-- data/siteConfig.ts
+|-- lib/
+|   |-- analyticsPreference.ts
+|   |-- contactRateLimit.ts
+|   |-- seo.ts
+|   `-- utils.ts
+|-- test/setup.ts
+`-- types/index.ts
 ```
 
-The page remains server-rendered by default. Client boundaries are limited to theme state, the mobile navigation, skill filtering, form behavior, and viewport animation.
+Using server-rendered page composition keeps the main experience lightweight, while narrowly scoped client components handle theme state, mobile navigation, animation, filtering, analytics preferences, and contact-form interaction.
 
 ## Accessibility
 
-- Semantic landmarks and labelled sections
-- Keyboard-contained mobile navigation with focus restoration
-- Visible focus states and 44-pixel minimum interactive targets
-- WCAG-oriented light and dark token pairings
-- `prefers-reduced-motion` support in CSS and Motion components
-- Live regions for asynchronous form status
-- A focus-visible skip link and forced-colors support
-- Automated axe-core semantic checks and cross-browser Playwright coverage
-- Automated text and non-text token contrast assertions
+I have designed the interface to remain usable across keyboard, pointer, touch, screen-reader, reduced-motion, high-contrast, and forced-colors contexts. In particular: I have,
 
-Automated testing does not constitute WCAG certification. The public `/quality` page
-states the current evidence and its limitations.
+- Provided a skip link and semantic page landmarks.
+- Kept keyboard focus visible and contained appropriately in the mobile dialog.
+- Restored focus after closing transient navigation.
+- Maintained visible focus states and 44-pixel minimum interactive targets.
+- Respected `prefers-reduced-motion` in reveal and interaction effects.
+- Announced links that open a new browsing context.
+- Preserved accessible names and coherent SVG semantics for icons and brand marks.
+- Exposed live regions for asynchronous form status.
+- Tested representative pages, controls, and color-token contrast with axe-core, Vitest, and Playwright.
+
+Automated checks reduce regressions, but I do not present them as a substitute for manual assistive-technology testing.
 
 ## Privacy and Security
 
-- Vercel Web Analytics is disabled by default and loads only after an explicit choice
-  on `/privacy`.
-- The visitor can withdraw that preference on the same page; a live event filter
-  blocks subsequent analytics events after withdrawal.
-- Contact responses are non-cacheable, validate body type and size, escape generated
-  HTML, and apply a timeout to provider calls.
-- Production contact throttling uses expiring pseudonymous counters rather than raw IP
-  keys.
-- Global headers enforce a Content Security Policy, framing restrictions, MIME
-  protection, a strict referrer policy, feature restrictions, HSTS, and cross-origin
-  isolation where compatible.
-- `X-Powered-By` is disabled.
+I have kept analytics off until a visitor explicitly enables the preference on `/privacy`. The setting is reversible, and my withdrawal filter prevents newly queued analytics events from being sent after consent is removed.
 
-The CSP permits inline scripts and styles required by the current static Next.js and
-theme implementation. It still restricts origins, objects, framing, forms, media, and
-browser capabilities. Reassess the policy whenever a dependency or external service
-is introduced.
+I have also applied an enforced Content Security Policy, modern browser security headers, same-origin contact validation, bounded request processing, production-safe error responses, and protected source maps. The repository includes licensing, asset provenance, third-party notices, a dated quality-evidence page, and an operational release runbook.
+
+My current Content Security Policy permits the inline scripts and styles required by the static Next.js and theme implementation while restricting origins, objects, framing, form targets, media, and browser capabilities. I reassess that policy whenever I introduce a dependency or external service.
+
+These controls strengthen the application, but they do not by themselves establish legal compliance for every operator, jurisdiction, deployment, or data-processing arrangement.
 
 ## Deployment
 
-Set the environment variables above in the deployment platform, run
-`npm run check:full`, and deploy the Next.js application to a Node-compatible host.
-The generated metadata routes include the web manifest, Open Graph image, robots file,
-and sitemap.
+I have deployed the site with Node.js 24. Before releasing it, I configured the required environment variables, run `npm run check:full`, and validated the public deployment with `npm run verify:public`. The generated metadata routes include the web manifest, Open Graph image, robots file, and sitemap.
 
-For the recruiter-facing Vercel release, keep **Vercel Authentication** enabled with
-**Standard Protection**. This leaves the assigned production domain public while
-protecting generated deployment and preview URLs. Keep
-`https://faraz-hussain-portfolio.vercel.app` as the sole intended public production
-domain, and verify it from a signed-out context:
+My sole intended public production origin is:
 
-```bash
-npm run verify:public -- https://faraz-hussain-portfolio.vercel.app
+```text
+https://faraz-hussain-portfolio.vercel.app
 ```
 
-The check fails on Vercel authentication redirects, `noindex`, non-HTTPS URLs, HTTP
-errors, or content that is not this portfolio. The `Public Release Verification`
-workflow exposes the same check as a manual GitHub Actions release gate.
+I use Vercel Standard Protection to require authentication on generated preview and deployment URLs. Only the production domain above is intended for anonymous access.
+
+My public verification script fails on Vercel authentication redirects, `noindex`, non-HTTPS URLs, HTTP errors, or content that does not identify this portfolio. The `Public Release Verification` GitHub Actions workflow provides the same check as a manual release gate.
 
 ## Google Search Indexing
 
-The application publishes canonical metadata, explicit `index, follow` directives,
-Googlebot preview permissions, a root sitemap reference in `robots.txt`, and
-`ProfilePage`, `Person`, and `WebSite` JSON-LD. To connect the deployment to Google
-Search Console:
+I published indexable production metadata, a canonical URL, `robots.txt`, an absolute sitemap, social previews, and `ProfilePage`, `Person`, and `WebSite` structured data.
 
-1. Add a **URL-prefix** property for
-   `https://faraz-hussain-portfolio.vercel.app/`.
-2. Select the **HTML tag** verification method and copy only the value of its
-   `content` attribute.
-3. Save that value in Vercel as `GOOGLE_SITE_VERIFICATION` for Production, then create
-   a new production deployment.
-4. Complete verification in Search Console.
-5. Submit `sitemap.xml` in the Search Console Sitemaps report.
-6. Inspect the production homepage URL and select **Request indexing**.
+To connect the deployment to Google Search Console, I set the optional verification value before building:
 
-Keep the verification variable and generated meta tag in place because Search Console
-periodically rechecks ownership. Sitemap submission and indexing requests are discovery
-hints, not guarantees of ranking or immediate inclusion.
+```env
+GOOGLE_SITE_VERIFICATION=google_html_tag_content_value
+```
 
-Review the privacy notice, 12-month retention commitment, public identity, provider
-contracts, and production settings before launch. The repository's technical controls
-do not replace jurisdiction-specific legal advice.
+After deploying, I:
+
+1. Added `https://faraz-hussain-portfolio.vercel.app/` as a Search Console URL-prefix property.
+2. Selected the HTML-tag verification method and copied only the value of its `content` attribute.
+3. Saved that value as `GOOGLE_SITE_VERIFICATION` for the Vercel Production environment and created a new production deployment.
+4. Completed ownership verification in Search Console.
+5. Submitted `/sitemap.xml` in the Sitemaps report.
+6. Inspected the production home page and request indexing.
+
+I kept the verification variable and generated meta tag in place because Search Console periodically rechecks ownership. I omitted the `google-site-verification` prefix and surrounding HTML from the environment value.
+
+Search-readiness does not guarantee ranking or immediate inclusion because crawling and indexing remain search-engine decisions.
+
+## Documentation and Usage
+
+I maintain implementation plans, audit findings, remediation notes, and operational guidance in `development-plans/`. The repository and its original assets remain all rights reserved unless I explicitly state otherwise in the applicable license or attribution file.
