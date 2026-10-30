@@ -68,7 +68,7 @@ src/
 ### 3.3 Section 2: About Me (`About.tsx`)
 
 - **Anchor ID:** `#about`
-- **Narrative Content:** 2–3 structured paragraphs detailing background, engineering philosophy, and passion for performance and UX.
+- **Narrative Content:** 2-3 structured paragraphs detailing background, engineering philosophy, and passion for performance and UX.
 - **Highlight Metric Grid:** 4 key stat cards:
   - Years of Experience
   - Completed Projects
@@ -100,7 +100,7 @@ src/
 - **Timeline Structure:** Vertical timeline with continuous connecting line and indicator nodes.
 - **Entry Details:**
   - Role title and company name with link.
-  - Employment dates and location (e.g., "2024 — Present | Remote").
+  - Employment dates and location (e.g., "2024 - Present | Remote").
   - Bulleted achievements highlighting quantified engineering impact.
   - Technology tags associated with each role.
 

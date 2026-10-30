@@ -14,7 +14,7 @@ export function Projects() {
             id="projects-title"
             eyebrow="Selected systems"
             title="Work that demonstrates the decisions behind the pixels."
-            description="Not a gallery of screenshots—a set of software case studies showing how architecture, interaction, and quality reinforce one another."
+            description="Not a gallery of screenshots - a set of software case studies showing how architecture, interaction, and quality reinforce one another."
             align="left"
           />
         </Reveal>

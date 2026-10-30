@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: "/blog",
-    title: "Engineering Journal — Faraz Hussain",
+    title: "Engineering Journal - Faraz Hussain",
     description: "Practical notes on building accessible, durable, product-quality software.",
   },
 };

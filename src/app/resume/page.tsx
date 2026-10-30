@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "profile",
     url: "/resume",
-    title: "Faraz Hussain — Software Engineering Resume",
+    title: "Faraz Hussain - Software Engineering Resume",
     description:
       "Full-stack engineering experience, technical capabilities, and professional background.",
   },

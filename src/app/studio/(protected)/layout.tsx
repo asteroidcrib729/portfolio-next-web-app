@@ -8,7 +8,7 @@ import { SignatureLogo } from "@/components/common/SignatureLogo";
 import { hasStudioSession } from "@/lib/studioAuth";
 
 export const metadata: Metadata = {
-  title: { default: "Editorial Studio", template: "%s — Editorial Studio" },
+  title: { default: "Editorial Studio", template: "%s - Editorial Studio" },
   robots: { index: false, follow: false, noarchive: true },
 };
 
