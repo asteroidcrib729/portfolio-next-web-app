@@ -50,6 +50,12 @@ The historical compliance audit's default-off findings are explicitly superseded
 
 ## Local gate results
 
+### First hosted run corrections
+
+The first hosted run stopped the release before merge. Vercel's Next.js adapter expected `.next` despite the relocated Next.js output, so `vercel.json` now explicitly sets `outputDirectory` to `.local/next`. The clean CI checkout also exposed a formatting difference in the tracked Markdownlint configuration that was locally deleted; its versioned copy is formatted while the owner's local deletion is preserved.
+
+CodeQL identified a check-then-write archive race and file/network data flows in the security-tool downloader. The loader now uses literal allowlisted download URLs, verifies the pinned SHA-256 before persistence, exclusively creates the archive at a fixed name in a fresh private directory, extracts only the expected binary, and cleans that exact directory on exit. Windows ZIP extraction requires a seekable archive. Any remaining content-flow alert must be reviewed against these integrity controls, not hidden by excluding the script from analysis.
+
 - Formatting, lint, strict TypeScript, production build, workflow lint, and redacted full-history/current-source secret scanning pass.
 - 37 unit tests and 2 real Preview PostgreSQL integration tests pass.
 - 19 Chromium/WebKit/mobile browser checks pass, with two intentionally skipped duplicate keyboard traversals. The dedicated desktop Chromium keyboard flow passes. Firefox is reserved for Linux CI.

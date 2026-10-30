@@ -123,7 +123,7 @@ npm run security:secrets
 npm audit --package-lock-only --audit-level=moderate
 ```
 
-The first two commands download checksum-pinned Actionlint and Gitleaks binaries into `.local/tools/` on 64-bit Windows or Linux. Secret scanning requires a full Git clone and writes redacted reports to `.local/security/`. It needs no provider credentials, extra repository secret, or Gitleaks license. Committed secrets remain in scope even if their paths later become Git-ignored.
+The first two commands download checksum-pinned Actionlint and Gitleaks binaries into private temporary directories under `.local/tools/` on 64-bit Windows or Linux. Download URLs are allowlisted, checksums are verified before exclusive archive creation, and temporary tools are cleaned up on process exit. Secret scanning requires a full Git clone and writes redacted reports to `.local/security/`. It needs no provider credentials, extra repository secret, or Gitleaks license. Committed secrets remain in scope even if their paths later become Git-ignored.
 
 When a scan fails, CI retains only the two redacted finding reports for seven days so I can investigate the affected files and commits.
 

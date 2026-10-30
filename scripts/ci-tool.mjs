@@ -1,6 +1,14 @@
 import { createHash } from "node:crypto";
 import { spawnSync } from "node:child_process";
-import { chmodSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import {
+  chmodSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  realpathSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
@@ -8,9 +16,26 @@ export const projectRoot = fileURLToPath(new URL("../", import.meta.url));
 const tools = JSON.parse(
   readFileSync(new URL("../.github/security-tools.json", import.meta.url), "utf8"),
 );
+const downloadUrls = {
+  gitleaks: {
+    "linux-x64":
+      "https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz",
+    "win32-x64":
+      "https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_windows_x64.zip",
+  },
+  actionlint: {
+    "linux-x64":
+      "https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_linux_amd64.tar.gz",
+    "win32-x64":
+      "https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_windows_amd64.zip",
+  },
+};
+const verifiedTools = new Map();
 
 export async function ensureCiTool(name) {
   if (!Object.hasOwn(tools, name)) throw new Error(`Unknown CI tool: ${name}`);
+  if (!Object.hasOwn(downloadUrls, name)) throw new Error(`No approved download for ${name}`);
+  if (verifiedTools.has(name)) return verifiedTools.get(name);
   const tool = tools[name];
   const platform = `${process.platform}-${process.arch}`;
   const asset = tool.assets[platform];
@@ -23,23 +48,39 @@ export async function ensureCiTool(name) {
     throw new Error(`Invalid pinned asset configuration for ${name}.`);
   }
 
-  const directory = path.join(projectRoot, ".local", "tools", name, tool.version);
-  mkdirSync(directory, { recursive: true });
-  const archive = path.join(directory, asset.name);
-  let bytes;
-  if (existsSync(archive)) {
-    bytes = readFileSync(archive);
-  } else {
-    const url = `https://github.com/${tool.repository}/releases/download/v${tool.version}/${asset.name}`;
-    const response = await fetch(url, { signal: AbortSignal.timeout(30_000) });
-    if (!response.ok) throw new Error(`Could not download ${name}: HTTP ${response.status}.`);
-    bytes = Buffer.from(await response.arrayBuffer());
-  }
+  // URLs are literal allowlisted endpoints, not paths derived from file content.
+  const url = downloadUrls[name][platform];
+  if (!url || !url.endsWith(`/v${tool.version}/${asset.name}`))
+    throw new Error("Download manifest and approved URL disagree.");
+  const response = await fetch(url, { signal: AbortSignal.timeout(30_000) });
+  if (!response.ok) throw new Error(`Could not download ${name}: HTTP ${response.status}.`);
+  const bytes = Buffer.from(await response.arrayBuffer());
   const digest = createHash("sha256").update(bytes).digest("hex");
   if (digest !== asset.sha256) throw new Error(`Checksum verification failed for ${name}.`);
-  if (!existsSync(archive)) writeFileSync(archive, bytes);
+
+  const toolsRoot = path.join(projectRoot, ".local", "tools");
+  mkdirSync(toolsRoot, { recursive: true });
+  const root = realpathSync(toolsRoot);
+  const directory = mkdtempSync(path.join(root, `${name}-${tool.version}-`));
+  const resolvedDirectory = realpathSync(directory);
+  process.once("exit", () => {
+    // Delete only this exact private temporary directory, never a replaced link.
+    const relative = path.relative(root, resolvedDirectory);
+    if (!relative || relative.startsWith("..") || path.isAbsolute(relative)) return;
+    try {
+      if (realpathSync(directory) === resolvedDirectory)
+        rmSync(directory, { recursive: true, force: true });
+    } catch {
+      /* Best-effort cleanup; never broaden the target. */
+    }
+  });
 
   const binaryName = `${name}${process.platform === "win32" ? ".exe" : ""}`;
+  // Windows libarchive needs a seekable ZIP. Only SHA-256-verified bytes are
+  // persisted, to a fixed filename in a fresh private directory with exclusive
+  // creation. There is no exists/check/write race or network-controlled path.
+  const archive = path.join(directory, "verified-archive");
+  writeFileSync(archive, bytes, { flag: "wx", mode: 0o600 });
   const extraction = spawnSync("tar", ["-xf", archive, "-C", directory, binaryName], {
     stdio: "inherit",
     windowsHide: true,
@@ -49,6 +90,7 @@ export async function ensureCiTool(name) {
   const binary = path.join(directory, binaryName);
   if (process.platform !== "win32") chmodSync(binary, 0o755);
   console.log(`Verified ${name} ${tool.version} (${platform}).`);
+  verifiedTools.set(name, binary);
   return binary;
 }
 
