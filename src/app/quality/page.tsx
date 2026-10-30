@@ -19,12 +19,17 @@ const verifiedChecks = [
   "Keyboard focus, named controls, reduced motion, and 390-pixel reflow inspection",
   "npm advisory scan and high-confidence secret-pattern scan",
   "Enforced security headers and privacy-preserving contact validation",
+  "Production Prisma migrations, private editorial draft workflow, journal metadata, RSS and sitemap verified on 30 October 2026",
+  "Five Production contact messages reported delivered by Resend; the sixth request throttled with HTTP 429",
+  "Live resume PDF bytes, native Chromium viewing and named download verified; obsolete Upstash resources retired",
 ];
 
 const limitations = [
   "Automated checks support accessibility work but do not certify WCAG conformance.",
   "Performance claims require measurements from the final public production URL.",
-  "Live email delivery, provider retention, and public Vercel access require deployed account configuration.",
+  "Production checks are dated observations, not an uptime or future-delivery guarantee; provider retention still requires operational review.",
+  "A human NVDA/VoiceOver listening session remains outstanding; keyboard traversal and accessibility-tree checks are not substitutes.",
+  "Default-on aggregate analytics has a persistent opt-out; jurisdiction-specific consent and lawful-basis requirements still need legal review.",
   "Legal applicability depends on the owner, audience, activity, and jurisdiction.",
 ];
 
@@ -42,7 +47,7 @@ export default function QualityPage() {
           </h1>
           <p className="mt-6 max-w-3xl text-lg leading-8 text-muted-foreground">
             This page records what the project verifies, what it targets, and what still depends on
-            production evidence. Last reviewed 21 September 2026.
+            production evidence. Last reviewed 30 October 2026.
           </p>
 
           <section

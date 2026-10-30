@@ -34,7 +34,7 @@ Primary sources:
 - [October 16 navigation case study](https://nextjs.org/blog/improving-navigation-experience-in-v0-with-nextjs-16-4).
 - [October 27 security release notice](https://nextjs.org/blog/upcoming-nextjs-security-release-november-2026).
 
-Versioned article source and metadata are in `content/articles/`. The published body omits the Markdown file's top-level title because the article route supplies its own H1. There are no invented benchmarks. The owner approved the Prisma publishing request, and the Production row was inserted on October 30 at 15:44 UTC with status `PUBLISHED`. Public readability still requires the new app deployment.
+Versioned article source and metadata are in `content/articles/`. The published body omits the Markdown file's top-level title because the article route supplies its own H1. There are no invented benchmarks. The owner approved the Prisma publishing request, and the Production row was inserted on October 30 at 15:44 UTC with status `PUBLISHED`. The live article, its one-H1 structure, metadata, RSS and sitemap entries, and rendered source citations were verified after deployment.
 
 ## Search appearance
 
@@ -71,3 +71,25 @@ CodeQL identified a check-then-write archive race and file/network data flows in
 - Do not expose generated deployment/Preview URLs or disable Standard Protection.
 - Do not retire Upstash until the new Production application, contact throttling/delivery, journal/article, RSS, sitemap, and resume pass live checks.
 - Remove only the portfolio's exact Upstash resource and obsolete environment records; preserve unrelated team resources and the Prisma databases.
+
+## Production results: October 30, 2026
+
+- [PR #11](https://github.com/asteroidcrib729/portfolio-next-web-app/pull/11) merged reviewed commit `024df71df8ad7f9bd931956683610cb896deacca` into `main` as `48ae576d37fb40bb9789439b4501a72bae9a63a7`.
+- Vercel Production deployment `dpl_5CgcuwWv9VE2zjrfconQZJ52JZR8` built and served the canonical public origin. The protected Preview build also passed; both environments applied the committed migration.
+- Hosted quality, CodeQL, dependency audit/review, secret scanning, workflow validation and Production public verification passed. Linux browser coverage includes Firefox as well as Chromium/WebKit/mobile: 25 checks passed and three duplicate keyboard traversals were skipped.
+- CodeQL's check-then-write race and file-derived URL finding were corrected. Alert 5 for persisting network content was reviewed as an intentional integrity-verified binary download: pinned SHA-256, literal HTTPS URL, fresh private directory, fixed filename, exclusive creation, and expected-member extraction. The scoped false-positive triage is recorded in GitHub; no script or query was excluded. A low-severity test-only regex warning is addressed using a literal substring assertion.
+- The live journal/article, canonical and description metadata, single H1, RSS, sitemap, privacy route, robots, studio exclusion, and resume headers pass. The downloaded PDF matches the versioned PDF's SHA-256 and has the expected download filename. Full Chromium's native PDF viewer was visually checked after render completion; Playwright's lightweight headless shell does not provide a native viewer. An always-visible direct-PDF fallback accompanies the embed.
+- Live studio authentication, a uniquely named private draft's create/preview/delete cycle, and logout pass. The test draft was deleted; no test article was published in Production.
+- The analytics script returns HTTP 200, a default-on pageview is queued, and the real application `beforeSend` callback strips URL queries/fragments and blocks immediately after opt-out. Opt-out persists after reload and prevents script reinjection. Vercel's vendor script explicitly excludes webdriver/headless traffic, so the automated test does not claim a counted human visit or weaken bot filtering.
+- Five bounded synthetic contact submissions returned success; the sixth returned HTTP 429 with a positive `Retry-After`. Resend reported all five delivered. No automatic email retries or forged client identifiers were used.
+- Upstash store `store_2bhHc9EL9MryYMDN` was disconnected from this portfolio and permanently removed, followed by the unused Upstash integration. Its only data was expiring abuse-prevention counters; no durable content was migrated from it. All five injected KV/Redis records and three manually configured obsolete Upstash/salt records are gone. Fresh Vercel environment inventory contains no `UPSTASH_*`, `KV_*`, `REDIS_URL`, or `CONTACT_RATE_LIMIT_SALT` keys. Prisma and unrelated integrations were preserved.
+- The owner-approved GitHub connection is active in the Prisma Production project, default branch `main`. Prisma permits one project link per repository, so direct linking of the separate Preview project was rejected; Preview continues to use its isolated Vercel secret and deployment migration flow. No second application host or Prisma Compute deployment was provisioned.
+- Anonymous checks of the generated Production URL, protected Preview URL, long project alias and `git-main` alias each redirect specifically to `vercel.com/sso-api`; only the canonical production origin serves the public app.
+
+The human screen-reader listening session and jurisdiction-specific analytics legal review remain explicit limitations. Google's selected site name/snippet and recrawl timing are not controlled by this release.
+
+## Runtime TLS compatibility follow-up
+
+The final runtime scan found successful requests with driver warnings written to stderr and classified by Vercel as errors. `pg-connection-string` currently treats `prefer`, `require`, and `verify-ca` as certificate-verifying `verify-full`, but warns that a future major changes those aliases. The runtime now makes that existing mode explicit before creating the Prisma PostgreSQL adapter, preserving credentials and other connection options. Explicit modes, local CI connections and deliberately requested libpq compatibility are unchanged; invalid URL errors do not echo credentials. Three regression tests cover the normalization. No schema or secret value changes are required.
+
+Formatting, lint, strict TypeScript, all 40 unit tests, and both real Preview database integration tests pass with this change. The Preview tests initially encountered the local network sandbox; the authorized network-enabled rerun passed without the TLS alias warning. They clean up only their own uniquely named rate-limit rows.
