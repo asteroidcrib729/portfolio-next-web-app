@@ -195,37 +195,37 @@ I have organized the project around route composition, reusable interface primit
 
 ```text
 src/
-|-- app/
-|   |-- api/contact/route.ts
-|   |-- blog/
-|   |-- privacy/page.tsx
-|   |-- quality/page.tsx
-|   |-- resume/page.tsx
-|   |-- studio/
-|   |-- layout.tsx
-|   |-- page.tsx
-|   |-- robots.ts
-|   `-- sitemap.ts
-|-- components/
-|   |-- blog/
-|   |-- common/
-|   |-- layout/
-|   |-- providers/
-|   |-- sections/
-|   `-- studio/
-|-- data/siteConfig.ts
-|-- lib/
-|   |-- analyticsPreference.ts
-|   |-- contactRateLimit.ts
-|   |-- editorial.ts
-|   |-- posts.ts
-|   |-- prisma.ts
-|   |-- rateLimit.ts
-|   |-- seo.ts
-|   |-- studioAuth.ts
-|   `-- utils.ts
-|-- test/setup.ts
-`-- types/index.ts
+|- app/
+|   |- api/contact/route.ts
+|   |- blog/
+|   |- privacy/page.tsx
+|   |- quality/page.tsx
+|   |- resume/page.tsx
+|   |- studio/
+|   |- layout.tsx
+|   |- page.tsx
+|   |- robots.ts
+|   `- sitemap.ts
+|- components/
+|   |- blog/
+|   |- common/
+|   |- layout/
+|   |- providers/
+|   |- sections/
+|   `- studio/
+|- data/siteConfig.ts
+|- lib/
+|   |- analyticsPreference.ts
+|   |- contactRateLimit.ts
+|   |- editorial.ts
+|   |- posts.ts
+|   |- prisma.ts
+|   |- rateLimit.ts
+|   |- seo.ts
+|   |- studioAuth.ts
+|   `- utils.ts
+|- test/setup.ts
+`- types/index.ts
 ```
 
 Using server-rendered page composition keeps the main experience lightweight, while narrowly scoped client components handle theme state, mobile navigation, animation, filtering, analytics preferences, contact-form interaction, and editorial authoring. Public articles remain server-rendered and emit post-specific metadata and `BlogPosting` JSON-LD.

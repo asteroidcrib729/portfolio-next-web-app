@@ -4,6 +4,8 @@
 
 This phase turns the portfolio from a primarily static presentation into a maintainable publishing platform. The work upgrades the dependency baseline, replaces Upstash with Prisma Postgres, introduces a private editorial studio and public engineering journal, expands on-page SEO control, and publishes an approved resume experience.
 
+Status on October 31, 2026: implementation is released and technical verification has passed. The owner deferred the remaining human screen-reader listening session to prioritize other work. It remains unverified, not completed, and is not an active work item until the owner resumes it.
+
 ## Outcomes
 
 The phase is complete when:
@@ -134,7 +136,7 @@ Production and Preview values must be configured as separate Vercel Secrets. Pre
 - [x] Add title, excerpt, word-count, and metadata-length feedback.
 - [x] Add SEO title, description, focus keyword, canonical, social image, alternative text, tags, and `noIndex` controls.
 - [x] Exclude the studio from robots and page-level indexing.
-- [ ] Complete a human NVDA/VoiceOver listening session. Agent-operated keyboard traversal, accessibility-tree inspection, and axe scans are recorded separately; the owner authorized release with this limitation documented.
+- [ ] Deferred by the owner on October 31, 2026: complete a human NVDA/VoiceOver listening session. Agent-operated keyboard traversal, accessibility-tree inspection, and axe scans are recorded separately; the owner authorized release with this limitation documented.
 
 ### Workstream 4: Public journal and SEO
 
