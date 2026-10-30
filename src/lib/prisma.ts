@@ -1,5 +1,6 @@
 import { PrismaPg } from "@prisma/adapter-pg";
 import { PrismaClient } from "@/generated/prisma/client";
+import { withExplicitVerifiedTls } from "@/lib/postgresConnection";
 
 const globalForPrisma = globalThis as typeof globalThis & {
   portfolioPrisma?: PrismaClient;
@@ -21,7 +22,7 @@ export function getPrisma() {
   }
 
   const adapter = new PrismaPg({
-    connectionString,
+    connectionString: withExplicitVerifiedTls(connectionString),
     connectionTimeoutMillis: 10_000,
     idleTimeoutMillis: 30_000,
     max: 5,

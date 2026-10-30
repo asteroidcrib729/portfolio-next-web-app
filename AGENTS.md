@@ -269,7 +269,7 @@ The codebase passes all quality checks:
 
 - **Lint Check (`npm run lint`):** Clean exit (code 0) with zero ESLint errors or warnings.
 - **Type Check (`npm run typecheck`):** Clean exit (code 0) under strict TypeScript.
-- **Test Check (`npm run test`):** Thirty-seven content, interaction, route, privacy,
+- **Test Check (`npm run test`):** Forty content, interaction, route, privacy,
   accessibility, contrast, and security tests pass.
 - **Database Check:** Two PostgreSQL integration tests pass, covering concurrent quotas and expiry.
 - **Browser Check (`npm run test:e2e` with Preview credentials and `RUN_EDITORIAL_E2E=1`):** Nineteen local checks pass across Chromium, WebKit, and mobile Chromium; two duplicate keyboard traversals are skipped. The Linux hosted gate, including Firefox, also passes. This does not replace a human screen-reader listening test.
