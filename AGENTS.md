@@ -6,16 +6,17 @@ This repository contains a modern, high-performance personal portfolio website b
 
 ### Technical Baseline
 
-- **Framework:** Next.js 16.3.4 (App Router, Turbopack)
-- **Runtime & UI Library:** React 19.2.8 & React DOM 19.2.8
+- **Framework:** Next.js 16.4.3 (App Router, Turbopack)
+- **Runtime & UI Library:** React 19.3.1 & React DOM 19.3.1
 - **Compiler:** React Compiler enabled via `babel-plugin-react-compiler` (`reactCompiler: true` in `next.config.ts`)
 - **Styling:** Tailwind CSS v4 (`@tailwindcss/postcss`, `tailwindcss: ^4`)
-- **Language:** TypeScript 5 (Strict mode)
+- **Language:** TypeScript 5.9 (Strict mode)
 - **Theme System:** `next-themes` v0.4.6 (Dark / Light mode support with zero-flicker transitions)
-- **Icons:** `lucide-react` v1.40.0 + custom scalable SVG brand icons
-- **Utilities:** `clsx` v2.1.1, `tailwind-merge` v3.6.0
-- **Animation Engine:** `motion` v13.2.0 (Modern React 19 standard replacing legacy `framer-motion`)
-- **Fonts:** Self-hosted Geist Sans and Geist Mono via `geist` v1.7.2
+- **Icons:** `lucide-react` v1.64.0 + custom scalable SVG brand icons
+- **Utilities:** `clsx` v2.1.1, `tailwind-merge` v3.7.0
+- **Animation Engine:** `motion` v14.8.0 (Modern React 19 standard replacing legacy `framer-motion`)
+- **Fonts:** Self-hosted Geist Sans and Geist Mono via `geist` v1.8.2
+- **Persistence:** Prisma ORM/Client v7.10.1 with isolated PostgreSQL database projects
 - **Testing:** Vitest v5, Testing Library, and jsdom with a GitHub Actions quality gate
 
 ---
@@ -26,6 +27,8 @@ All project planning documents reside in the `development-plans/` directory and 
 `development-plan-xx.md` (e.g., `development-plan-01.md`, `development-plan-02.md`, etc.).
 
 Repository analysis artifacts use the explicit names `MEMORY.md`, `ISSUES.md`, and `SOLUTIONS.md` in the same directory. The directory is versioned and must not be added to `.gitignore`.
+
+Prettier 3.9.10 supplies whole-project formatting through `npm run format` and read-only verification through `npm run format:check`. Formatting verification is part of `npm run check` and GitHub Actions. Local files, generated output, dependencies, and immutable applied migrations are excluded. Git text files and Prettier use LF line endings across platforms.
 
 All markdown files are verified to adhere strictly to markdownlint rules:
 
@@ -151,9 +154,36 @@ All markdown files are verified to adhere strictly to markdownlint rules:
 - Added automated SEO metadata, robots, sitemap, and structured-data tests plus a
   documented Search Console submission procedure.
 
+### Milestone 11: Editorial Studio, Prisma, and Resume Publishing
+
+- Upgraded the supported framework, React, Tailwind, Motion, icon, test, lint, and
+  browser toolchain while retaining TypeScript 5.9 for lint compatibility.
+- Added Prisma ORM 7 with PostgreSQL, a committed initial migration, isolated
+  Production/Preview database projects, and atomic Prisma-backed rate limiting.
+- Added a private signed-session editorial studio for Markdown authoring, draft
+  previews, publishing state, and on-page SEO controls.
+- Added a public engineering journal, per-article metadata and `BlogPosting` JSON-LD,
+  RSS, and database-aware sitemap entries.
+- Added an approved resume PDF, browser viewer, direct view, named download, and
+  narrowly scoped same-origin framing headers.
+- Added `development-plan-06.md` with the cloud cutover, verification, rollback, and
+  Upstash retirement sequence.
+
 ---
 
+### Milestone 12: Acceptance, Publishing, and Release Preparation
+
+- The owner confirmed the resume and existing Search Console setup and approved release after checks, with human screen-reader listening still an explicit limitation.
+- Agent-operated keyboard review corrected studio skip-link focus, field-error associations/focus, repetitive dashboard link names, preview scrolling, saved feedback, and reproduced WebKit pre-hydration input loss.
+- Local evidence includes 37 unit tests, 2 database tests, and 19 passing browser checks; two duplicate keyboard-only configurations are skipped. Firefox remains in Linux CI. These are not NVDA/VoiceOver or WCAG-certification claims.
+- The first sourced article, `shipping-less-javascript-nextjs-16-4`, is published in Production Prisma; public availability awaits app deployment. Source and SEO metadata are versioned under `content/articles/`.
+- Analytics changes to default-on public-page collection with persistent opt-out, GPC/DNT handling, private-route exclusions, and URL redaction. This supersedes the historical default-off policy; legal applicability is not recertified.
+- Search metadata prefers `Faraz Hussain`, with an owner-first introductory description. Google retains control of displayed names and snippets.
+- Release evidence is maintained in `development-plans/RELEASE-06-VERIFICATION.md`.
+
 ## 4. Current File Tree
+
+Local consolidation (October 30, 2026): `.local/` holds private environment snapshots in `env/`, Next.js output in `next/`, TypeScript incremental state in `cache/`, and Playwright/coverage reports in named subdirectories. Next.js, TypeScript, Playwright, Vitest, and ESLint configuration uses or excludes these paths as appropriate. Dependency resolution and generated source conventions retain `node_modules`, `next-env.d.ts`, and `src/generated/prisma` in their existing locations. The local migration manifest records verified file hashes without secret values.
 
 ```text
 portfolio-site-next-web-app/
@@ -163,13 +193,19 @@ portfolio-site-next-web-app/
 │   ├── development-plan-03.md   # Portfolio Design Research & Inspiration Analysis
 │   ├── development-plan-04.md   # Core Page Sections & Content Architecture Plan
 │   ├── development-plan-05.md   # Signature Experience & Production Launch Plan
+│   ├── development-plan-06.md   # Editorial Studio, Prisma, and Resume Plan
 │   ├── MEMORY.md                # Current technical memory
 │   ├── ISSUES.md                # Scan findings and remediation status
 │   └── SOLUTIONS.md             # Recommended and implemented solutions
 ├── public/
+│   ├── resume/faraz-hussain-resume.pdf # Public resume document
 │   └── signature-logo.svg       # Standalone transparent signature mark
 ├── src/
 │   ├── app/
+│   │   ├── blog/              # Public journal and article routes
+│   │   ├── resume/            # PDF viewer and download page
+│   │   ├── rss.xml/           # Published-article feed
+│   │   ├── studio/            # Private editorial and SEO workspace
 │   │   ├── api/contact/route.ts # Validated contact delivery endpoint
 │   │   ├── favicon.ico
 │   │   ├── globals.css          # Tailwind v4 theme variables & dark variant
@@ -211,6 +247,9 @@ portfolio-site-next-web-app/
 │       └── index.ts             # TypeScript interfaces
 ├── .github/workflows/quality.yml # Automated release checks
 ├── .env.example                  # Deployment configuration contract
+├── prisma/                       # Schema and committed SQL migrations
+├── prisma.config.ts              # Environment-aware Prisma CLI configuration
+├── vercel.json                   # Migration-first deployment build command
 ├── eslint.config.mjs
 ├── next.config.ts               # React Compiler enabled
 ├── package.json
@@ -224,13 +263,16 @@ portfolio-site-next-web-app/
 
 ## 5. Verification & Quality Gates
 
+Security automation now includes weekly Dependabot npm/Actions updates, Gitleaks full-history/source scanning, dependency audit/review, CodeQL JavaScript/TypeScript analysis, Actionlint workflow validation, and daily/post-Production public-domain checks. External Actions use verified commit pins. Local commands are `npm run security:secrets` and `npm run lint:workflows`; pinned binaries and redacted reports stay under `.local/`. Native Dependabot alerts/security updates and secret scanning/push protection were verified enabled on October 30, 2026. Hosted runs remain pending until the workflow files are pushed.
+
 The codebase passes all quality checks:
 
 - **Lint Check (`npm run lint`):** Clean exit (code 0) with zero ESLint errors or warnings.
 - **Type Check (`npm run typecheck`):** Clean exit (code 0) under strict TypeScript.
-- **Test Check (`npm run test`):** Twenty-one content, interaction, route, privacy,
+- **Test Check (`npm run test`):** Thirty-two content, interaction, route, privacy,
   accessibility, contrast, and security tests pass.
-- **Browser Check (`npm run test:e2e`):** Chromium, WebKit, and mobile Chromium pass
+- **Database Check:** Two PostgreSQL integration tests pass, covering concurrent quotas and expiry.
+- **Browser Check (`npm run test:e2e` with Preview credentials and `RUN_EDITORIAL_E2E=1`):** Fifteen checks across Chromium, WebKit, and mobile Chromium pass
   locally; Firefox is configured in Linux CI because the Windows runner failed before
   page creation.
 - **Build Check (`npm run build`):** Clean exit (code 0) with Turbopack, React Compiler optimization, TypeScript check, and static page generation.
@@ -241,8 +283,8 @@ The codebase passes all quality checks:
 
 ## 6. Next Steps on the Roadmap
 
-1. Confirm the public biography, project history, profile URLs, and employment history with the portfolio owner.
-2. Execute the visual, accessibility, responsive, and performance audit defined in `development-plan-05.md`.
-3. Add project media, detailed case-study routes, active navigation, and recruiter-focused conversion features.
-4. Configure production environment values, contact delivery, analytics, and deployment previews.
-5. Complete Lighthouse and cross-browser release certification before production launch.
+1. Review the release with the isolated Vercel secrets, applied migrations, and verified Preview editorial workflow in place.
+2. Deploy the reviewed changes to the protected Vercel Preview environment before merging Production.
+3. Complete the Production cutover, verify contact throttling, and retire Upstash.
+4. Publish the first reviewed engineering article and submit the updated sitemap.
+5. Continue the project media, detailed case-study, Lighthouse, and release-certification work.

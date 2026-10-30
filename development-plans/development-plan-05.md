@@ -244,17 +244,17 @@ Add dependencies only when a native platform or existing-library solution would 
 
 ## 7. Release Quality Budgets
 
-| Area | Target |
-| --- | --- |
-| Lighthouse performance | At least 95 on representative mobile runs |
-| Lighthouse accessibility | 100, with manual WCAG 2.2 AA verification |
-| Largest Contentful Paint | At most 2.0 seconds at the 75th percentile |
-| Interaction to Next Paint | At most 150 milliseconds at the 75th percentile |
-| Cumulative Layout Shift | At most 0.05 at the 75th percentile |
-| Initial-route JavaScript | Target at most 150 KB compressed; exceptions require justification |
-| Automated accessibility | Zero serious or critical axe violations |
-| Keyboard coverage | Every action reachable, operable, visible, and escapable |
-| Build quality | Lint, types, unit tests, end-to-end tests, and production build all pass |
+| Area                      | Target                                                                   |
+| ------------------------- | ------------------------------------------------------------------------ |
+| Lighthouse performance    | At least 95 on representative mobile runs                                |
+| Lighthouse accessibility  | 100, with manual WCAG 2.2 AA verification                                |
+| Largest Contentful Paint  | At most 2.0 seconds at the 75th percentile                               |
+| Interaction to Next Paint | At most 150 milliseconds at the 75th percentile                          |
+| Cumulative Layout Shift   | At most 0.05 at the 75th percentile                                      |
+| Initial-route JavaScript  | Target at most 150 KB compressed; exceptions require justification       |
+| Automated accessibility   | Zero serious or critical axe violations                                  |
+| Keyboard coverage         | Every action reachable, operable, visible, and escapable                 |
+| Build quality             | Lint, types, unit tests, end-to-end tests, and production build all pass |
 
 ## 8. Guardrails
 

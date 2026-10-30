@@ -66,7 +66,10 @@ export function Projects() {
                       </p>
                       <ul className="mt-5 space-y-4">
                         {project.highlights?.map((highlight) => (
-                          <li key={highlight} className="flex gap-3 text-sm leading-6 text-muted-foreground">
+                          <li
+                            key={highlight}
+                            className="flex gap-3 text-sm leading-6 text-muted-foreground"
+                          >
                             <CheckCircle2
                               aria-hidden="true"
                               className="mt-1 h-4 w-4 shrink-0 text-accent"
@@ -83,7 +86,9 @@ export function Projects() {
                           <a
                             href={project.demoUrl}
                             target={project.demoUrl.startsWith("http") ? "_blank" : undefined}
-                            rel={project.demoUrl.startsWith("http") ? "noopener noreferrer" : undefined}
+                            rel={
+                              project.demoUrl.startsWith("http") ? "noopener noreferrer" : undefined
+                            }
                             className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-foreground px-4 text-sm font-semibold text-background transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                           >
                             View live interface

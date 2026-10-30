@@ -11,7 +11,7 @@ function useMounted() {
   return React.useSyncExternalStore(
     emptySubscribe,
     () => true,
-    () => false
+    () => false,
   );
 }
 
@@ -31,7 +31,7 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
         disabled
         className={cn(
           "inline-flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-card/80 text-muted-foreground opacity-50",
-          className
+          className,
         )}
       >
         <span className="h-4 w-4" />
@@ -48,7 +48,7 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
       aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
       className={cn(
         "inline-flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-card/80 text-foreground transition-all duration-200 hover:border-accent/40 hover:bg-muted hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
-        className
+        className,
       )}
     >
       {isDark ? (

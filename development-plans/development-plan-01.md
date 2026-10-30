@@ -15,16 +15,16 @@ This document establishes the overarching architecture, technology stack, featur
 
 ## 2. Recommended Tech Stack
 
-| Category | Technology | Rationale |
-| :--- | :--- | :--- |
-| **Framework** | **Next.js (App Router)** | Modern React Server Components (RSC), optimized routing, built-in image & font optimization. |
-| **Language** | **TypeScript** | Strict typing for reliability, better developer experience, and maintainable schemas. |
-| **Styling** | **Tailwind CSS** | Utility-first styling with rapid prototyping, custom design tokens, and small bundle size. |
-| **UI Components & Icons** | **Lucide React / Radix UI** | Accessible, unstyled primitives with high-quality, consistent icons. |
-| **Animation** | **Motion** | React 19-compatible viewport reveals, layout transitions, and reduced-motion-aware interaction. |
-| **Theme Handling** | **next-themes** | Zero-flicker dark/light mode toggle with system preference detection. |
-| **Form Handling** | **Native HTML + Next.js Route Handler** | Progressive client validation, server validation, Resend delivery, and a mail-client fallback. |
-| **Deployment** | **Vercel** | Seamless edge deployment, automatic SSL, preview environments, and analytics. |
+| Category                  | Technology                              | Rationale                                                                                       |
+| :------------------------ | :-------------------------------------- | :---------------------------------------------------------------------------------------------- |
+| **Framework**             | **Next.js (App Router)**                | Modern React Server Components (RSC), optimized routing, built-in image & font optimization.    |
+| **Language**              | **TypeScript**                          | Strict typing for reliability, better developer experience, and maintainable schemas.           |
+| **Styling**               | **Tailwind CSS**                        | Utility-first styling with rapid prototyping, custom design tokens, and small bundle size.      |
+| **UI Components & Icons** | **Lucide React / Radix UI**             | Accessible, unstyled primitives with high-quality, consistent icons.                            |
+| **Animation**             | **Motion**                              | React 19-compatible viewport reveals, layout transitions, and reduced-motion-aware interaction. |
+| **Theme Handling**        | **next-themes**                         | Zero-flicker dark/light mode toggle with system preference detection.                           |
+| **Form Handling**         | **Native HTML + Next.js Route Handler** | Progressive client validation, server validation, Resend delivery, and a mail-client fallback.  |
+| **Deployment**            | **Vercel**                              | Seamless edge deployment, automatic SSL, preview environments, and analytics.                   |
 
 ---
 

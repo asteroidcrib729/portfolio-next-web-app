@@ -1,0 +1,11 @@
+{
+  "slug": "shipping-less-javascript-nextjs-16-4",
+  "title": "Shipping Less JavaScript in Next.js 16.4: Start at the Client Boundary",
+  "excerpt": "A practical look at Next.js 16.4's new bundle tooling, React client boundaries, and why a portfolio reader should not download an editorial studio.",
+  "contentFile": "shipping-less-javascript-nextjs-16-4.md",
+  "tags": ["Next.js", "React", "Web Performance", "Software Engineering"],
+  "focusKeyword": "Next.js client boundaries",
+  "seoTitle": "Shipping Less JavaScript in Next.js 16.4",
+  "seoDescription": "Explore Next.js 16.4 bundle tooling and React client boundaries through a portfolio's public journal and private editorial studio.",
+  "noIndex": false
+}

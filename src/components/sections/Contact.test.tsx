@@ -10,7 +10,7 @@ describe("Contact", () => {
       new Response(JSON.stringify({ message: "Direct delivery is not configured." }), {
         status: 503,
         headers: { "Content-Type": "application/json" },
-      })
+      }),
     );
     render(<Contact />);
 
@@ -23,10 +23,15 @@ describe("Contact", () => {
     fireEvent.submit(screen.getByRole("button", { name: "Send message" }).closest("form")!);
 
     const fallback = await screen.findByRole("link", { name: "Open a blank email draft" });
-    expect(fallback).toHaveAttribute("href", "mailto:farazhussain5000@gmail.com?subject=Portfolio%20enquiry");
+    expect(fallback).toHaveAttribute(
+      "href",
+      "mailto:farazhussain5000@gmail.com?subject=Portfolio%20enquiry",
+    );
     expect(fallback.getAttribute("href")).not.toContain("Private%20roadmap");
     await waitFor(() =>
-      expect(screen.getByRole("status")).toHaveTextContent("Nothing from this form was placed in a URL")
+      expect(screen.getByRole("status")).toHaveTextContent(
+        "Nothing from this form was placed in a URL",
+      ),
     );
   });
 });

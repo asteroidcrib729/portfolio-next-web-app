@@ -1,16 +1,12 @@
-import type {
-  Experience,
-  NavLink,
-  Project,
-  SkillCategory,
-  SocialLink,
-  StatItem,
-} from "@/types";
+import type { Experience, NavLink, Project, SkillCategory, SocialLink, StatItem } from "@/types";
 
 const configuredUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
 export const siteConfig = {
   name: "Faraz Hussain",
+  siteName: "Faraz Hussain",
+  description:
+    "I'm Faraz Hussain, a full-stack software engineer building accessible web applications. Explore my projects, engineering articles, skills, and resume.",
   shortName: "FH",
   title: "Full-Stack Engineer",
   tagline:
@@ -19,7 +15,7 @@ export const siteConfig = {
   aboutParagraphs: [
     "I care about the part of software people actually experience: clarity of information, speed of the response, and confidence created by thoughtful interaction design.",
     "My approach connects typed React and Next.js interfaces with Node.js and Python services, REST APIs, and SQL and NoSQL data systems. Accessibility, maintainability, and measured performance guide the work from browser to backend.",
-    "This portfolio is itself a living case study. It is built with focused client boundaries, semantic design tokens, keyboard-safe interactions, and a quality gate that covers linting, types, tests, and production output.",
+    "I am Faraz Hussain, a full-stack software engineer building accessible web applications with React, Next.js, Node.js, and Python. This portfolio brings together my projects, engineering articles, skills, and resume, backed by typed components and automated quality checks.",
   ],
   location: "Pakistan · Available worldwide",
   email: "farazhussain5000@gmail.com",
@@ -73,6 +69,8 @@ export const navLinks: NavLink[] = [
   { label: "Expertise", href: "/#skills" },
   { label: "Work", href: "/#projects" },
   { label: "Approach", href: "/#experience" },
+  { label: "Journal", href: "/blog" },
+  { label: "Resume", href: "/resume" },
   { label: "Contact", href: "/#contact" },
 ];
 
@@ -151,12 +149,7 @@ export const skillCategories: SkillCategory[] = [
   },
   {
     category: "Cloud & Developer Tools",
-    items: [
-      { name: "Git" },
-      { name: "GitHub" },
-      { name: "AWS" },
-      { name: "Azure" },
-    ],
+    items: [{ name: "Git" }, { name: "GitHub" }, { name: "AWS" }, { name: "Azure" }],
   },
 ];
 

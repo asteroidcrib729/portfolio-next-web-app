@@ -56,10 +56,7 @@ export function Hero() {
             </p>
           </Reveal>
 
-          <Reveal
-            delay={0.21}
-            className="mt-9 flex flex-wrap items-center gap-3 lg:flex-nowrap"
-          >
+          <Reveal delay={0.21} className="mt-9 flex flex-wrap items-center gap-3 lg:flex-nowrap">
             <Link
               href="#projects"
               className="group inline-flex h-12 shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-xl bg-foreground px-5 text-sm font-semibold text-background transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background"
@@ -81,12 +78,7 @@ export function Hero() {
               />
             </Link>
             {emailLink ? (
-              <SocialAnchor
-                link={emailLink}
-                showLabel
-                openInNewTab
-                className="h-12 shrink-0"
-              />
+              <SocialAnchor link={emailLink} showLabel openInNewTab className="h-12 shrink-0" />
             ) : null}
           </Reveal>
         </div>
@@ -128,7 +120,10 @@ export function Hero() {
                     className="flex items-center justify-between rounded-xl border border-border/70 bg-muted/50 px-4 py-3"
                   >
                     <span className="flex items-center gap-3 text-sm font-medium text-foreground">
-                      <Check aria-hidden="true" className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+                      <Check
+                        aria-hidden="true"
+                        className="h-4 w-4 text-emerald-600 dark:text-emerald-400"
+                      />
                       {signal}
                     </span>
                     <span className="font-mono text-[10px] text-muted-foreground">

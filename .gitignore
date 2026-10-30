@@ -22,7 +22,11 @@
 # production
 /build
 
+# generated Prisma Client
+/src/generated/prisma
+
 # misc
+/.local/
 .DS_Store
 *.pem
 

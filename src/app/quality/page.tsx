@@ -7,7 +7,8 @@ import { Navbar } from "@/components/layout/Navbar";
 
 export const metadata: Metadata = {
   title: "Quality Evidence",
-  description: "Dated engineering evidence, release gates, and honest limitations for this portfolio.",
+  description:
+    "Dated engineering evidence, release gates, and honest limitations for this portfolio.",
   alternates: { canonical: "/quality" },
 };
 
@@ -40,28 +41,44 @@ export default function QualityPage() {
             Quality claims with visible boundaries.
           </h1>
           <p className="mt-6 max-w-3xl text-lg leading-8 text-muted-foreground">
-            This page records what the project verifies, what it targets, and what
-            still depends on production evidence. Last reviewed 21 September 2026.
+            This page records what the project verifies, what it targets, and what still depends on
+            production evidence. Last reviewed 21 September 2026.
           </p>
 
-          <section aria-labelledby="verified-title" className="mt-12 rounded-2xl border border-border bg-card p-6 sm:p-8">
-            <h2 id="verified-title" className="text-2xl font-semibold">Automated and inspected</h2>
+          <section
+            aria-labelledby="verified-title"
+            className="mt-12 rounded-2xl border border-border bg-card p-6 sm:p-8"
+          >
+            <h2 id="verified-title" className="text-2xl font-semibold">
+              Automated and inspected
+            </h2>
             <ul className="mt-6 space-y-4">
               {verifiedChecks.map((check) => (
                 <li key={check} className="flex gap-3 text-sm leading-6 text-muted-foreground">
-                  <CheckCircle2 aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
+                  <CheckCircle2
+                    aria-hidden="true"
+                    className="mt-0.5 h-5 w-5 shrink-0 text-accent"
+                  />
                   {check}
                 </li>
               ))}
             </ul>
           </section>
 
-          <section aria-labelledby="limits-title" className="mt-6 rounded-2xl border border-border bg-background p-6 sm:p-8">
-            <h2 id="limits-title" className="text-2xl font-semibold">Explicit limitations</h2>
+          <section
+            aria-labelledby="limits-title"
+            className="mt-6 rounded-2xl border border-border bg-background p-6 sm:p-8"
+          >
+            <h2 id="limits-title" className="text-2xl font-semibold">
+              Explicit limitations
+            </h2>
             <ul className="mt-6 space-y-4">
               {limitations.map((limitation) => (
                 <li key={limitation} className="flex gap-3 text-sm leading-6 text-muted-foreground">
-                  <CircleDotDashed aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
+                  <CircleDotDashed
+                    aria-hidden="true"
+                    className="mt-0.5 h-5 w-5 shrink-0 text-accent"
+                  />
                   {limitation}
                 </li>
               ))}
@@ -69,8 +86,8 @@ export default function QualityPage() {
           </section>
 
           <p className="mt-10 text-sm leading-6 text-muted-foreground">
-            For the implementation details, inspect the project source and quality
-            workflow. To report a problem, use the{" "}
+            For the implementation details, inspect the project source and quality workflow. To
+            report a problem, use the{" "}
             <Link className="font-medium text-accent underline underline-offset-4" href="/#contact">
               contact section
             </Link>

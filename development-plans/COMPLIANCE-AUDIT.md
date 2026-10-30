@@ -1,5 +1,13 @@
 # Web Application Compliance Audit and Remediation Report
 
+## Editorial-platform update: October 30, 2026
+
+### Current policy override
+
+At the owner's explicit request on October 30, analytics changes from opt-in to default-on with a persistent opt-out on `/privacy`. Stored denials, Global Privacy Control, and Do Not Track disable collection; storage failures fail closed. Studio/API routes are excluded and event URL queries/fragments are removed. The privacy notice and regression coverage describe this policy. Historical default-off statements, findings 4 and 8, and their earlier "Compliant" ratings below describe the September baseline only and are superseded for this release. They are not current legal clearance for the opt-out model. Applicable lawful basis, consent exemptions, and jurisdictional requirements need owner/counsel review; cookie-free collection alone does not settle that question. See [Vercel's documented data practices](https://vercel.com/docs/analytics/privacy-policy).
+
+The new private owner-only studio adds signed-session authentication and author-managed content. The original audit below remains a dated baseline rather than a new certification of the expanded application. Production and Preview now have isolated Prisma Postgres database projects and server-only credentials. Atomic database rate limiting replaces the Upstash runtime, and studio pages and draft previews carry `noindex` metadata. Unit, database-concurrency, and browser publishing regressions accompany this phase. The old deployed application continues to use Upstash until the reviewed release is promoted and its public checks pass.
+
 - Audit date: 2026-09-21
 - Remediation date: 2026-09-21
 - Repository baseline: `pre-production` at
@@ -70,27 +78,27 @@ third-party media embed was found.
 
 ### Route inventory
 
-| Route | Rendering | Purpose |
-| --- | --- | --- |
-| `/` | Static | Portfolio experience and contact form |
-| `/privacy` | Static | Privacy notice and analytics preference |
-| `/quality` | Static | Dated engineering evidence and explicit limitations |
-| `/api/contact` | Dynamic `POST` | Validated, throttled contact delivery |
-| `/manifest.webmanifest` | Generated static | Install metadata |
-| `/opengraph-image` | Generated static | Original social preview |
-| `/robots.txt` | Generated static | Crawler rules |
-| `/sitemap.xml` | Generated static | Public route discovery |
-| `/_not-found` | Static | Framework not-found response |
+| Route                   | Rendering        | Purpose                                             |
+| ----------------------- | ---------------- | --------------------------------------------------- |
+| `/`                     | Static           | Portfolio experience and contact form               |
+| `/privacy`              | Static           | Privacy notice and analytics preference             |
+| `/quality`              | Static           | Dated engineering evidence and explicit limitations |
+| `/api/contact`          | Dynamic `POST`   | Validated, throttled contact delivery               |
+| `/manifest.webmanifest` | Generated static | Install metadata                                    |
+| `/opengraph-image`      | Generated static | Original social preview                             |
+| `/robots.txt`           | Generated static | Crawler rules                                       |
+| `/sitemap.xml`          | Generated static | Public route discovery                              |
+| `/_not-found`           | Static           | Framework not-found response                        |
 
 ### Data-flow inventory
 
-| Data | Purpose and flow | Storage and protection |
-| --- | --- | --- |
+| Data                          | Purpose and flow                                              | Storage and protection                                                                                           |
+| ----------------------------- | ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | Name, email, subject, message | Browser to `/api/contact`, Resend, and the configured mailbox | No application database; routine enquiries carry a published 12-month maximum and operational deletion procedure |
-| Honeypot `website` field | Reject automated submissions without disclosing detection | Transient; checked before rate limiting |
-| Request address | Abuse prevention only | HMAC-pseudonymized before local/Upstash storage; ten-minute TTL; raw address is not used as the key |
-| Analytics metadata | Aggregate traffic measurement through Vercel | No analytics script or event before explicit opt-in; withdrawal blocks subsequent events |
-| Theme and analytics choices | Functional browser preferences | Browser-only until changed or site storage is cleared |
+| Honeypot `website` field      | Reject automated submissions without disclosing detection     | Transient; checked before rate limiting                                                                          |
+| Request address               | Abuse prevention only                                         | HMAC-pseudonymized before local/Prisma storage; ten-minute validity window; raw address is not used as the key   |
+| Analytics metadata            | Aggregate traffic measurement through Vercel                  | No analytics script or event before explicit opt-in; withdrawal blocks subsequent events                         |
+| Theme and analytics choices   | Functional browser preferences                                | Browser-only until changed or site storage is cleared                                                            |
 
 ### Forms and consent
 
@@ -106,13 +114,13 @@ withdrawn through the same control.
 
 ### Trackers and third parties
 
-| Provider/technology | Role | Current control |
-| --- | --- | --- |
-| Vercel | Hosting and optional Web Analytics | Analytics loads only after opt-in; event middleware rechecks the stored choice |
-| Resend | Contact email processor | Contact request only; public disclosure, timeout, and retention runbook added |
-| Upstash Redis | Production distributed throttling | Required for production delivery; only pseudonymous expiring counters are stored |
-| `next-themes` | Functional theme preference | Disclosed as browser storage; no analytics purpose |
-| GitHub, LinkedIn, X | Optional outbound links | No request until visitor activation; maintained attributed icons |
+| Provider/technology | Role                                        | Current control                                                                                          |
+| ------------------- | ------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| Vercel              | Hosting and optional Web Analytics          | Analytics loads only after opt-in; event middleware rechecks the stored choice                           |
+| Resend              | Contact email processor                     | Contact request only; public disclosure, timeout, and retention runbook added                            |
+| Prisma Postgres     | Editorial records and production throttling | Production and Preview are isolated; only pseudonymous expiring counters are stored for abuse prevention |
+| `next-themes`       | Functional theme preference                 | Disclosed as browser storage; no analytics purpose                                                       |
+| GitHub, LinkedIn, X | Optional outbound links                     | No request until visitor activation; maintained attributed icons                                         |
 
 No advertising pixel, tag manager, session replay, behavioral profiling, or error
 tracker was found.
@@ -141,7 +149,8 @@ Sources were accessed on 2026-09-21:
   and [Vercel Deployment Protection](https://vercel.com/docs/deployment-protection).
 - [Resend Data Processing Addendum](https://resend.com/legal/dpa) and
   [Resend subprocessors](https://resend.com/legal/subprocessors).
-- [Upstash rate-limit documentation](https://upstash.com/docs/redis/sdks/ratelimit-ts/overview).
+- [Prisma Postgres documentation](https://www.prisma.io/docs/postgres) and
+  [Prisma ORM deployment guidance](https://www.prisma.io/docs/orm/prisma-client/deployment).
 - [EU General Data Protection Regulation](https://eur-lex.europa.eu/eli/reg/2016/679).
 - [California Privacy Protection Agency FAQ](https://cppa.ca.gov/faq).
 - [Pakistan Ministry of IT and Telecommunication legislation page](https://www.moitt.gov.pk/Legislations)
@@ -155,29 +164,29 @@ for qualified local counsel.
 
 Only the mandated status vocabulary is used.
 
-| # | Requirement | Post-remediation evidence | Status |
-| --- | --- | --- | --- |
-| 1 | Privacy Policy | `/privacy` covers data, purposes, providers, transfers, retention, requests, children, and changes. | Compliant |
-| 2 | Terms and Conditions | No account, transaction, user content, or paid service exists. | Not applicable |
-| 3 | Cookie or Similar Technology Policy | Privacy notice explains optional analytics and browser preferences. | Compliant |
-| 4 | Cookie Consent Controls | Analytics is default-off, purpose-specific, reversible, and event-filtered after withdrawal. | Compliant |
-| 5 | Refund, Return, Cancellation, Renewal | No payment, booking, subscription, or renewal exists. | Not applicable |
-| 6 | Form Notice and Consent | Just-in-time disclosure links to the full notice and identifies the delivery flow. | Compliant |
-| 7 | Data Minimization, Retention, Deletion | Limited fields, length/body caps, 12-month ceiling, ten-minute pseudonymous limiter TTL, and deletion runbook exist. Provider/mailbox execution requires ongoing owner operation. | Partially compliant |
-| 8 | Analytics, Telemetry, Advertising, Error Tracking | Optional Vercel Analytics cannot load before opt-in; no ads, replay, or error tracker exists. | Compliant |
-| 9 | Third-party Embeds and External Resources | No embeds or remote fonts; providers activate only for the requested function. | Compliant |
-| 10 | WCAG Accessibility | Original issues are fixed and automated/manual regression evidence expanded; complete conformance still requires assistive-technology review. | Partially compliant |
-| 11 | Image Alternatives and Non-text Content | Decorative icons are hidden, parent controls are named, and logo semantics are no longer contradictory. | Compliant |
-| 12 | Color Contrast and Non-color Cues | Automated tests enforce AA text and 3:1 control-boundary token contrast in both themes. | Compliant |
-| 13 | Keyboard, Focus, and Form Accessibility | Skip link, logical focus, focus-visible treatment, modal focus management, labels, and status semantics are covered. | Compliant |
-| 14 | Clear Labels, Links, Buttons, and CTAs | Controls are named and external-context changes are announced. | Compliant |
-| 15 | Reviews, Testimonials, Ratings, Logos, Trust Claims | No such claim or asset exists. | Not applicable |
-| 16 | Unsupported, Misleading, or High-risk Claims | Broad claims were narrowed and `/quality` exposes dated evidence and limitations. | Compliant |
-| 17 | Business Identity, Contact, and Disclosures | Identity and contact are clear, and the confirmed production origin is anonymously reachable while non-production URLs remain protected. | Compliant |
-| 18 | Copyright, Trademark, Licensing, Provenance | Root license, notices, attributed icon source, and asset provenance are present. | Compliant |
-| 19 | Applicable Laws, Regulations, Standards | Technical safeguards are implemented; jurisdiction/entity facts and authoritative legal interpretation remain unavailable. | Unable to verify |
-| 20 | Additional Material Risks | CSP/security headers, production distributed throttling, bounded local fallback, body controls, escaping, and timeouts are present. | Compliant |
-| 21 | Accuracy, Evidence, Error Prevention | Copy was reconciled, quality evidence published, tests expanded, and limitations made explicit. | Compliant |
+| #   | Requirement                                         | Post-remediation evidence                                                                                                                                                         | Status              |
+| --- | --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
+| 1   | Privacy Policy                                      | `/privacy` covers data, purposes, providers, transfers, retention, requests, children, and changes.                                                                               | Compliant           |
+| 2   | Terms and Conditions                                | No account, transaction, user content, or paid service exists.                                                                                                                    | Not applicable      |
+| 3   | Cookie or Similar Technology Policy                 | Privacy notice explains optional analytics and browser preferences.                                                                                                               | Compliant           |
+| 4   | Cookie Consent Controls                             | Analytics is default-off, purpose-specific, reversible, and event-filtered after withdrawal.                                                                                      | Compliant           |
+| 5   | Refund, Return, Cancellation, Renewal               | No payment, booking, subscription, or renewal exists.                                                                                                                             | Not applicable      |
+| 6   | Form Notice and Consent                             | Just-in-time disclosure links to the full notice and identifies the delivery flow.                                                                                                | Compliant           |
+| 7   | Data Minimization, Retention, Deletion              | Limited fields, length/body caps, 12-month ceiling, ten-minute pseudonymous limiter TTL, and deletion runbook exist. Provider/mailbox execution requires ongoing owner operation. | Partially compliant |
+| 8   | Analytics, Telemetry, Advertising, Error Tracking   | Optional Vercel Analytics cannot load before opt-in; no ads, replay, or error tracker exists.                                                                                     | Compliant           |
+| 9   | Third-party Embeds and External Resources           | No embeds or remote fonts; providers activate only for the requested function.                                                                                                    | Compliant           |
+| 10  | WCAG Accessibility                                  | Original issues are fixed and automated/manual regression evidence expanded; complete conformance still requires assistive-technology review.                                     | Partially compliant |
+| 11  | Image Alternatives and Non-text Content             | Decorative icons are hidden, parent controls are named, and logo semantics are no longer contradictory.                                                                           | Compliant           |
+| 12  | Color Contrast and Non-color Cues                   | Automated tests enforce AA text and 3:1 control-boundary token contrast in both themes.                                                                                           | Compliant           |
+| 13  | Keyboard, Focus, and Form Accessibility             | Skip link, logical focus, focus-visible treatment, modal focus management, labels, and status semantics are covered.                                                              | Compliant           |
+| 14  | Clear Labels, Links, Buttons, and CTAs              | Controls are named and external-context changes are announced.                                                                                                                    | Compliant           |
+| 15  | Reviews, Testimonials, Ratings, Logos, Trust Claims | No such claim or asset exists.                                                                                                                                                    | Not applicable      |
+| 16  | Unsupported, Misleading, or High-risk Claims        | Broad claims were narrowed and `/quality` exposes dated evidence and limitations.                                                                                                 | Compliant           |
+| 17  | Business Identity, Contact, and Disclosures         | Identity and contact are clear, and the confirmed production origin is anonymously reachable while non-production URLs remain protected.                                          | Compliant           |
+| 18  | Copyright, Trademark, Licensing, Provenance         | Root license, notices, attributed icon source, and asset provenance are present.                                                                                                  | Compliant           |
+| 19  | Applicable Laws, Regulations, Standards             | Technical safeguards are implemented; jurisdiction/entity facts and authoritative legal interpretation remain unavailable.                                                        | Unable to verify    |
+| 20  | Additional Material Risks                           | CSP/security headers, production distributed throttling, bounded local fallback, body controls, escaping, and timeouts are present.                                               | Compliant           |
+| 21  | Accuracy, Evidence, Error Prevention                | Copy was reconciled, quality evidence published, tests expanded, and limitations made explicit.                                                                                   | Compliant           |
 
 ## 4. Changes Made
 
@@ -185,8 +194,8 @@ Only the mandated status vocabulary is used.
   event filtering.
 - Added form disclosure and replaced automatic prefilled `mailto:` navigation with an
   explicit blank-draft option.
-- Added HMAC-pseudonymous distributed rate limiting through Upstash REST, a bounded
-  local test/development fallback, request type/size limits, provider timeouts,
+- Added HMAC-pseudonymous database rate limiting through Prisma, a bounded local
+  test/development fallback, request type/size limits, provider timeouts,
   non-cacheable responses, and expanded route tests.
 - Added a global skip link, stronger border tokens, forced-colors handling, coherent
   signature semantics, and new-context accessible names.
@@ -206,7 +215,7 @@ Only the mandated status vocabulary is used.
   `faraz-hussain-portfolio.vercel.app` as the sole intended public production domain.
 - Keep `NEXT_PUBLIC_SITE_URL` set to
   `https://faraz-hussain-portfolio.vercel.app`.
-- Configure Resend, Upstash, and a unique 32-or-more-character rate-limit salt. The
+- Configure Resend, Prisma Postgres, and a unique 32-or-more-character rate-limit salt. The
   production contact endpoint intentionally returns `503` until every required value
   exists.
 - Operationally enforce the published 12-month mailbox/Resend retention commitment and
@@ -285,28 +294,28 @@ Only the mandated status vocabulary is used.
 
 ## 7. Verification Results
 
-| Check | Result | Evidence/limit |
-| --- | --- | --- |
-| ESLint | Passed | Exit 0 |
-| Strict TypeScript | Passed | Exit 0 |
-| Vitest | Passed | 9 files, 21 tests |
-| axe-core semantic rules | Passed | Included in Vitest; color contrast is tested separately because jsdom has no layout engine |
-| Light/dark token contrast | Passed | Text thresholds at least 4.5:1; border/background and border/card thresholds at least 3:1 |
-| Production build | Passed | Next.js generated 10 route entries, including `/privacy` and `/quality` |
-| Runtime pages | Passed | `/`, `/privacy`, and `/quality` returned 200 |
-| Security headers | Passed | CSP, HSTS, MIME, frame, referrer, permissions, and cross-origin headers emitted; no `X-Powered-By` |
-| Initial analytics state | Passed | Initial HTML contained no Vercel Analytics script; Playwright observed no request before opt-in |
-| Analytics preference | Passed | Enable/disable state persisted and event filter rejected pre-consent/post-withdrawal events |
-| Contact validation | Passed | Type, syntax, body size, field, honeypot, escape, provider-failure, no-store, and `429` paths tested |
-| Local contact runtime | Passed | Invalid 400, honeypot 200, and unconfigured valid 503 were non-cacheable |
-| Playwright Chromium | Passed | Keyboard skip, focus target, reflow, and analytics tests |
-| Playwright WebKit | Passed | Focus activation, reflow, and analytics tests |
-| Playwright mobile Chromium | Passed | Mobile menu, focus restoration, reflow, and analytics tests |
-| Playwright Firefox on Windows | Unable to verify | Runner failed before page creation; Linux CI project remains configured |
-| Anonymous production origin | Passed for access | `faraz-hussain-portfolio.vercel.app` returned HTTP 200 without authentication; release marker awaits deployment |
-| Live Resend/Upstash delivery | Unable to verify | Production credentials were neither available nor used |
-| Full WCAG conformance | Unable to verify | Certification and complete assistive-technology review remain out of scope |
-| Legal compliance | Unable to verify | Business facts and legal interpretation remain owner/counsel responsibilities |
+| Check                         | Result            | Evidence/limit                                                                                                  |
+| ----------------------------- | ----------------- | --------------------------------------------------------------------------------------------------------------- |
+| ESLint                        | Passed            | Exit 0                                                                                                          |
+| Strict TypeScript             | Passed            | Exit 0                                                                                                          |
+| Vitest                        | Passed            | 9 files, 21 tests                                                                                               |
+| axe-core semantic rules       | Passed            | Included in Vitest; color contrast is tested separately because jsdom has no layout engine                      |
+| Light/dark token contrast     | Passed            | Text thresholds at least 4.5:1; border/background and border/card thresholds at least 3:1                       |
+| Production build              | Passed            | Next.js generated 10 route entries, including `/privacy` and `/quality`                                         |
+| Runtime pages                 | Passed            | `/`, `/privacy`, and `/quality` returned 200                                                                    |
+| Security headers              | Passed            | CSP, HSTS, MIME, frame, referrer, permissions, and cross-origin headers emitted; no `X-Powered-By`              |
+| Initial analytics state       | Passed            | Initial HTML contained no Vercel Analytics script; Playwright observed no request before opt-in                 |
+| Analytics preference          | Passed            | Enable/disable state persisted and event filter rejected pre-consent/post-withdrawal events                     |
+| Contact validation            | Passed            | Type, syntax, body size, field, honeypot, escape, provider-failure, no-store, and `429` paths tested            |
+| Local contact runtime         | Passed            | Invalid 400, honeypot 200, and unconfigured valid 503 were non-cacheable                                        |
+| Playwright Chromium           | Passed            | Keyboard skip, focus target, reflow, and analytics tests                                                        |
+| Playwright WebKit             | Passed            | Focus activation, reflow, and analytics tests                                                                   |
+| Playwright mobile Chromium    | Passed            | Mobile menu, focus restoration, reflow, and analytics tests                                                     |
+| Playwright Firefox on Windows | Unable to verify  | Runner failed before page creation; Linux CI project remains configured                                         |
+| Anonymous production origin   | Passed for access | `faraz-hussain-portfolio.vercel.app` returned HTTP 200 without authentication; release marker awaits deployment |
+| Live Resend/Prisma delivery   | Unable to verify  | Production credentials were neither available nor used                                                          |
+| Full WCAG conformance         | Unable to verify  | Certification and complete assistive-technology review remain out of scope                                      |
+| Legal compliance              | Unable to verify  | Business facts and legal interpretation remain owner/counsel responsibilities                                   |
 
 ## 8. Change Summary
 

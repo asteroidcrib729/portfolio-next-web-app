@@ -48,8 +48,14 @@ export function Experience() {
 
                     <ul className="mt-5 space-y-3">
                       {experience.description.map((item) => (
-                        <li key={item} className="flex gap-3 text-sm leading-6 text-muted-foreground">
-                          <span aria-hidden="true" className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-accent" />
+                        <li
+                          key={item}
+                          className="flex gap-3 text-sm leading-6 text-muted-foreground"
+                        >
+                          <span
+                            aria-hidden="true"
+                            className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-accent"
+                          />
                           {item}
                         </li>
                       ))}

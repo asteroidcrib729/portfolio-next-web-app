@@ -35,10 +35,12 @@ Complete this review at least monthly:
    archives, exports, and any manual copies.
 3. Retain a message longer only for an active engagement, security investigation,
    legal obligation, or dispute; record the reason and next review date privately.
-4. Verify that Upstash rate-limit keys use the `portfolio:contact:` prefix and a
-   ten-minute TTL. Never store the raw request IP in the key.
-5. Review Vercel Analytics retention/account settings and confirm analytics remains
-   disabled until the visitor opts in.
+4. Verify that Prisma `RateLimitBucket` records use scope-prefixed HMAC keys, become
+   invalid after ten minutes for contact requests, and are pruned after expiry. Never
+   store the raw request IP in the key.
+5. Review Vercel Analytics retention/account settings. Confirm the default-on public-page
+   policy, persistent opt-out, browser privacy-signal handling, and private-route exclusions
+   match `/privacy`. Review jurisdiction-specific requirements before expanding collection.
 6. Record completion outside the public repository without copying visitor content.
 
 ## Privacy Request Procedure
@@ -64,13 +66,43 @@ exist:
 - `RESEND_API_KEY`
 - `CONTACT_TO_EMAIL`
 - `CONTACT_FROM_EMAIL`
-- `UPSTASH_REDIS_REST_URL`
-- `UPSTASH_REDIS_REST_TOKEN`
-- `CONTACT_RATE_LIMIT_SALT`
+- `DATABASE_URL`
+- `RATE_LIMIT_SALT`
 
-Use a unique random salt of at least 32 characters, keep all six values server-only,
+Use a unique random salt of at least 32 characters, keep all five values server-only,
 and rotate credentials after suspected exposure. Confirm the Resend sender is verified
 and the destination mailbox has multi-factor authentication.
+
+## Editorial Studio Configuration
+
+The private studio requires these server-only values in addition to `DATABASE_URL`:
+
+- `EDITORIAL_STUDIO_PASSWORD`
+- `EDITORIAL_STUDIO_SESSION_SECRET`
+
+Use separate Production and Preview values. The session secret must contain at least
+32 random characters, and the author password must contain at least 16 characters.
+Confirm `/studio` redirects unauthenticated requests to `/studio/login`, remains
+excluded from robots, and issues only HTTP-only, same-site, secure Production cookies.
+
+Preview must use a separate Prisma database project. Never place the Production connection
+string in the Vercel Preview environment. Apply committed migrations to Preview first,
+verify the editorial workflow, then deploy the same migration to Production.
+
+## Repository Security Automation
+
+Dependabot checks routine npm and GitHub Actions updates weekly and targets `pre-production`. Native security updates use `main`; review them and apply the same migration and release gates before merging. Native vulnerability alerts, security updates, secret scanning, and push protection were verified enabled on October 30, 2026.
+
+Secret Scanning, Dependency Security, and CodeQL run on pull requests, `main`/`pre-production` pushes, a staggered weekly schedule, and manual dispatch. Workflow Validation runs on pull requests, pushes to those branches, and manual dispatch. Public Release Verification runs daily and after successful Production deployment events and can also be dispatched manually. Scheduled runs and Dependabot configuration require the files to be present on the default branch.
+
+Run `npm run security:secrets`, `npm run lint:workflows`, and `npm audit --package-lock-only --audit-level=moderate` locally before security-related releases. Secret scans require full history and cover current tracked and non-ignored pending source changes. Do not upload private environment snapshots or the entire `.local/` directory as CI artifacts. The workflow uploads only failed browser diagnostics produced with disposable CI credentials.
+The secret-scanning workflow separately retains its two redacted JSON finding reports for seven days on failure.
+
+Review `.github/security-tools.json` for Gitleaks and Actionlint upgrades quarterly. Verify replacement archive SHA-256 values against official release metadata for both supported platforms. Dependabot maintains pinned Action references; the scanner/linter binary manifest is reviewed separately.
+
+After successful hosted runs establish the check names, configure required status checks in branch rules as appropriate. The workflow files themselves do not change branch rules.
+
+Treat real secret findings as an incident: revoke or rotate the exposed credential, investigate its use, then remove it from current source. History changes require a coordinated, separately approved rewrite. Do not silence a real finding with a blanket path exclusion or baseline.
 
 ## Quarterly Technical Review
 

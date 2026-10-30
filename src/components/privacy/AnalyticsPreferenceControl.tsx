@@ -1,10 +1,7 @@
 "use client";
 
 import { BarChart3, ShieldCheck } from "lucide-react";
-import {
-  setAnalyticsPreference,
-  useAnalyticsPreference,
-} from "@/lib/analyticsPreference";
+import { setAnalyticsPreference, useAnalyticsPreference } from "@/lib/analyticsPreference";
 import { cn } from "@/lib/utils";
 
 export function AnalyticsPreferenceControl() {
@@ -29,16 +26,17 @@ export function AnalyticsPreferenceControl() {
             Privacy-friendly analytics
           </h2>
           <p className="mt-2 text-sm leading-6 text-muted-foreground">
-            Analytics is off unless you choose to enable it. You can change this
-            preference at any time; disabling it blocks future analytics events on
-            this browser.
+            Aggregate analytics is enabled by default. You can opt out at any time; disabling it
+            blocks future analytics events on this browser. Existing opt-outs, Global Privacy
+            Control, and Do Not Track are respected. If browser storage is unavailable, analytics
+            stays off.
           </p>
         </div>
       </div>
 
       <div role="group" aria-label="Analytics preference" className="mt-5 flex flex-wrap gap-3">
         {[
-          { value: "denied" as const, label: "Keep analytics off" },
+          { value: "denied" as const, label: "Disable analytics" },
           { value: "granted" as const, label: "Enable analytics" },
         ].map((option) => {
           const selected = option.value === (preference === "unset" ? "denied" : preference);
@@ -53,7 +51,7 @@ export function AnalyticsPreferenceControl() {
                 "min-h-11 rounded-xl border px-4 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent",
                 selected
                   ? "border-accent bg-accent text-accent-foreground"
-                  : "border-border bg-background text-foreground hover:border-accent"
+                  : "border-border bg-background text-foreground hover:border-accent",
               )}
             >
               {option.label}

@@ -24,16 +24,16 @@ describe("search indexing metadata", () => {
     });
   });
 
-  it("publishes a crawlable host and absolute sitemap", () => {
+  it("publishes a crawlable host and absolute sitemap", async () => {
     const policy = robots();
-    const entries = sitemap();
+    const entries = await sitemap();
 
     expect(policy).toMatchObject({
-      rules: { userAgent: "*", allow: "/", disallow: "/api/" },
+      rules: { userAgent: "*", allow: "/", disallow: ["/api/", "/studio/"] },
       host: siteConfig.url,
       sitemap: new URL("/sitemap.xml", siteConfig.url).toString(),
     });
-    expect(entries).toHaveLength(3);
+    expect(entries).toHaveLength(5);
     expect(entries.every((entry) => entry.url.startsWith(siteConfig.url))).toBe(true);
   });
 
@@ -57,5 +57,17 @@ describe("search indexing metadata", () => {
       },
     });
     expect(serializeJsonLd({ value: "</script>" })).toContain("\\u003c/script>");
+  });
+
+  it("offers an owner-first site name and introductory search description", () => {
+    expect(
+      portfolioStructuredData["@graph"].find((entry) => entry["@type"] === "WebSite"),
+    ).toMatchObject({
+      name: "Faraz Hussain",
+      alternateName: expect.arrayContaining(["Faraz Hussain Portfolio"]),
+      url: new URL("/", siteConfig.url).toString(),
+    });
+    expect(siteConfig.description).toMatch(/^I'm Faraz Hussain, a full-stack software engineer/);
+    expect(siteConfig.description.length).toBeLessThanOrEqual(160);
   });
 });
