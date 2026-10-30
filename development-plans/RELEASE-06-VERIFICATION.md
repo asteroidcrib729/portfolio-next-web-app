@@ -87,3 +87,9 @@ CodeQL identified a check-then-write archive race and file/network data flows in
 - Anonymous checks of the generated Production URL, protected Preview URL, long project alias and `git-main` alias each redirect specifically to `vercel.com/sso-api`; only the canonical production origin serves the public app.
 
 The human screen-reader listening session and jurisdiction-specific analytics legal review remain explicit limitations. Google's selected site name/snippet and recrawl timing are not controlled by this release.
+
+## Runtime TLS compatibility follow-up
+
+The final runtime scan found successful requests with driver warnings written to stderr and classified by Vercel as errors. `pg-connection-string` currently treats `prefer`, `require`, and `verify-ca` as certificate-verifying `verify-full`, but warns that a future major changes those aliases. The runtime now makes that existing mode explicit before creating the Prisma PostgreSQL adapter, preserving credentials and other connection options. Explicit modes, local CI connections and deliberately requested libpq compatibility are unchanged; invalid URL errors do not echo credentials. Three regression tests cover the normalization. No schema or secret value changes are required.
+
+Formatting, lint, strict TypeScript, all 40 unit tests, and both real Preview database integration tests pass with this change. The Preview tests initially encountered the local network sandbox; the authorized network-enabled rerun passed without the TLS alias warning. They clean up only their own uniquely named rate-limit rows.
