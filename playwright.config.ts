@@ -9,17 +9,24 @@ const projects = [
 
 export default defineConfig({
   testDir: "./e2e",
+  outputDir: ".local/test-results",
   fullyParallel: true,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 2 : 0,
-  reporter: process.env.CI ? "github" : "list",
+  reporter: process.env.CI
+    ? "github"
+    : [["list"], ["html", { outputFolder: ".local/playwright-report", open: "never" }]],
   use: {
-    baseURL: "http://127.0.0.1:3100",
+    baseURL: "https://127.0.0.1:3100",
+    ignoreHTTPSErrors: true,
+    actionTimeout: 15_000,
+    navigationTimeout: 30_000,
     trace: "on-first-retry",
   },
   webServer: {
-    command: "node ./node_modules/next/dist/bin/next start --hostname 127.0.0.1 --port 3100",
-    url: "http://127.0.0.1:3100",
+    command: "node scripts/serve-e2e.mjs",
+    url: "https://127.0.0.1:3100",
+    ignoreHTTPSErrors: true,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
   },

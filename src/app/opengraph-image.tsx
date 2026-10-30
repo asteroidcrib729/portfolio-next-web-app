@@ -89,6 +89,6 @@ export default function OpenGraphImage() {
         </div>
       </div>
     </div>,
-    size
+    size,
   );
 }

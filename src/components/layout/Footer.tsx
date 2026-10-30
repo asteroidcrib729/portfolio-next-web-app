@@ -21,6 +21,18 @@ export function Footer() {
 
         <div className="flex flex-wrap items-center gap-2">
           <Link
+            href="/blog"
+            className="inline-flex min-h-11 items-center rounded-xl px-3 text-sm font-medium text-muted-foreground hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          >
+            Journal
+          </Link>
+          <Link
+            href="/resume"
+            className="inline-flex min-h-11 items-center rounded-xl px-3 text-sm font-medium text-muted-foreground hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          >
+            Resume
+          </Link>
+          <Link
             href="/privacy"
             className="inline-flex min-h-11 items-center rounded-xl px-3 text-sm font-medium text-muted-foreground hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >

@@ -6,9 +6,7 @@ const css = readFileSync(resolve(process.cwd(), "src/app/globals.css"), "utf8");
 
 function channel(value: string) {
   const normalized = Number.parseInt(value, 16) / 255;
-  return normalized <= 0.04045
-    ? normalized / 12.92
-    : ((normalized + 0.055) / 1.055) ** 2.4;
+  return normalized <= 0.04045 ? normalized / 12.92 : ((normalized + 0.055) / 1.055) ** 2.4;
 }
 
 function luminance(hex: string) {
@@ -25,7 +23,7 @@ function tokens(selector: ":root" | ".dark") {
   const escapedSelector = selector.replace(".", "\\.");
   const block = new RegExp(`${escapedSelector} \\{([\\s\\S]*?)\\}`).exec(css)?.[1] ?? "";
   return Object.fromEntries(
-    [...block.matchAll(/--([\w-]+):\s*(#[\da-f]{6})/gi)].map((match) => [match[1], match[2]])
+    [...block.matchAll(/--([\w-]+):\s*(#[\da-f]{6})/gi)].map((match) => [match[1], match[2]]),
   );
 }
 

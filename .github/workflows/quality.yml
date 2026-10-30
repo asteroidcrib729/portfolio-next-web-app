@@ -6,27 +6,52 @@ on:
     branches:
       - pre-production
       - main
+  workflow_dispatch:
 
 permissions:
   contents: read
+
+concurrency:
+  group: quality-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   verify:
     runs-on: ubuntu-latest
     timeout-minutes: 25
 
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: portfolio_ci
+          POSTGRES_PASSWORD: ephemeral_ci_password
+          POSTGRES_DB: portfolio_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U portfolio_ci -d portfolio_ci"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 24
           cache: npm
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Check formatting
+        run: npm run format:check
 
       - name: Lint
         run: npm run lint
@@ -40,8 +65,36 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Apply migrations to disposable CI database
+        run: npm run db:deploy
+        env:
+          DATABASE_URL: postgresql://portfolio_ci:ephemeral_ci_password@localhost:5432/portfolio_ci
+
+      - name: Verify concurrent PostgreSQL rate limiting
+        run: npx vitest run src/lib/rateLimit.integration.test.ts
+        env:
+          RUN_DATABASE_TESTS: "1"
+          DATABASE_URL: postgresql://portfolio_ci:ephemeral_ci_password@localhost:5432/portfolio_ci
+
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium firefox webkit
 
       - name: Cross-browser tests
+        id: browsers
         run: npm run test:e2e
+        env:
+          RUN_EDITORIAL_E2E: "1"
+          DATABASE_URL: postgresql://portfolio_ci:ephemeral_ci_password@localhost:5432/portfolio_ci
+          RATE_LIMIT_SALT: disposable-ci-rate-limit-salt-32-characters
+          EDITORIAL_STUDIO_PASSWORD: disposable-ci-editorial-password
+          EDITORIAL_STUDIO_SESSION_SECRET: disposable-ci-session-secret-32-characters
+
+      - name: Preserve failed browser diagnostics
+        if: failure() && steps.browsers.outcome == 'failure'
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: browser-diagnostics
+          path: .local/test-results/
+          include-hidden-files: true
+          retention-days: 7
+          if-no-files-found: ignore

@@ -14,20 +14,20 @@ All twelve solution groups were implemented on 2026-09-10. Owner confirmation of
 
 ## Solution Summary
 
-| Solution | Resolves | Priority | Recommended outcome |
-| --- | --- | --- | --- |
-| SOL-001 | ISS-001 | Immediate | Replace all sample identity, URLs, history, projects, and claims with verified owner data. |
-| SOL-002 | ISS-002 | Immediate | Implement and assemble all six planned section components. |
-| SOL-003 | ISS-003 | High | Add component, interaction, end-to-end, and CI coverage. |
-| SOL-004 | ISS-004 | High | Make the mobile menu keyboard-safe, stateful, and non-destructive. |
-| SOL-005 | ISS-005 | High | Adopt an accessible light accent and verify every token pairing. |
-| SOL-006 | ISS-006 | High | Add a shared reduced-motion policy in CSS and Motion components. |
-| SOL-007 | ISS-007 | Medium | Self-host fonts or deliberately use system fonts for hermetic builds. |
-| SOL-008 | ISS-008 | Medium | Implement owner-specific metadata, crawler files, and preview assets. |
-| SOL-009 | ISS-009 | Medium | Version the development-plans directory or explicitly document local-only intent. |
-| SOL-010 | ISS-010 | Medium | Replace boilerplate docs and reconcile all roadmap terminology and status. |
-| SOL-011 | ISS-011 | Low | Normalize external-link behavior, touch targets, focus rings, and icon semantics. |
-| SOL-012 | ISS-012 | Low | Centralize icon rendering and clean unused assets/dependency state. |
+| Solution | Resolves | Priority  | Recommended outcome                                                                        |
+| -------- | -------- | --------- | ------------------------------------------------------------------------------------------ |
+| SOL-001  | ISS-001  | Immediate | Replace all sample identity, URLs, history, projects, and claims with verified owner data. |
+| SOL-002  | ISS-002  | Immediate | Implement and assemble all six planned section components.                                 |
+| SOL-003  | ISS-003  | High      | Add component, interaction, end-to-end, and CI coverage.                                   |
+| SOL-004  | ISS-004  | High      | Make the mobile menu keyboard-safe, stateful, and non-destructive.                         |
+| SOL-005  | ISS-005  | High      | Adopt an accessible light accent and verify every token pairing.                           |
+| SOL-006  | ISS-006  | High      | Add a shared reduced-motion policy in CSS and Motion components.                           |
+| SOL-007  | ISS-007  | Medium    | Self-host fonts or deliberately use system fonts for hermetic builds.                      |
+| SOL-008  | ISS-008  | Medium    | Implement owner-specific metadata, crawler files, and preview assets.                      |
+| SOL-009  | ISS-009  | Medium    | Version the development-plans directory or explicitly document local-only intent.          |
+| SOL-010  | ISS-010  | Medium    | Replace boilerplate docs and reconcile all roadmap terminology and status.                 |
+| SOL-011  | ISS-011  | Low       | Normalize external-link behavior, touch targets, focus rings, and icon semantics.          |
+| SOL-012  | ISS-012  | Low       | Centralize icon rendering and clean unused assets/dependency state.                        |
 
 ## Detailed Solutions
 

@@ -5,9 +5,7 @@ import { SocialAnchor } from "@/components/common/SocialAnchor";
 describe("SocialAnchor", () => {
   it("keeps mail links in the current browsing context", () => {
     render(
-      <SocialAnchor
-        link={{ label: "Email", href: "mailto:person@example.test", icon: "mail" }}
-      />
+      <SocialAnchor link={{ label: "Email", href: "mailto:person@example.test", icon: "mail" }} />,
     );
 
     expect(screen.getByRole("link", { name: "Email" })).not.toHaveAttribute("target");
@@ -17,7 +15,7 @@ describe("SocialAnchor", () => {
     render(
       <SocialAnchor
         link={{ label: "GitHub", href: "https://github.com/example", icon: "github" }}
-      />
+      />,
     );
 
     const link = screen.getByRole("link", { name: "GitHub (opens in a new tab)" });
@@ -30,7 +28,7 @@ describe("SocialAnchor", () => {
       <SocialAnchor
         link={{ label: "Email", href: "mailto:person@example.test", icon: "mail" }}
         openInNewTab
-      />
+      />,
     );
 
     const link = screen.getByRole("link", { name: "Email (opens in a new tab)" });

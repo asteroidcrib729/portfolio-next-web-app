@@ -3,9 +3,9 @@ import { siteConfig } from "@/data/siteConfig";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: `${siteConfig.name} — Portfolio`,
+    name: siteConfig.siteName,
     short_name: siteConfig.name,
-    description: siteConfig.tagline,
+    description: siteConfig.description,
     start_url: "/",
     display: "standalone",
     background_color: "#070b12",

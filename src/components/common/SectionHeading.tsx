@@ -25,14 +25,14 @@ export function SectionHeading({
       className={cn(
         "mb-12 sm:mb-16",
         isCentered ? "text-center mx-auto max-w-2xl" : "text-left max-w-2xl",
-        className
+        className,
       )}
     >
       {eyebrow && (
         <div
           className={cn(
             "mb-3.5 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider",
-            "bg-accent/10 text-accent border border-accent/20"
+            "bg-accent/10 text-accent border border-accent/20",
           )}
         >
           <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />

@@ -49,7 +49,7 @@ export function MobileNav() {
       if (event.key !== "Tab" || !panelRef.current) return;
 
       const focusableElements = Array.from(
-        panelRef.current.querySelectorAll<HTMLElement>(focusableSelector)
+        panelRef.current.querySelectorAll<HTMLElement>(focusableSelector),
       );
       const firstElement = focusableElements[0];
       const lastElement = focusableElements.at(-1);

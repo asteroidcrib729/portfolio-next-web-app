@@ -1,0 +1,6 @@
+name: Portfolio source analysis
+paths-ignore:
+  - .local
+  - .next
+  - node_modules
+  - src/generated

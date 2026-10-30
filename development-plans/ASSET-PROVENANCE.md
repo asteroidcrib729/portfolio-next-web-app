@@ -24,6 +24,14 @@
 
 ## Brand names
 
-GitHub, LinkedIn, X, Vercel, Resend, and Upstash are used only to identify relevant
+GitHub, LinkedIn, X, Vercel, Resend, and Prisma are used only to identify relevant
 services or destinations. Their trademarks remain the property of their respective
 owners. No endorsement is implied.
+
+## Resume document
+
+- File: `public/resume/faraz-hussain-resume.pdf`
+- Source: `Resume - Faraz Hussain.pdf`, supplied by Faraz Hussain
+- Transformation: renamed and copied without content modification for same-origin web
+  viewing and download
+- Rights: personal resume content retained by Faraz Hussain; all rights reserved

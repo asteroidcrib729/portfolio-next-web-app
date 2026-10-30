@@ -28,7 +28,7 @@ function escapeHtml(value: string) {
         ">": "&gt;",
         "'": "&#39;",
         '"': "&quot;",
-      })[character] ?? character
+      })[character] ?? character,
   );
 }
 
@@ -41,7 +41,7 @@ function json(message: string, status = 200, headers?: HeadersInit) {
         "Cache-Control": "no-store, max-age=0",
         ...headers,
       },
-    }
+    },
   );
 }
 
@@ -78,12 +78,7 @@ export async function POST(request: NextRequest) {
   const subject = clean(payload.subject, 120);
   const message = clean(payload.message, 3000);
 
-  if (
-    name.length < 2 ||
-    !EMAIL_PATTERN.test(email) ||
-    subject.length < 3 ||
-    message.length < 20
-  ) {
+  if (name.length < 2 || !EMAIL_PATTERN.test(email) || subject.length < 3 || message.length < 20) {
     return json("Please complete every field with valid contact details.", 400);
   }
 

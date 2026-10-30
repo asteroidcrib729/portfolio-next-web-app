@@ -1,4 +1,4 @@
-import nextConfig, { securityHeaders } from "../../next.config";
+import nextConfig, { resumePdfHeaders, securityHeaders } from "../../next.config";
 import { describe, expect, it } from "vitest";
 
 describe("security headers", () => {
@@ -13,5 +13,15 @@ describe("security headers", () => {
     expect(headers["X-Content-Type-Options"]).toBe("nosniff");
     expect(headers["Referrer-Policy"]).toBe("strict-origin-when-cross-origin");
     expect(headers["Permissions-Policy"]).toContain("camera=()");
+  });
+
+  it("allows the public resume to render only inside the same origin", async () => {
+    const headers = Object.fromEntries(resumePdfHeaders.map(({ key, value }) => [key, value]));
+    const configured = await nextConfig.headers?.();
+
+    expect(configured?.[1]?.source).toBe("/resume/faraz-hussain-resume.pdf");
+    expect(headers["Content-Security-Policy"]).toContain("frame-ancestors 'self'");
+    expect(headers["X-Frame-Options"]).toBe("SAMEORIGIN");
+    expect(headers["Content-Disposition"]).toContain("inline");
   });
 });

@@ -44,7 +44,7 @@ export function Contact() {
       if (response.status === 503) {
         setSubmitState("fallback");
         setStatusMessage(
-          "Direct delivery is unavailable. Nothing from this form was placed in a URL; use the email option and copy only what you choose."
+          "Direct delivery is unavailable. Nothing from this form was placed in a URL; use the email option and copy only what you choose.",
         );
         return;
       }
@@ -61,7 +61,7 @@ export function Contact() {
       setStatusMessage(
         error instanceof Error
           ? error.message
-          : `Something went wrong. Email ${siteConfig.email} directly.`
+          : `Something went wrong. Email ${siteConfig.email} directly.`,
       );
     }
   }
@@ -211,8 +211,8 @@ export function Contact() {
                 id="contact-privacy-note"
                 className="max-w-sm text-xs leading-5 text-muted-foreground"
               >
-                Your details are used to deliver and respond to this message through
-                Resend and the configured mailbox. Read the{" "}
+                Your details are used to deliver and respond to this message through Resend and the
+                configured mailbox. Read the{" "}
                 <Link
                   href="/privacy"
                   className="font-semibold text-accent underline underline-offset-2"

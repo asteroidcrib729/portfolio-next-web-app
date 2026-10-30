@@ -1,0 +1,63 @@
+version: 2
+
+updates:
+  # Native security updates follow the default branch. Do not open routine
+  # version-update PRs here; those enter the pre-production review workflow.
+  - package-ecosystem: npm
+    directory: /
+    open-pull-requests-limit: 0
+    schedule:
+      interval: weekly
+    groups:
+      security-fixes:
+        applies-to: security-updates
+        patterns: ["*"]
+
+  - package-ecosystem: npm
+    directory: /
+    target-branch: pre-production
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: Asia/Karachi
+    open-pull-requests-limit: 8
+    cooldown:
+      default-days: 3
+    groups:
+      prisma:
+        patterns: ["prisma", "@prisma/*"]
+      next-react:
+        patterns:
+          ["next", "eslint-config-next", "react", "react-dom", "@types/react", "@types/react-dom"]
+        update-types: [minor, patch]
+      compatible-updates:
+        patterns: ["*"]
+        update-types: [minor, patch]
+    ignore:
+      # Revisit these bounds when the Next.js lint stack and Node runtime change.
+      - dependency-name: typescript
+        update-types: ["version-update:semver-major"]
+      - dependency-name: eslint
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
+    commit-message:
+      prefix: deps
+
+  - package-ecosystem: github-actions
+    directory: /
+    target-branch: pre-production
+    schedule:
+      interval: weekly
+      day: monday
+      time: "10:00"
+      timezone: Asia/Karachi
+    open-pull-requests-limit: 5
+    cooldown:
+      default-days: 3
+    groups:
+      github-actions:
+        patterns: ["*"]
+    commit-message:
+      prefix: ci

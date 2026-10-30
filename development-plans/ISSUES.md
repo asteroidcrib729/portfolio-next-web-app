@@ -12,19 +12,19 @@ The newer 2026-09-21 compliance findings and remediation state are authoritative
 
 The remediation implementation completed on 2026-09-10. The detailed findings below preserve the original scan evidence; this table records their current disposition.
 
-| ID | Status | Resolution evidence |
-| --- | --- | --- |
-| ISS-001 | Resolved, owner review required | Repository-owner identity replaces the fictional profile; generic social links are omitted unless configured; project and experience content now describes implemented work without invented employers or metrics. |
-| ISS-002 | Resolved | Six section components replace every placeholder and consume the typed content datasets. |
-| ISS-003 | Resolved | Vitest, Testing Library, content/interaction tests, npm scripts, and a GitHub Actions quality gate are present. |
-| ISS-004 | Resolved | Mobile navigation exposes state, contains focus, handles Escape, restores focus, and preserves prior body overflow. |
-| ISS-005 | Resolved | The light accent changed to `#0369a1`, with readable foreground pairings. |
-| ISS-006 | Resolved | CSS and Motion components honor `prefers-reduced-motion`. |
-| ISS-007 | Resolved | Geist is self-hosted through the versioned `geist` package; a restricted-network build succeeds. |
-| ISS-008 | Resolved | Canonical, Open Graph, X/Twitter, manifest, robots, sitemap, and generated preview-image metadata are implemented. |
-| ISS-009 | Resolved | `development-plans/` is no longer ignored and its documents appear in normal Git status. |
-| ISS-010 | Resolved | README, AGENTS, and active plan status now match the implementation and selected stack. |
-| ISS-011 | Resolved | Shared social anchors normalize mail/external behavior, focus styles, touch targets, and icon semantics. |
+| ID      | Status                           | Resolution evidence                                                                                                                                                                                                                   |
+| ------- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ISS-001 | Resolved, owner review required  | Repository-owner identity replaces the fictional profile; generic social links are omitted unless configured; project and experience content now describes implemented work without invented employers or metrics.                    |
+| ISS-002 | Resolved                         | Six section components replace every placeholder and consume the typed content datasets.                                                                                                                                              |
+| ISS-003 | Resolved                         | Vitest, Testing Library, content/interaction tests, npm scripts, and a GitHub Actions quality gate are present.                                                                                                                       |
+| ISS-004 | Resolved                         | Mobile navigation exposes state, contains focus, handles Escape, restores focus, and preserves prior body overflow.                                                                                                                   |
+| ISS-005 | Resolved                         | The light accent changed to `#0369a1`, with readable foreground pairings.                                                                                                                                                             |
+| ISS-006 | Resolved                         | CSS and Motion components honor `prefers-reduced-motion`.                                                                                                                                                                             |
+| ISS-007 | Resolved                         | Geist is self-hosted through the versioned `geist` package; a restricted-network build succeeds.                                                                                                                                      |
+| ISS-008 | Resolved                         | Canonical, Open Graph, X/Twitter, manifest, robots, sitemap, and generated preview-image metadata are implemented.                                                                                                                    |
+| ISS-009 | Resolved                         | `development-plans/` is no longer ignored and its documents appear in normal Git status.                                                                                                                                              |
+| ISS-010 | Resolved                         | README, AGENTS, and active plan status now match the implementation and selected stack.                                                                                                                                               |
+| ISS-011 | Resolved                         | Shared social anchors normalize mail/external behavior, focus styles, touch targets, and icon semantics.                                                                                                                              |
 | ISS-012 | Resolved with local-install note | Duplicate icon logic and starter assets were removed; previously dormant code is used. npm still labels optional WASM packages as extraneous locally after `npm prune`, so CI uses `npm ci` as the authoritative clean-install check. |
 
 Severity meanings:
@@ -35,20 +35,20 @@ Severity meanings:
 
 ## Summary
 
-| ID | Severity | Finding |
-| --- | --- | --- |
-| ISS-001 | High | Public-facing identity, claims, and URLs are placeholder data. |
-| ISS-002 | High | Most portfolio sections are placeholders and enriched datasets are not rendered. |
-| ISS-003 | Medium | There are no automated tests or continuous-integration checks. |
-| ISS-004 | Medium | The mobile navigation lacks complete accessible-menu behavior and safe state restoration. |
-| ISS-005 | Medium | The light-theme accent fails WCAG contrast for text. |
-| ISS-006 | Medium | Global and repeated motion does not honor reduced-motion preferences. |
-| ISS-007 | Medium | A cold production build depends on access to Google Fonts. |
-| ISS-008 | Medium | SEO and social-sharing metadata are generic and incomplete. |
-| ISS-009 | Medium | All planning and analysis documents are ignored by Git. |
-| ISS-010 | Medium | Repository documentation and older plans have drifted from the implementation. |
-| ISS-011 | Low | Social-link behavior, target sizing, and focus treatment are inconsistent. |
-| ISS-012 | Low | Unused code/assets and an unclean installed dependency tree add maintenance noise. |
+| ID      | Severity | Finding                                                                                   |
+| ------- | -------- | ----------------------------------------------------------------------------------------- |
+| ISS-001 | High     | Public-facing identity, claims, and URLs are placeholder data.                            |
+| ISS-002 | High     | Most portfolio sections are placeholders and enriched datasets are not rendered.          |
+| ISS-003 | Medium   | There are no automated tests or continuous-integration checks.                            |
+| ISS-004 | Medium   | The mobile navigation lacks complete accessible-menu behavior and safe state restoration. |
+| ISS-005 | Medium   | The light-theme accent fails WCAG contrast for text.                                      |
+| ISS-006 | Medium   | Global and repeated motion does not honor reduced-motion preferences.                     |
+| ISS-007 | Medium   | A cold production build depends on access to Google Fonts.                                |
+| ISS-008 | Medium   | SEO and social-sharing metadata are generic and incomplete.                               |
+| ISS-009 | Medium   | All planning and analysis documents are ignored by Git.                                   |
+| ISS-010 | Medium   | Repository documentation and older plans have drifted from the implementation.            |
+| ISS-011 | Low      | Social-link behavior, target sizing, and focus treatment are inconsistent.                |
+| ISS-012 | Low      | Unused code/assets and an unclean installed dependency tree add maintenance noise.        |
 
 ## Original Detailed Findings
 

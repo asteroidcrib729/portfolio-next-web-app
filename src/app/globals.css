@@ -54,11 +54,24 @@ body {
   background-color: var(--background);
   background-image:
     radial-gradient(circle at 12% -8%, var(--glow), transparent 28rem),
-    radial-gradient(circle at 92% 8%, color-mix(in srgb, var(--glow) 70%, transparent), transparent 24rem);
+    radial-gradient(
+      circle at 92% 8%,
+      color-mix(in srgb, var(--glow) 70%, transparent),
+      transparent 24rem
+    );
   background-attachment: fixed;
   color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  font-family:
+    var(--font-geist-sans),
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 ::selection {
@@ -77,8 +90,16 @@ section[id] {
 
 .grid-fade {
   background-image:
-    linear-gradient(to right, color-mix(in srgb, var(--border) 42%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in srgb, var(--border) 42%, transparent) 1px, transparent 1px);
+    linear-gradient(
+      to right,
+      color-mix(in srgb, var(--border) 42%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--border) 42%, transparent) 1px,
+      transparent 1px
+    );
   background-size: 48px 48px;
   mask-image: linear-gradient(to bottom, black 0%, transparent 82%);
 }

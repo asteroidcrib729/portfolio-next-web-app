@@ -1,0 +1,4 @@
+# Keep text formatting consistent across Windows, Linux, and CI.
+* text=auto eol=lf
+*.pdf -text
+*.ico -text

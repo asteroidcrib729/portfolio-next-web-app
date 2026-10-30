@@ -16,7 +16,9 @@ const contentSecurityPolicy = `
   manifest-src 'self';
   media-src 'none';
   worker-src 'self' blob:;
-`.replace(/\s{2,}/g, " ").trim();
+`
+  .replace(/\s{2,}/g, " ")
+  .trim();
 
 export const securityHeaders = [
   { key: "Content-Security-Policy", value: contentSecurityPolicy },
@@ -33,11 +35,25 @@ export const securityHeaders = [
   { key: "Strict-Transport-Security", value: "max-age=31536000" },
 ];
 
+export const resumePdfHeaders = [
+  {
+    key: "Content-Security-Policy",
+    value: "default-src 'none'; frame-ancestors 'self'; sandbox",
+  },
+  { key: "Content-Disposition", value: 'inline; filename="Faraz-Hussain-Resume.pdf"' },
+  { key: "X-Content-Type-Options", value: "nosniff" },
+  { key: "X-Frame-Options", value: "SAMEORIGIN" },
+];
+
 const nextConfig: NextConfig = {
+  distDir: ".local/next",
   poweredByHeader: false,
   reactCompiler: true,
   async headers() {
-    return [{ source: "/(.*)", headers: securityHeaders }];
+    return [
+      { source: "/(.*)", headers: securityHeaders },
+      { source: "/resume/faraz-hussain-resume.pdf", headers: resumePdfHeaders },
+    ];
   },
 };
 

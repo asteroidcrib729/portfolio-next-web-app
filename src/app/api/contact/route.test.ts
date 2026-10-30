@@ -16,7 +16,7 @@ const validPayload = {
 function createRequest(
   body: object | string,
   ip = "203.0.113.10",
-  contentType = "application/json"
+  contentType = "application/json",
 ) {
   return new NextRequest("http://localhost/api/contact", {
     method: "POST",
@@ -80,7 +80,7 @@ describe("contact route", () => {
         ...validPayload,
         name: "<Faraz & team>",
         message: "This message contains <script>alert('x')</script> safely.",
-      })
+      }),
     );
 
     expect(response.status).toBe(200);
