@@ -21,7 +21,7 @@ After relocation, both credential files retained their original SHA-256 hashes. 
   client boundaries.
 - Public origin: `https://faraz-hussain-portfolio.vercel.app` returns HTTP 200 without
   authentication. Standard Protection intentionally gates generated deployment and
-  preview URLs. The pending release must still be deployed and verified at this origin.
+  preview URLs. PR #11 deployed the Prisma-backed release at this origin and passed live verification.
 
 ## Technical Baseline
 
@@ -60,7 +60,7 @@ After relocation, both credential files retained their original SHA-256 hashes. 
 
 ## Privacy and Security Decisions
 
-- Vercel Web Analytics is disabled until an explicit browser-level opt-in.
+- Vercel Web Analytics defaults on for public pages, with a persistent opt-out and GPC/DNT handling. Historical opt-in statements are superseded by the October 30 policy.
 - Withdrawal uses an event filter so an already-loaded script cannot send later events.
 - Routine contact retention is capped at 12 months after the last substantive exchange,
   subject to narrow published exceptions and an operations runbook.
@@ -112,9 +112,9 @@ After relocation, both credential files retained their original SHA-256 hashes. 
 
 - `.github/dependabot.yml` schedules weekly npm and GitHub Actions updates into `pre-production`; native security updates follow `main`. Coupled Prisma packages are grouped and unsupported compiler/linter/runtime-type major updates stay behind explicit review.
 - Six workflows cover quality, redacted full-history/current-source Gitleaks scanning, npm audit/dependency review, CodeQL security analysis, Actionlint validation, and daily/post-Production public-domain verification.
-- External Actions use verified commit SHAs. Gitleaks 8.30.1 and Actionlint 1.7.12 use checksum-pinned binaries retained in `.local/tools/`; scanner reports stay in `.local/security/`.
+- External Actions use verified commit SHAs. Gitleaks 8.30.1 and Actionlint 1.7.12 use checksum-pinned binaries extracted into private temporary directories under `.local/tools/`, with exit-time cleanup; redacted scanner reports stay in `.local/security/`.
 - Native vulnerability alerts and automated security updates were enabled on October 30, 2026; native secret scanning and push protection were already enabled and were verified again.
-- Local checks passed for workflow syntax, Dependabot's schema, the full available Git history and source, dependency audit, and a synthetic token rejection/redaction test. Hosted CodeQL/dependency-review and scheduled jobs await committed workflow files; branch-rule requirements are configured separately after successful runs.
+- Local checks passed for workflow syntax, Dependabot's schema, full Git history/source scanning, dependency audit, and a synthetic token rejection/redaction test. Hosted quality, CodeQL, dependency review/audit, scanning, workflow lint and Production public verification now pass. Branch-rule requirements are configured separately.
 
 ## October 30 Acceptance Update
 
@@ -124,21 +124,21 @@ After relocation, both credential files retained their original SHA-256 hashes. 
 - The researched first article is `shipping-less-javascript-nextjs-16-4`, inserted as `PUBLISHED` in Production on October 30 at 15:44 UTC. Versioned source cites official React/Next.js material and makes no unmeasured performance claims.
 - Default-on analytics is requested and documented, with persistent opt-out, existing denials, GPC/DNT, fail-closed storage, private-path exclusion, and query/fragment redaction. Historical opt-in compliance ratings are not current legal approval of this model.
 - Vercel's Git integration points to `asteroidcrib729/portfolio-next-web-app`, Production branch `main`; Web Analytics is already enabled. `NEXT_PUBLIC_SITE_URL` now covers Preview and Production with the sole canonical origin.
-- See `RELEASE-06-VERIFICATION.md` for post-deploy/Upstash gates.
+- See `RELEASE-06-VERIFICATION.md` for completed live release evidence and scoped Upstash retirement.
 
 ## Verification Results
 
-| Check                                           | Result          | Evidence                                                                                       |
-| ----------------------------------------------- | --------------- | ---------------------------------------------------------------------------------------------- |
-| `npm run lint`                                  | Pass            | Zero ESLint errors or warnings                                                                 |
-| `npm run typecheck`                             | Pass            | Strict TypeScript succeeds                                                                     |
-| `npm run test`                                  | Pass            | 12 files and 32 tests                                                                          |
-| `npm run build`                                 | Pass            | 18 static and dynamic route entries compile/generate                                           |
-| Database integration                            | Pass            | Two tests against Preview validate concurrent quotas and expired windows                       |
-| `npm run test:e2e` with editorial configuration | Pass locally    | 15 checks across Chromium, WebKit, and mobile Chromium over HTTPS; Firefox remains in Linux CI |
-| Runtime headers/routes                          | Pass            | Privacy/quality/home 200; security headers present; no `X-Powered-By`                          |
-| npm audit                                       | Pass            | Zero known vulnerabilities                                                                     |
-| Public production origin                        | Pass for access | HTTP 200 without authentication; new release markers await deployment                          |
+| Check                                           | Result | Evidence                                                                       |
+| ----------------------------------------------- | ------ | ------------------------------------------------------------------------------ |
+| `npm run lint`                                  | Pass   | Zero ESLint errors or warnings                                                 |
+| `npm run typecheck`                             | Pass   | Strict TypeScript succeeds                                                     |
+| `npm run test`                                  | Pass   | 12 files and 37 tests                                                          |
+| `npm run build`                                 | Pass   | 18 static and dynamic route entries compile/generate                           |
+| Database integration                            | Pass   | Two tests against Preview validate concurrent quotas and expired windows       |
+| `npm run test:e2e` with editorial configuration | Pass   | 19 local checks; 2 duplicate keyboard tests skipped; Linux CI includes Firefox |
+| Runtime headers/routes                          | Pass   | Privacy/quality/home 200; security headers present; no `X-Powered-By`          |
+| npm audit                                       | Pass   | Zero known vulnerabilities                                                     |
+| Public production origin                        | Pass   | New release, article, RSS/sitemap, privacy, resume and studio checked live     |
 
 ## Operational Guidance
 
@@ -151,7 +151,10 @@ After relocation, both credential files retained their original SHA-256 hashes. 
 - Production and Preview use separate ready Prisma Postgres database projects in Singapore; the initial migration is applied in both.
 - Separate sensitive `DATABASE_URL`, `RATE_LIMIT_SALT`, `EDITORIAL_STUDIO_PASSWORD`, and `EDITORIAL_STUDIO_SESSION_SECRET` values are configured in Vercel.
 - Private generated credentials are in Git-ignored `.local/env/.env.phase06.production.local` and `.local/env/.env.phase06.preview.local` files; transfer passwords to a password manager.
-- The current deployment still uses Upstash; remove its integration after the new release passes Production checks.
+- Upstash retirement is complete: five live emails delivered, sixth request throttled; the exact obsolete store and unused integration were deleted and all eight old environment records removed.
+- Production GitHub/Prisma project linking is active on `main`; the separate Preview project uses scoped Vercel credentials because Prisma allows only one project link per repository.
+- Native Chromium PDF rendering and named download were verified. The lightweight headless shell has no PDF viewer; direct links and visible fallback text remain available.
+- Release evidence, alert triage and accepted human screen-reader/legal-review limitations are in `RELEASE-06-VERIFICATION.md`.
 - Never broaden privacy, accessibility, performance, or professional claims beyond
   retained evidence.
 - Re-run contrast, axe, keyboard, mobile, and cross-browser checks after visual or

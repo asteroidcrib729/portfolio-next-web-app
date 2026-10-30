@@ -69,11 +69,16 @@ export default function ResumePage() {
               title="Faraz Hussain software engineering resume"
               className="h-[75vh] min-h-[42rem] w-full bg-white"
             />
-            <noscript>
-              <p className="p-6">
-                JavaScript is unavailable. <a href={resumePath}>Open the resume PDF directly.</a>
-              </p>
-            </noscript>
+            <p className="border-t border-border p-5 text-sm leading-6 text-muted-foreground">
+              Inline PDF viewing depends on your browser. If the preview is unavailable,{" "}
+              <a
+                className="font-semibold text-accent underline underline-offset-4"
+                href={resumePath}
+              >
+                open the resume PDF directly
+              </a>{" "}
+              or use the download button above.
+            </p>
           </section>
         </Container>
       </main>

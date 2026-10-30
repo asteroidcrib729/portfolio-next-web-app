@@ -20,7 +20,7 @@ describe("portfolio content", () => {
 
     expect(serializedContent).not.toMatch(/Alex Morgan/i);
     expect(serializedContent).not.toMatch(/alex\.morgan/i);
-    expect(serializedContent).not.toMatch(/https:\/\/example\.com/i);
+    expect(serializedContent.toLowerCase()).not.toContain("https://example.com");
     expect(serializedContent).not.toMatch(/https:\/\/(github|linkedin|twitter)\.com["/]/i);
   });
 
