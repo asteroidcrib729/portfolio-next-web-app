@@ -176,7 +176,7 @@ All markdown files are verified to adhere strictly to markdownlint rules:
 - The owner confirmed the resume and existing Search Console setup and approved release after checks, with human screen-reader listening still an explicit limitation.
 - Agent-operated keyboard review corrected studio skip-link focus, field-error associations/focus, repetitive dashboard link names, preview scrolling, saved feedback, and reproduced WebKit pre-hydration input loss.
 - Local evidence includes 37 unit tests, 2 database tests, and 19 passing browser checks; two duplicate keyboard-only configurations are skipped. Firefox remains in Linux CI. These are not NVDA/VoiceOver or WCAG-certification claims.
-- The first sourced article, `shipping-less-javascript-nextjs-16-4`, is published in Production Prisma; public availability awaits app deployment. Source and SEO metadata are versioned under `content/articles/`.
+- The first sourced article, `shipping-less-javascript-nextjs-16-4`, is published in Production Prisma and verified on the public journal, RSS and sitemap. Source and SEO metadata are versioned under `content/articles/`.
 - Analytics changes to default-on public-page collection with persistent opt-out, GPC/DNT handling, private-route exclusions, and URL redaction. This supersedes the historical default-off policy; legal applicability is not recertified.
 - Search metadata prefers `Faraz Hussain`, with an owner-first introductory description. Google retains control of displayed names and snippets.
 - Release evidence is maintained in `development-plans/RELEASE-06-VERIFICATION.md`.
@@ -263,18 +263,16 @@ portfolio-site-next-web-app/
 
 ## 5. Verification & Quality Gates
 
-Security automation now includes weekly Dependabot npm/Actions updates, Gitleaks full-history/source scanning, dependency audit/review, CodeQL JavaScript/TypeScript analysis, Actionlint workflow validation, and daily/post-Production public-domain checks. External Actions use verified commit pins. Local commands are `npm run security:secrets` and `npm run lint:workflows`; pinned binaries and redacted reports stay under `.local/`. Native Dependabot alerts/security updates and secret scanning/push protection were verified enabled on October 30, 2026. Hosted runs remain pending until the workflow files are pushed.
+Security automation includes weekly Dependabot npm/Actions updates, Gitleaks history/source scanning, dependency audit/review, CodeQL, Actionlint and daily/post-Production public checks. External Actions use verified commit pins. Local commands are `npm run security:secrets` and `npm run lint:workflows`; temporary pinned binaries and redacted reports stay under `.local/`. Native Dependabot and secret scanning/push protection are enabled. Hosted quality, CodeQL, dependency review/audit, secret scanning, workflow validation and Production public verification passed on October 30, 2026; the Linux browser gate passed 25 checks with three duplicate keyboard traversals skipped.
 
 The codebase passes all quality checks:
 
 - **Lint Check (`npm run lint`):** Clean exit (code 0) with zero ESLint errors or warnings.
 - **Type Check (`npm run typecheck`):** Clean exit (code 0) under strict TypeScript.
-- **Test Check (`npm run test`):** Thirty-two content, interaction, route, privacy,
+- **Test Check (`npm run test`):** Thirty-seven content, interaction, route, privacy,
   accessibility, contrast, and security tests pass.
 - **Database Check:** Two PostgreSQL integration tests pass, covering concurrent quotas and expiry.
-- **Browser Check (`npm run test:e2e` with Preview credentials and `RUN_EDITORIAL_E2E=1`):** Fifteen checks across Chromium, WebKit, and mobile Chromium pass
-  locally; Firefox is configured in Linux CI because the Windows runner failed before
-  page creation.
+- **Browser Check (`npm run test:e2e` with Preview credentials and `RUN_EDITORIAL_E2E=1`):** Nineteen local checks pass across Chromium, WebKit, and mobile Chromium; two duplicate keyboard traversals are skipped. The Linux hosted gate, including Firefox, also passes. This does not replace a human screen-reader listening test.
 - **Build Check (`npm run build`):** Clean exit (code 0) with Turbopack, React Compiler optimization, TypeScript check, and static page generation.
 - **Dependency Audit:** Zero known vulnerabilities reported by npm.
 - **Markdown Standards:** Planning documents adhere to MD012, MD022, and MD032.
@@ -283,8 +281,8 @@ The codebase passes all quality checks:
 
 ## 6. Next Steps on the Roadmap
 
-1. Review the release with the isolated Vercel secrets, applied migrations, and verified Preview editorial workflow in place.
-2. Deploy the reviewed changes to the protected Vercel Preview environment before merging Production.
-3. Complete the Production cutover, verify contact throttling, and retire Upstash.
-4. Publish the first reviewed engineering article and submit the updated sitemap.
-5. Continue the project media, detailed case-study, Lighthouse, and release-certification work.
+1. Complete the accepted human NVDA/VoiceOver listening session and address any findings.
+2. Monitor the deployed Prisma-backed studio, journal and contact flow; Upstash retirement is complete and pre-Prisma rollbacks require deliberate restoration of the retired dependency.
+3. Review jurisdiction-specific requirements for the requested default-on analytics model.
+4. Monitor Search Console recrawling for the new article and preferred site name; existing sitemap submission is owner-confirmed.
+5. Continue project media, detailed case studies, measured Lighthouse work and release certification.

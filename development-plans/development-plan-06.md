@@ -124,7 +124,7 @@ Production and Preview values must be configured as separate Vercel Secrets. Pre
 - [x] Apply the initial migration to Preview and validate it.
 - [x] Apply the initial migration to Production and record its migration history.
 - [x] Configure environment-scoped Vercel database, rate-limit, password, and session secrets.
-- [ ] Remove the Upstash Vercel integration only after Production contact delivery passes.
+- [x] Retire Upstash after live Production delivery and throttling pass; disconnect/delete the exact portfolio resource and uninstall its now-unused integration.
 
 ### Workstream 3: Editorial Studio
 
@@ -165,9 +165,9 @@ Production and Preview values must be configured as separate Vercel Secrets. Pre
 - [x] Run cross-browser Playwright coverage for journal, studio login, and resume routes.
 - [x] Verify the database limiter with twelve simultaneous requests and an expired window.
 - [x] Verify Preview migrations and editorial workflows against the Preview database.
-- [ ] Verify Production contact throttling, article publishing, RSS, sitemap, PDF viewing, and PDF download.
-- [ ] Run `npm run verify:public -- https://faraz-hussain-portfolio.vercel.app`.
-- [ ] Remove old Upstash secrets and integration resources.
+- [x] Verify Production contact throttling and delivery, published article metadata, RSS, sitemap, native PDF viewing, named download, and private studio create/preview/delete/logout.
+- [x] Run `npm run verify:public -- https://faraz-hussain-portfolio.vercel.app` locally and through the hosted Production workflow.
+- [x] Remove all eight obsolete Upstash/KV/Redis/salt records from Vercel; delete the disconnected store and uninstall the unused integration.
 
 ## Deployment Sequence
 
@@ -188,6 +188,7 @@ Production and Preview values must be configured as separate Vercel Secrets. Pre
 - Keep the Prisma database and migration history intact during an application rollback.
 - Do not reverse a migration by deleting tables in Production; create a forward corrective migration.
 - Retain the Upstash resource until the Prisma Production validation is complete, then remove it as a separate operation.
+- After Upstash retirement, roll back only to a verified Prisma-compatible release. A pre-Prisma rollback requires deliberate restoration of its old rate-limit service and secrets; do not assume an old deployment remains operational.
 - If editorial publishing fails, keep the public portfolio available and leave the journal in its empty state while correcting the database or studio configuration.
 
 ## Release Evidence
@@ -205,4 +206,6 @@ Record the final versions, database branch identifiers, migration checksum, qual
 - The Vercel build command is pinned in `vercel.json`; CI applies migrations and runs database/browser integration coverage against disposable PostgreSQL 17.
 - Final local evidence: lint, strict types, 32 unit tests, 2 database integration tests, production build, 15 Chromium/WebKit/mobile browser checks, and Markdown lint all pass. Browser checks use temporary local HTTPS certificates to exercise Production Secure cookies.
 - Generated credentials are retained only in Git-ignored `.local/env/.env.phase06.production.local` and `.local/env/.env.phase06.preview.local` files for the owner to transfer to a password manager.
-- Upstash remains connected to support the currently deployed application until the reviewed release replaces it and Production verification succeeds.
+- PR #11 merged as `48ae576d37fb40bb9789439b4501a72bae9a63a7`; Vercel Production deployment `dpl_5CgcuwWv9VE2zjrfconQZJ52JZR8` passed public and authenticated release checks.
+- Upstash retirement completed only after five live contact messages were reported delivered and the sixth request returned HTTP 429 with `Retry-After`. All eight obsolete environment records, the disconnected portfolio store, and the unused integration were removed. The deleted store contained ephemeral throttle state, not articles.
+- The release is accepted with one explicit human NVDA/VoiceOver listening-test limitation. Agent keyboard/semantic/axe evidence does not close that checkbox.
