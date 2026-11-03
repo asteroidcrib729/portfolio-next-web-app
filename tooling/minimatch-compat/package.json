@@ -1,0 +1,14 @@
+{
+  "name": "minimatch",
+  "version": "11.0.4",
+  "private": true,
+  "description": "Build-only legacy lint API facade over the patched minimatch engine",
+  "type": "commonjs",
+  "main": "index.cjs",
+  "engines": {
+    "node": ">=24"
+  },
+  "dependencies": {
+    "@portfolio/minimatch-engine": "npm:minimatch@11.0.4"
+  }
+}

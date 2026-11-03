@@ -159,3 +159,16 @@ After relocation, both credential files retained their original SHA-256 hashes. 
   retained evidence.
 - Re-run contrast, axe, keyboard, mobile, and cross-browser checks after visual or
   interaction changes.
+
+## Dependency Security Maintenance: November 3, 2026
+
+- The uploaded audit run on `main` failed on GHSA-g3hv-75wg-m249: minimatch 3.1.5 and 10.2.6 produced 16 moderate dependency-chain findings. See ISS-013 and SOL-013.
+- The local remediation retains the existing direct lint-toolchain versions and uses the private `tooling/minimatch-compat` workspace plus parent-scoped overrides. The official engine is pinned at 11.0.4 through `@portfolio/minimatch-engine`; its registry integrity remains in the lockfile. The facade version reflects the engine baseline and is not an unmodified upstream distribution.
+- The adapter forwards callable, named and class contracts. Its legacy `makeRe` surface is a `.test()` predicate only, as documented; no old regex/matching implementation is copied. Remove this layer once all lint consumers support patched APIs natively.
+- Initial relative-file overrides were rejected because their installed tree contained invalid links despite a clean audit. The final graph passes a fresh `npm ci`, `npm ls minimatch --all`, and `npm ls --depth=0` with no invalid matching dependencies. A regression assertion rejects the malformed parent-link layout.
+- The exact failing CI command, `npm audit --package-lock-only --audit-level=moderate`, now reports zero vulnerabilities. CI workflows and their audit severity threshold are unchanged.
+- Five new regression tests cover actual lint-consumer resolution, official-engine version and lockfile integrity, legacy predicates/defaults, known preprocessing amplification bounded to 16 glob parts in a time/memory-limited child, and real import/React/accessibility rule canaries.
+- `npm run check:full` passed formatting, lint, strict TypeScript, 46 unit tests and production build. Default local Chromium/WebKit/mobile coverage passed 12 browser checks; nine database/studio-gated checks were skipped without service credentials. Two database integration tests were also skipped in the default unit run. No live contact email or Production database test was performed for this tooling-only change.
+- The initial migration checksum remains `4bff4947f76eb3b5e4ef55d519cac007f8aa579d60cf60e8b8e0997304f7516b`. No secrets, database schemas, privacy controls, or application-runtime imports changed.
+- ESLint 9.39.5 remains npm-deprecated. A coordinated ESLint 10/plugin migration is separate follow-up work, not bypassed with forced peer dependencies. The current security advisory is resolved without claiming renewed upstream support for ESLint 9.
+- This is local implementation evidence, not a claim of hosted CI success or deployment. Commit, push and release require separate owner authorization.

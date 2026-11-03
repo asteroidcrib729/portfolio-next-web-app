@@ -214,3 +214,19 @@ Acceptance criteria:
 5. Add tests and enforce all checks in CI.
 6. Version and reconcile the repository documentation.
 7. Finish low-risk cleanup and rerun every quality gate.
+
+## Dependency Security Follow-up: November 3, 2026
+
+### SOL-013: Use the Patched Matching Engine Without Disabling Lint Rules
+
+- Keep the existing ESLint, Next.js lint configuration, React, import, and accessibility rule packages rather than forcing incompatible major upgrades or downgrades.
+- Supply the private `tooling/minimatch-compat` workspace as the root development matching dependency. Parent-scoped overrides cover the seven known lint consumers without changing CI's moderate-severity audit threshold.
+- Pin the actual official matching implementation to minimatch 11.0.4 through `@portfolio/minimatch-engine`, an explicit npm alias with a registry integrity hash in the lockfile. The local workspace shares the engine baseline version but is explicitly a compatibility facade, not an unmodified upstream package. No old matching code is bundled or relabelled.
+- Forward callable, named-helper, and class APIs. Supply only the `.test()` predicate required by the legacy import rule's `makeRe` use; do not claim general RegExp compatibility.
+- Verify old consumers and modern parser consumers independently, execute real import/React/accessibility lint canaries, and bound the advisory's preprocessing case in a memory- and time-limited child process.
+- Validate `npm ci`, `npm ls minimatch --all`, `npm ls --depth=0`, and the exact `npm audit --package-lock-only --audit-level=moderate` command. Reject an audit-only result if the dependency tree is invalid.
+- Re-run formatting, lint, strict types, the full unit suite, production build, and local browser regression coverage. Hosted success must not be claimed before the changed code is released and its workflows run.
+
+Initial relative-file override attempts were rejected after clean-install or installed-tree checks exposed invalid links. The final workspace lockfile contains only the intentional workspace link and official patched registry implementations. It performs no install-time third-party source patches and adds no application-runtime imports.
+
+Remove this compatibility layer when every lint consumer supports patched APIs natively. Review ESLint 10 together with plugin peer compatibility as separate maintenance; do not suppress the existing deprecation warning or use `--force` to bypass it.

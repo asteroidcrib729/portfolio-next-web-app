@@ -32,6 +32,8 @@ Prettier 3.9.10 supplies whole-project formatting through `npm run format` and r
 
 Use standard ASCII hyphens in prose and page metadata instead of typographic dashes or doubled-hyphen punctuation. Preserve required syntax in CLI options, CSS custom properties, SQL comments, and Markdown/Mermaid structures. The punctuation regression test scans tracked and non-ignored authored text, excluding binary files and the approved PDF.
 
+Build-time lint matching uses the private `tooling/minimatch-compat` workspace and the official minimatch 11.0.4 engine through an explicit npm alias. Keep the root dependency, parent-scoped overrides, workspace version and engine pin synchronized. Preserve its documented narrow compatibility contract and regression tests; do not force incompatible registry exports into legacy lint plugins or lower the dependency-audit threshold.
+
 All markdown files are verified to adhere strictly to markdownlint rules:
 
 - **MD022:** Headings surrounded by blank lines.
@@ -271,7 +273,7 @@ The codebase passes all quality checks:
 
 - **Lint Check (`npm run lint`):** Clean exit (code 0) with zero ESLint errors or warnings.
 - **Type Check (`npm run typecheck`):** Clean exit (code 0) under strict TypeScript.
-- **Test Check (`npm run test`):** Forty-one content, interaction, route, privacy,
+- **Test Check (`npm run test`):** Forty-six content, interaction, route, privacy,
   accessibility, contrast, and security tests pass.
 - **Database Check:** Two PostgreSQL integration tests pass, covering concurrent quotas and expiry.
 - **Browser Check (`npm run test:e2e` with Preview credentials and `RUN_EDITORIAL_E2E=1`):** Nineteen local checks pass across Chromium, WebKit, and mobile Chromium; two duplicate keyboard traversals are skipped. The Linux hosted gate, including Firefox, also passes. This does not replace a human screen-reader listening test.

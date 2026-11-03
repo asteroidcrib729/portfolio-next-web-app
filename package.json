@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "workspaces": [
+    "tooling/minimatch-compat"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -60,11 +63,35 @@
     "eslint": "^9.39.5",
     "eslint-config-next": "16.4.3",
     "jsdom": "^30.1.3",
+    "minimatch": "11.0.4",
     "prettier": "3.9.10",
     "prisma": "7.10.1",
     "tailwindcss": "^4.3.3",
     "typescript": "^5.9.3",
     "vite": "^8.3.5",
     "vitest": "^5.0.5"
+  },
+  "overrides": {
+    "eslint": {
+      "minimatch": "$minimatch"
+    },
+    "@eslint/config-array": {
+      "minimatch": "$minimatch"
+    },
+    "@eslint/eslintrc": {
+      "minimatch": "$minimatch"
+    },
+    "@typescript-eslint/typescript-estree": {
+      "minimatch": "$minimatch"
+    },
+    "eslint-plugin-import": {
+      "minimatch": "$minimatch"
+    },
+    "eslint-plugin-jsx-a11y": {
+      "minimatch": "$minimatch"
+    },
+    "eslint-plugin-react": {
+      "minimatch": "$minimatch"
+    }
   }
 }
