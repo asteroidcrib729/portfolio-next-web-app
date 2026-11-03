@@ -172,8 +172,24 @@ Impact:
 
 ## Checks That Passed
 
+These scan results are historical. Later maintenance evidence is recorded below.
+
 - ESLint completed with zero reported errors or warnings.
 - TypeScript strict compilation completed successfully.
 - The production build completed successfully with network access.
 - The npm registry audit reported zero known vulnerabilities.
 - The repository had no tracked modifications at the start of the scan.
+
+## Dependency Security Follow-up: November 3, 2026
+
+### ISS-013: Vulnerable Transitive Lint Matching Dependencies
+
+Status: remediated locally; hosted CI and deployment require a subsequent authorized release.
+
+The uploaded main-branch audit log reported 16 moderate dependency-chain findings from [GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249). The lockfile contained minimatch 3.1.5 and 10.2.6 through ESLint, its plugins, and TypeScript-ESLint. The configured moderate-severity threshold correctly returned exit code 1.
+
+The published patch starts at 11.0.1. Current lint-package dependencies still request old APIs, so an unconditional replacement with a modern namespace export is not compatible. The logged `npm audit fix --force` suggestion would instead install ESLint 4.0.0, an inappropriate downgrade.
+
+The local fix removes old registry minimatch packages, pins the official engine at 11.0.4, and uses an explicitly documented private workspace facade for legacy callable imports. Clean install, valid dependency-tree resolution, real lint-rule compatibility tests, and the exact CI audit command are required acceptance evidence. See SOL-013 and the workspace README for the narrow API contract and removal criteria.
+
+The retained ESLint 9.39.5 release is marked deprecated by npm. Its major-version migration is separate compatibility work because the current React, import, and accessibility plugin peer ranges do not accept ESLint 10. This remediation does not claim that the retained toolchain has regained upstream support.
