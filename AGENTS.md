@@ -190,6 +190,7 @@ All markdown files are verified to adhere strictly to markdownlint rules:
 - Upgraded `next` and `eslint-config-next` from `16.4.3` to `16.4.6` to remediate `GHSA-mfr8-8qww-v76h` (along with the `16.4.5` security patches) and resolve the failing `Dependency Security` check.
 - Merged `github/codeql-action` `v4.39.3` (PR #22) and `jsdom` `31` (PR #20, updated to `31.0.1`), and applied the compatible updates for `dotenv`, `geist`, `lucide-react`, `motion`, `@tailwindcss/postcss`, `tailwindcss`, `@vitejs/plugin-react`, `prettier`, `vite`, and `vitest`.
 - Pinned `@playwright/test` to `1.64.1` and ignored `1.65.x` in `.github/dependabot.yml` because Playwright `1.65.0` and `1.65.1` bundle Firefox `159.0` build `1572`, which crashes on cross-world `ariaLabelledByElements` reads after `axe-core` runs on `/studio/posts/new` (Mozilla Bug 2090055 / Playwright #43967 and #44135, fixed in `1.66`).
+- Added the root `SECURITY.md` coordinated disclosure policy tailored to the portfolio's branch model, public origin, protected preview URLs, and studio/contact boundaries, and enabled GitHub Private Vulnerability Reporting (`PUT /repos/{owner}/{repo}/private-vulnerability-reporting`) on `asteroidcrib729/portfolio-next-web-app`.
 
 ## 4. Current File Tree
 
@@ -266,6 +267,7 @@ portfolio-site-next-web-app/
 ├── postcss.config.mjs
 ├── tsconfig.json
 ├── vitest.config.mts
+├── SECURITY.md                   # Security policy & vulnerability disclosure
 └── AGENTS.md                    # Project documentation & agent work log
 ```
 

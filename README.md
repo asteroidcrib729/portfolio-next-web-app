@@ -113,7 +113,7 @@ I run six GitHub Actions workflows:
 
 I schedule routine npm and GitHub Actions updates through `.github/dependabot.yml`, targeting `pre-production` for review. Prisma packages move together, compatible Next.js/React updates are grouped, and unsupported TypeScript, ESLint, and Node type major upgrades stay behind an explicit compatibility review. GitHub's native security updates follow the default branch, `main`, independently of routine version-update schedules. I do not auto-merge updates.
 
-I have enabled native Dependabot vulnerability alerts and security updates. Native secret scanning and push protection are also enabled. The workflow files and scheduled Dependabot configuration become active after they are committed and pushed; schedules and the Dependabot configuration must reach the default branch.
+I have enabled native Dependabot vulnerability alerts, security updates, and GitHub Private Vulnerability Reporting, backed by the coordinated disclosure policy in [SECURITY.md](SECURITY.md). Native secret scanning and push protection are also enabled. The workflow files and scheduled Dependabot configuration become active after they are committed and pushed; schedules and the Dependabot configuration must reach the default branch.
 
 For local security validation, I run:
 
