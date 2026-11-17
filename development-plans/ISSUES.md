@@ -193,3 +193,19 @@ The published patch starts at 11.0.1. Current lint-package dependencies still re
 The local fix removes old registry minimatch packages, pins the official engine at 11.0.4, and uses an explicitly documented private workspace facade for legacy callable imports. Clean install, valid dependency-tree resolution, real lint-rule compatibility tests, and the exact CI audit command are required acceptance evidence. See SOL-013 and the workspace README for the narrow API contract and removal criteria.
 
 The retained ESLint 9.39.5 release is marked deprecated by npm. Its major-version migration is separate compatibility work because the current React, import, and accessibility plugin peer ranges do not accept ESLint 10. This remediation does not claim that the retained toolchain has regained upstream support.
+
+## Dependency Security Follow-up: November 17, 2026
+
+### ISS-014: Next.js Security Advisory Failing Dependency Security Audit
+
+Status: remediated on `pre-production` and queued for `main` release.
+
+The scheduled `Dependency Security` workflow on `main` (`npm audit --package-lock-only --audit-level=moderate`) failed on [GHSA-mfr8-8qww-v76h](https://github.com/advisories/GHSA-mfr8-8qww-v76h) affecting `next` `16.3.0 - 16.4.4` (and triggered Dependabot alerts #37 and #38). Dependabot PR #19 targeted `16.4.5` on `pre-production`, while PR #24 targeted `16.4.6` on `main` without updating `eslint-config-next`.
+
+### ISS-015: Playwright 1.65.x Firefox 159 Accessibility Crash
+
+Status: remediated via version hold and Dependabot ignore rule.
+
+Dependabot `compatible-updates` PR #23 (and recreated PR #25) failed `Quality Gate` in `e2e/studio-accessibility.spec.ts` (`[firefox] exposes studio landmarks, labels and descriptions without axe violations`) with `locator.ariaSnapshot: Page crashed` on `/studio/posts/new`.
+
+Playwright `1.65.0` and `1.65.1` bundle Firefox `159.0` build `1572`, which triggers an upstream null-pointer crash (Mozilla Bug 2090055 / Playwright #43967 and #44135) when `ariaLabelledByElements` is read in both the page main world (`axe.run`) and Playwright's isolated world (`ariaSnapshot` on `PostEditor`'s `aria-labelledby` preview section). The upstream fix is targeted for Playwright `1.66`.
