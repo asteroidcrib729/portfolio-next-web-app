@@ -27,10 +27,10 @@ After relocation, both credential files retained their original SHA-256 hashes. 
 
 | Area              | Current implementation                                            |
 | ----------------- | ----------------------------------------------------------------- |
-| Framework         | Next.js 16.4.3 with App Router and Turbopack                      |
+| Framework         | Next.js 16.4.6 with App Router and Turbopack                      |
 | UI runtime        | React and React DOM 19.3.1                                        |
 | Language          | TypeScript 5.9 with `strict` and `noEmit`                         |
-| Styling           | Tailwind CSS 4.3.3 with tested semantic tokens                    |
+| Styling           | Tailwind CSS 4.3.5 with tested semantic tokens                    |
 | Theme             | `next-themes` with system, light, and dark modes                  |
 | Animation         | `motion` with reduced-motion-aware primitives                     |
 | Fonts             | Self-hosted Geist Sans and Geist Mono                             |
@@ -172,3 +172,11 @@ After relocation, both credential files retained their original SHA-256 hashes. 
 - The initial migration checksum remains `4bff4947f76eb3b5e4ef55d519cac007f8aa579d60cf60e8b8e0997304f7516b`. No secrets, database schemas, privacy controls, or application-runtime imports changed.
 - ESLint 9.39.5 remains npm-deprecated. A coordinated ESLint 10/plugin migration is separate follow-up work, not bypassed with forced peer dependencies. The current security advisory is resolved without claiming renewed upstream support for ESLint 9.
 - This is local implementation evidence, not a claim of hosted CI success or deployment. Commit, push and release require separate owner authorization.
+
+## Dependency Security and Dependabot Maintenance: November 17, 2026
+
+- The scheduled `Dependency Security` run on `main` failed on `GHSA-mfr8-8qww-v76h` (`next` 16.3.0 to 16.4.4), which also triggered Dependabot security PR #24 (`next` 16.4.6 on `main`) and superseded PR #19 (`next` and `eslint-config-next` 16.4.5 on `pre-production`).
+- Upgrading both `next` and `eslint-config-next` to `16.4.6` keeps the framework and lint stack aligned while eliminating all open npm audit advisories (`found 0 vulnerabilities`).
+- Dependabot PR #22 (`github/codeql-action` `v4.39.3`) and PR #20 (`jsdom` `31.0.0`, patched to `31.0.1`) merged into `pre-production`.
+- Dependabot PR #23 (and its recreated successor PR #25) failed `Quality Gate` in Firefox (`e2e/studio-accessibility.spec.ts` on `/studio/posts/new`: `locator.ariaSnapshot: Page crashed`). Playwright `1.65.0` and `1.65.1` ship Firefox `159.0` build `1572`, which crashes on cross-world `ariaLabelledByElements` evaluation after `axe-core` scans (Mozilla Bug 2090055 / Playwright #43967 and #44135; fixed in `1.66`).
+- `@playwright/test` is pinned to `1.64.1` in `package.json` and `1.65.x` is ignored in `.github/dependabot.yml` until `1.66.0` ships, while the remaining compatible updates (`dotenv` `18.0.10`, `geist` `1.9.2`, `lucide-react` `1.74.0`, `motion` `14.14.0`, `@tailwindcss/postcss` `4.3.5`, `tailwindcss` `4.3.5`, `@vitejs/plugin-react` `6.3.0`, `prettier` `3.10.1`, `vite` `8.3.8`, `vitest` `5.1.0`, and `jsdom` `31.0.1`) are applied and verified. See ISS-014, ISS-015, SOL-014, and SOL-015.

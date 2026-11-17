@@ -230,3 +230,16 @@ Acceptance criteria:
 Initial relative-file override attempts were rejected after clean-install or installed-tree checks exposed invalid links. The final workspace lockfile contains only the intentional workspace link and official patched registry implementations. It performs no install-time third-party source patches and adds no application-runtime imports.
 
 Remove this compatibility layer when every lint consumer supports patched APIs natively. Review ESLint 10 together with plugin peer compatibility as separate maintenance; do not suppress the existing deprecation warning or use `--force` to bypass it.
+
+## Dependency Security Follow-up: November 17, 2026
+
+### SOL-014: Upgrade Next.js and ESLint Config Next Together to 16.4.6
+
+- Upgrade both `next` and `eslint-config-next` from `16.4.3` to `16.4.6` in `package.json` and `package-lock.json` via `pre-production` and release through a pull request to `main`, matching the repository's `next-react` grouping and release gate.
+- Validate that `tooling/minimatch-compat`, `npm ls minimatch --all`, `npm audit --package-lock-only --audit-level=moderate`, and the full quality gate pass after upgrading.
+
+### SOL-015: Hold Playwright at 1.64.1 Until 1.66 While Accepting Safe Updates
+
+- Keep `@playwright/test` pinned at `"1.64.1"` in `package.json` so Firefox `e2e/studio-accessibility.spec.ts` retains complete `axe-core`, `ariaSnapshot`, and `aria-labelledby` coverage without degrading ARIA semantics or weakening accessibility checks.
+- Add an explicit `ignore` rule for `@playwright/test` `versions: ["1.65.x"]` in `.github/dependabot.yml` referencing Mozilla Bug 2090055 and Playwright #44135 so Dependabot skips `1.65.x` and resumes automatically with `1.66.0`.
+- Apply all safe compatible updates (`dotenv`, `geist`, `lucide-react`, `motion`, `@tailwindcss/postcss`, `tailwindcss`, `@vitejs/plugin-react`, `prettier`, `vite`, `vitest`, and `jsdom`), refresh `package-lock.json`, and run `npm ci`, `npm audit`, `npm run check`, and cross-browser E2E gates.

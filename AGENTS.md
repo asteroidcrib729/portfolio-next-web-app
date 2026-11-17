@@ -6,16 +6,16 @@ This repository contains a modern, high-performance personal portfolio website b
 
 ### Technical Baseline
 
-- **Framework:** Next.js 16.4.3 (App Router, Turbopack)
+- **Framework:** Next.js 16.4.6 (App Router, Turbopack)
 - **Runtime & UI Library:** React 19.3.1 & React DOM 19.3.1
 - **Compiler:** React Compiler enabled via `babel-plugin-react-compiler` (`reactCompiler: true` in `next.config.ts`)
 - **Styling:** Tailwind CSS v4 (`@tailwindcss/postcss`, `tailwindcss: ^4`)
 - **Language:** TypeScript 5.9 (Strict mode)
 - **Theme System:** `next-themes` v0.4.6 (Dark / Light mode support with zero-flicker transitions)
-- **Icons:** `lucide-react` v1.64.0 + custom scalable SVG brand icons
+- **Icons:** `lucide-react` v1.74.0 + custom scalable SVG brand icons
 - **Utilities:** `clsx` v2.1.1, `tailwind-merge` v3.7.0
-- **Animation Engine:** `motion` v14.8.0 (Modern React 19 standard replacing legacy `framer-motion`)
-- **Fonts:** Self-hosted Geist Sans and Geist Mono via `geist` v1.8.2
+- **Animation Engine:** `motion` v14.14.0 (Modern React 19 standard replacing legacy `framer-motion`)
+- **Fonts:** Self-hosted Geist Sans and Geist Mono via `geist` v1.9.2
 - **Persistence:** Prisma ORM/Client v7.10.1 with isolated PostgreSQL database projects
 - **Testing:** Vitest v5, Testing Library, and jsdom with a GitHub Actions quality gate
 
@@ -28,7 +28,7 @@ All project planning documents reside in the `development-plans/` directory and 
 
 Repository analysis artifacts use the explicit names `MEMORY.md`, `ISSUES.md`, and `SOLUTIONS.md` in the same directory. The directory is versioned and must not be added to `.gitignore`.
 
-Prettier 3.9.10 supplies whole-project formatting through `npm run format` and read-only verification through `npm run format:check`. Formatting verification is part of `npm run check` and GitHub Actions. Local files, generated output, dependencies, and immutable applied migrations are excluded. Git text files and Prettier use LF line endings across platforms.
+Prettier 3.10.1 supplies whole-project formatting through `npm run format` and read-only verification through `npm run format:check`. Formatting verification is part of `npm run check` and GitHub Actions. Local files, generated output, dependencies, and immutable applied migrations are excluded. Git text files and Prettier use LF line endings across platforms.
 
 Use standard ASCII hyphens in prose and page metadata instead of typographic dashes or doubled-hyphen punctuation. Preserve required syntax in CLI options, CSS custom properties, SQL comments, and Markdown/Mermaid structures. The punctuation regression test scans tracked and non-ignored authored text, excluding binary files and the approved PDF.
 
@@ -184,6 +184,12 @@ All markdown files are verified to adhere strictly to markdownlint rules:
 - Analytics changes to default-on public-page collection with persistent opt-out, GPC/DNT handling, private-route exclusions, and URL redaction. This supersedes the historical default-off policy; legal applicability is not recertified.
 - Search metadata prefers `Faraz Hussain`, with an owner-first introductory description. Google retains control of displayed names and snippets.
 - Release evidence is maintained in `development-plans/RELEASE-06-VERIFICATION.md`.
+
+### Milestone 13: Dependency Security and Dependabot Maintenance
+
+- Upgraded `next` and `eslint-config-next` from `16.4.3` to `16.4.6` to remediate `GHSA-mfr8-8qww-v76h` (along with the `16.4.5` security patches) and resolve the failing `Dependency Security` check.
+- Merged `github/codeql-action` `v4.39.3` (PR #22) and `jsdom` `31` (PR #20, updated to `31.0.1`), and applied the compatible updates for `dotenv`, `geist`, `lucide-react`, `motion`, `@tailwindcss/postcss`, `tailwindcss`, `@vitejs/plugin-react`, `prettier`, `vite`, and `vitest`.
+- Pinned `@playwright/test` to `1.64.1` and ignored `1.65.x` in `.github/dependabot.yml` because Playwright `1.65.0` and `1.65.1` bundle Firefox `159.0` build `1572`, which crashes on cross-world `ariaLabelledByElements` reads after `axe-core` runs on `/studio/posts/new` (Mozilla Bug 2090055 / Playwright #43967 and #44135, fixed in `1.66`).
 
 ## 4. Current File Tree
 
