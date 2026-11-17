@@ -91,7 +91,7 @@ verify the editorial workflow, then deploy the same migration to Production.
 
 ## Repository Security Automation
 
-Dependabot checks routine npm and GitHub Actions updates weekly and targets `pre-production`. Native security updates use `main`; review them and apply the same migration and release gates before merging. Native vulnerability alerts, security updates, secret scanning, and push protection were verified enabled on October 30, 2026.
+Dependabot checks routine npm and GitHub Actions updates weekly and targets `pre-production`. Native security updates use `main`; review them and apply the same migration and release gates before merging. Native vulnerability alerts, security updates, secret scanning, and push protection were verified enabled on October 30, 2026; GitHub Private Vulnerability Reporting and the root security policy (`SECURITY.md`) were enabled and published on November 17, 2026.
 
 Secret Scanning, Dependency Security, and CodeQL run on pull requests, `main`/`pre-production` pushes, a staggered weekly schedule, and manual dispatch. Workflow Validation runs on pull requests, pushes to those branches, and manual dispatch. Public Release Verification runs daily and after successful Production deployment events and can also be dispatched manually. Scheduled runs and Dependabot configuration require the files to be present on the default branch.
 
